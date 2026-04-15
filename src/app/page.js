@@ -1,15 +1,9 @@
-import { Button } from "@/components/ui/button";
+import SwipeCards from "@/components/SwipeCards"
 
-export default function AboutPage() {
+export default function Page() {
   return (
-    <div className="p-6 space-y-4">
-      <h1 className="text-2xl font-bold">Halaman Utama</h1>
-      <p className="text-gray-600">
-        Ini halaman utama
-      </p>
-
-      <Button variant="default">Click Me</Button>
-      <Button variant="outline">Secondary Action</Button>
-    </div>
-  );
+    <main className="flex items-center justify-center min-h-screen">
+      <SwipeCards />
+    </main>
+  )
 }

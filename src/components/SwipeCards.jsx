@@ -303,7 +303,7 @@ export default function SwipeCards() {
             cursor: "pointer",
           }}
         >
-          ♥ Like
+          ♥
         </button>
       </div>
 

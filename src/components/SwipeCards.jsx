@@ -273,43 +273,7 @@ export default function SwipeCards() {
         })}
       </div>
 
-      {/* Buttons */}
-      <div style={{ display: "flex", gap: 16 }}>
-        <button
-          onClick={() => swipeTop("left")}
-          style={{
-            padding: "10px 28px",
-            borderRadius: 999,
-            border: "2px solid #ef4444",
-            background: "transparent",
-            color: "#ef4444",
-            fontSize: 15,
-            fontWeight: 600,
-            cursor: "pointer",
-          }}
-        >
-          ✕ Nope
-        </button>
-        <button
-          onClick={() => swipeTop("right")}
-          style={{
-            padding: "10px 28px",
-            borderRadius: 999,
-            border: "2px solid #22c55e",
-            background: "transparent",
-            color: "#22c55e",
-            fontSize: 15,
-            fontWeight: 600,
-            cursor: "pointer",
-          }}
-        >
-          ♥
-        </button>
-      </div>
 
-      <p style={{ fontSize: 13, color: "#888", margin: 0 }}>
-        Drag kiri/kanan atau pakai tombol
-      </p>
     </div>
   )
 }

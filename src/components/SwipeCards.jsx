@@ -19,7 +19,6 @@ function SwipeCard({ card, isTop, onSwipe }) {
 
   useEffect(() => {
     if (!isTop) return
-
     const el = cardRef.current
     if (!el) return
 
@@ -34,11 +33,13 @@ function SwipeCard({ card, isTop, onSwipe }) {
       const cy = (py - drag.current.oy) * 0.25
       const rot = cx * 0.1
       drag.current.cx = cx
+
       el.style.transform = `translateX(${cx}px) translateY(${cy}px) rotate(${rot}deg)`
 
       const likeEl = el.querySelector("[data-like]")
       const nopeEl = el.querySelector("[data-nope]")
       const ratio = Math.min(Math.abs(cx) / 70, 1)
+
       if (likeEl) likeEl.style.opacity = cx > 8 ? ratio : 0
       if (nopeEl) nopeEl.style.opacity = cx < -8 ? ratio : 0
     }
@@ -57,29 +58,37 @@ function SwipeCard({ card, isTop, onSwipe }) {
         onSwipe(cx > 0 ? "right" : "left")
       } else {
         el.style.transition = "transform 0.4s cubic-bezier(.34,1.56,.64,1)"
-        el.style.transform = "translateX(0px) translateY(0px) rotate(0deg)"
+        el.style.transform = "translateX(0) translateY(0) rotate(0)"
       }
     }
 
-    // Mouse
     function onMouseDown(e) {
       e.preventDefault()
       start(e.clientX, e.clientY)
     }
-    function onMouseMove(e) { move(e.clientX, e.clientY) }
-    function onMouseUp() { end() }
 
-    // Touch
+    function onMouseMove(e) {
+      move(e.clientX, e.clientY)
+    }
+
+    function onMouseUp() {
+      end()
+    }
+
     function onTouchStart(e) {
       const t = e.touches[0]
       start(t.clientX, t.clientY)
     }
+
     function onTouchMove(e) {
       e.preventDefault()
       const t = e.touches[0]
       move(t.clientX, t.clientY)
     }
-    function onTouchEnd() { end() }
+
+    function onTouchEnd() {
+      end()
+    }
 
     el.addEventListener("mousedown", onMouseDown)
     window.addEventListener("mousemove", onMouseMove)
@@ -110,87 +119,41 @@ function SwipeCard({ card, isTop, onSwipe }) {
         boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
         userSelect: "none",
         touchAction: "none",
-        willChange: "transform",
       }}
     >
       <img
         src={card.image}
         alt={card.title}
-        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", pointerEvents: "none" }}
-        draggable={false}
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          pointerEvents: "none",
+        }}
       />
 
-      {/* Card label */}
       <div
         style={{
           position: "absolute",
           bottom: 0,
           left: 0,
           right: 0,
-          padding: "1rem 1.25rem 1.25rem",
+          padding: "1rem",
           background: "linear-gradient(transparent, rgba(0,0,0,0.65))",
           color: "#fff",
-          fontSize: 18,
           fontWeight: 600,
         }}
       >
         {card.title}
       </div>
-
-      {/* LIKE stamp */}
-      <div
-        data-like
-        style={{
-          position: "absolute",
-          top: 20,
-          left: 16,
-          padding: "4px 14px",
-          borderRadius: 6,
-          fontSize: 22,
-          fontWeight: 700,
-          letterSpacing: 2,
-          border: "3px solid #22c55e",
-          color: "#22c55e",
-          opacity: 0,
-          transform: "rotate(-12deg)",
-          pointerEvents: "none",
-          transition: "opacity 0.05s",
-        }}
-      >
-        LIKE
-      </div>
-
-      {/* NOPE stamp */}
-      <div
-        data-nope
-        style={{
-          position: "absolute",
-          top: 20,
-          right: 16,
-          padding: "4px 14px",
-          borderRadius: 6,
-          fontSize: 22,
-          fontWeight: 700,
-          letterSpacing: 2,
-          border: "3px solid #ef4444",
-          color: "#ef4444",
-          opacity: 0,
-          transform: "rotate(12deg)",
-          pointerEvents: "none",
-          transition: "opacity 0.05s",
-        }}
-      >
-        NOPE
-      </div>
     </div>
   )
 }
 
-export default function SwipeCards() {
+export default function SwipeCards({ setBg }) {
   const nextId = useRef(INITIAL_COUNT + 1)
   const isBusy = useRef(false)
 
-  // Inisialisasi kosong dulu (SSR), baru generate di client via useEffect
   const [cards, setCards] = useState([])
   const [mounted, setMounted] = useState(false)
 
@@ -199,13 +162,17 @@ export default function SwipeCards() {
     setMounted(true)
   }, [])
 
-  // flying: { id, dir } — card currently animating out
-  const [flying, setFlying] = useState(null)
+  // ✅ INI YANG KAMU TANYA (background sync)
+  useEffect(() => {
+    if (cards.length > 0) {
+      const topCard = cards[cards.length - 1]
+      setBg(topCard.image)
+    }
+  }, [cards, setBg])
 
   const handleSwipe = useCallback((dir, id) => {
     if (isBusy.current) return
     isBusy.current = true
-    setFlying({ id, dir })
 
     setTimeout(() => {
       const newId = nextId.current++
@@ -213,36 +180,18 @@ export default function SwipeCards() {
         const filtered = prev.filter((c) => c.id !== id)
         return [generateCard(newId), ...filtered]
       })
-      setFlying(null)
-      setTimeout(() => { isBusy.current = false }, 50)
-    }, 340)
+      setTimeout(() => (isBusy.current = false), 50)
+    }, 300)
   }, [])
-
-  const swipeTop = useCallback((dir) => {
-    if (isBusy.current) return
-    const top = cards[cards.length - 1]
-    if (top) handleSwipe(dir, top.id)
-  }, [cards, handleSwipe])
 
   if (!mounted) return null
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, padding: "1.5rem 0" }}>
-
-      {/* Stack */}
+    <div className="flex flex-col items-center gap-4 py-6">
       <div style={{ position: "relative", width: 300, height: 440 }}>
         {cards.map((card, i) => {
-          const depth = cards.length - 1 - i // 0 = top
+          const depth = cards.length - 1 - i
           const isTop = depth === 0
-          const isFlyingOut = flying && flying.id === card.id
-
-          // Base stack transform
-          const scale = 1 - depth * 0.05
-          const ty = depth * 9
-
-          // Fly-out transform override
-          const flyX = flying?.dir === "right" ? 550 : -550
-          const flyRot = flying?.dir === "right" ? 25 : -25
 
           return (
             <div
@@ -251,29 +200,19 @@ export default function SwipeCards() {
                 position: "absolute",
                 inset: 0,
                 zIndex: 10 - depth,
-                transform: isFlyingOut
-                  ? `translateX(${flyX}px) rotate(${flyRot}deg)`
-                  : `scale(${scale}) translateY(${ty}px)`,
-                opacity: isFlyingOut ? 0 : 1,
-                transition: isFlyingOut
-                  ? "transform 0.32s ease, opacity 0.32s ease"
-                  : isTop
-                  ? "none"
-                  : "transform 0.3s ease",
-                pointerEvents: isTop && !isFlyingOut ? "auto" : "none",
+                transform: `scale(${1 - depth * 0.05}) translateY(${depth * 10}px)`,
+                pointerEvents: isTop ? "auto" : "none",
               }}
             >
               <SwipeCard
                 card={card}
-                isTop={isTop && !isFlyingOut}
+                isTop={isTop}
                 onSwipe={(dir) => handleSwipe(dir, card.id)}
               />
             </div>
           )
         })}
       </div>
-
-
     </div>
   )
 }

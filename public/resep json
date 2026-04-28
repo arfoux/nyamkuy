@@ -1,0 +1,240 @@
+{
+  "resep": [
+    {
+      "nama": "Nasi Liwet",
+      "bahan": [
+        "2 liter beras pandan",
+        "10 butir bawang merah",
+        "6 butir bawang putih",
+        "6 buah cabe rawit",
+        "2 batang sereh",
+        "3 ruas laos",
+        "5 lembar daun salam",
+        "3 lembar daun jeruk",
+        "30 gram teri medan",
+        "2 saset kaldu ayam bubuk",
+        "1/2 sdt garam",
+        "1/2 sdt penyedap rasa"
+      ],
+      "cara_membuat": [
+        "Iris bawang merah dan bawang putih.",
+        "Geprek laos dan sereh.",
+        "Cuci beras, daun salam, dan daun jeruk, lalu tiriskan.",
+        "Goreng teri medan sampai menguning. Lalu, angkat dan tiriskan.",
+        "Tumis bawang, cabe, laos, dan sereh sampai harum menggunakan minyak bekas menggoreng teri.",
+        "Tuangkan 1/2 porsi beras di dandang dan 1/2 porsi bumbu tumisan tadi. Campur rata dan tambahkan kaldu ayam bubuk.",
+        "Tuangkan kembali sisa beras yang ada dan tambahkan bumbu tumisan yang tersisa.",
+        "Tutup dandang dan kukus sampai setengah matang.",
+        "Tuang air mendidih sampai beras terendam. Kecilkan api dan cek sampai nasi matang.",
+        "Aduk-aduk jika airnya sudah surut.",
+        "Koreksi rasa dan matikan kompor.",
+        "Nasi liwet siap santap."
+      ]
+    },
+    {
+      "nama": "Nasi Uduk",
+      "bahan": [
+        "Beras, cuci bersih (500 gram)",
+        "Daun pandan (1 lembar)",
+        "Santan kelapa, ambil dari 1 buah kelapa (200 ml)",
+        "Bawang merah (2 siung)",
+        "Bawang putih (1 siung)",
+        "Daun salam (1 lembar)",
+        "Serai (1 batang)",
+        "Garam (1 sdt)",
+        "Kaldu jamur bubuk (1/2 sdt)",
+        "Air putih (200 ml)",
+        "Minyak, untuk menumis bahan (2 sdm)"
+      ],
+      "cara_membuat": [
+        "Pertama-tama, siapkan semua bahan bawang dan batang serai, lalu iris-iris dengan pisau.",
+        "Nyalakan kompor gas dan panaskan minyak.",
+        "Masukkan bawang putih, bawang merah, dan batang serai ke dalam minyak panas dan tumis hingga harum.",
+        "Setelah itu, masukkan beras ke dalam tumisan bumbu dan aduk hingga rata.",
+        "Tambahkan air putih dan aduk kembali nasi.",
+        "Masukkan daun pandan dan daun salam, aduk merata, dan masak selama kurang lebih 5 menit.",
+        "Jangan lupa untuk tambahan garam, kaldu jamur, dan juga santan kelapa. Aduk semua bahan hingga merata dan masak hingga air menyusut.",
+        "Matikan kompor dan diamkan nasi.",
+        "Siapkan panci kukusan dan kukus nasi selama kurang lebih 15-20 menit.",
+        "Jika sudah, angkat nasi uduk yang sudah matang dan sajikan di piring atau mangkuk.",
+        "Tambahkan taburan bawang merah goreng di atasnya untuk menambah cita rasa.",
+        "Nasi uduk pun siap untuk disantap sebagai sarapan sebelum beraktivitas."
+      ]
+    },
+    {
+      "nama": "Nasi Kuning",
+      "bahan": [
+        "500 ml beras",
+        "475 ml air",
+        "65 ml santan kental",
+        "1 sendok makan minyak goreng",
+        "1 lembar daun salam",
+        "2 lembar daun jeruk, buang bagian tulangnya",
+        "1 batang serai, memarkan"
+      ],
+      "bumbu_halus": [
+        "3 siung bawang merah",
+        "2 siung bawang putih",
+        "3 buah kemiri, sangrai terlebih dahulu",
+        "2 cm kunyit",
+        "1/2 sendok teh garam",
+        "1/2 sendok teh gula"
+      ],
+      "lauk_pendamping": [
+        "Telur rawis",
+        "Tempe orek kering",
+        "Perkedel kentang",
+        "Ayam goreng",
+        "Sambal merah",
+        "Kerupuk"
+      ],
+      "cara_membuat": [
+        "Panaskan minyak goreng dan tumis bumbu Nasi Kuning yang telah dihaluskan. Jika sudah tercium aroma harum, tambahkan daun salam, daun jeruk, dan serai. Tumis hingga daun sedikit layu.",
+        "Tambahkan air dan santan, aduk perlahan hingga mendidih, sisihkan.",
+        "Bersihkan beras dan masukkan ke dalam panci rice cooker.",
+        "Masukkan air santan yang telah dimasak bersama bumbu ke dalam rice cooker berisi beras. Tutup dan tekan tombol masak pada rice cooker.",
+        "Jika rice cooker telah menunjukkan bahwa Nasi Kuning telah matang, buka rice cooker dan aduk-aduk Nasi Kuning.",
+        "Jika Nasi Kuning telah matang secara merata dan sempurna, maka Nasi Kuning siap disajikan.",
+        "Jika saat rice cooker telah menunjukkan tanda matang namun masih ada bagian setengah matang, pindahkan nasi ke kukusan, dan kukus selama beberapa menit hingga matang merata.",
+        "Hidangkan Nasi Kuning bersama lauk pendamping dan taburan bawang goreng serta irisan timun segar sebagai pelengkap.",
+        "Resep ini cocok untuk acara seperti syukuran atau ulang tahun."
+      ]
+    },
+    {
+      "nama": "Nasi Goreng Sederhana",
+      "bahan": [
+        "1 siung bawang putih, iris tipis",
+        "1 siung bawang merah, iris tipis",
+        "2 buah cabai rawit atau sesuai selera, iris tipis",
+        "1 buah cabai merah atau sesuai selera, iris tipis",
+        "Kecap manis",
+        "Minyak goreng",
+        "Garam",
+        "Penyedap rasa"
+      ],
+      "cara_membuat": [
+        "Panaskan minyak goreng di wajan.",
+        "Tumis bawang putih dan bawang merah hingga harum.",
+        "Masukkan nasi dan bahan lainnya.",
+        "Aduk sampai merata.",
+        "Koreksi rasa dan sajikan.",
+        "Meski nasi goreng paling enak menggunakan nasi sisa, sebaiknya hindari memanaskan nasi berulang kali."
+      ]
+    },
+    {
+      "nama": "Nasi Goreng Jawa",
+      "bahan": [
+        "3 piring nasi dingin",
+        "1 butir telur",
+        "5-7 butir bakso, iris-iris (bisa diganti ayam atau protein lain)",
+        "Minyak goreng untuk menumis",
+        "1 sdm gula",
+        "2 sdm minyak wijen",
+        "1 sdt kaldu jamur",
+        "Kecap manis secukupnya",
+        "4 butir bawang putih",
+        "6 butir bawang merah",
+        "2 butir kemiri",
+        "Ebi secukupnya, rendam supaya lunak",
+        "2 sdm garam",
+        "1 sdm merica butir"
+      ],
+      "cara_membuat": [
+        "Haluskan bawang, ebi, kemiri, dan merica.",
+        "Tumis bumbu dengan sedikit minyak hingga matang.",
+        "Masukkan bakso dan telur, aduk dan tumis sebentar.",
+        "Masukkan nasi, gula, minyak wijen, dan kecap manis.",
+        "Aduk rata kembali.",
+        "Koreksi rasa.",
+        "Angkat dan sajikan dengan kerupuk, lalapan, dan bawang goreng."
+      ]
+    },
+    {
+      "nama": "Nasi Goreng Kampung",
+      "bahan": [
+        "2 piring nasi dingin",
+        "2 butir telur, kocok lepas",
+        "3 siung bawang putih, cincang halus",
+        "5 siung bawang merah, iris tipis",
+        "3 buah cabai merah atau sesuai selera, iris tipis",
+        "1 sdm kecap manis",
+        "1 sdm kecap asin (opsional)",
+        "1/2 sdt garam",
+        "1/2 sdt merica bubuk",
+        "2 sdm minyak goreng",
+        "1 batang daun bawang, iris tipis"
+      ],
+      "cara_membuat": [
+        "Panaskan minyak di wajan.",
+        "Tumis bawang putih, bawang merah, dan cabai hingga harum.",
+        "Geser bumbu ke tepi wajan, tuangkan telur dan orak-arik hingga matang.",
+        "Masukkan nasi putih dan aduk rata.",
+        "Tambahkan kecap manis, kecap asin, garam, dan merica.",
+        "Aduk hingga semua bumbu merata.",
+        "Masukkan daun bawang dan aduk sebentar hingga layu.",
+        "Angkat dan sajikan dengan kerupuk, acar, dan lauk pelengkap."
+      ]
+    },
+    {
+      "nama": "Nasi Goreng Spesial",
+      "bahan": [
+        "2 porsi nasi",
+        "50 gr daging ayam potong dadu",
+        "2 butir telur",
+        "3 siung bawang merah, cincang kecil",
+        "2 siung bawang putih, cincang kecil",
+        "2 batang daun bawang, potong",
+        "1 buah cabai keriting",
+        "1 sdm kecap manis",
+        "2 sdm kecap ikan",
+        "1 sdm saus tiram",
+        "1/2 sdt kecap asin",
+        "1/2-1 sdm gula",
+        "1/2 sdt merica",
+        "1/2 sdt margarin",
+        "1 sdt kaldu jamur",
+        "Minyak untuk menumis"
+      ],
+      "cara_membuat": [
+        "Panaskan minyak, tumis ayam hingga matang lalu sisihkan.",
+        "Di wajan yang sama, orak-arik telur hingga matang.",
+        "Masukkan bawang dan cabai, tumis hingga harum.",
+        "Masukkan nasi dan aduk rata.",
+        "Tambahkan ayam dan semua bumbu.",
+        "Aduk hingga merata.",
+        "Koreksi rasa.",
+        "Sajikan dengan lalapan."
+      ]
+    },
+    {
+      "nama": "Mie Goreng",
+      "bahan": [
+        "1 bungkus mie hokkian",
+        "3 sdm kecap manis",
+        "2 sdt kaldu ayam",
+        "8 pcs udang, kupas",
+        "1 pcs cumi, potong-potong",
+        "1/2 dada ayam, potong dadu",
+        "1 batang sawi hijau",
+        "1 buah wortel, potong korek api",
+        "1 butir telur",
+        "1 batang daun bawang"
+      ],
+      "bumbu_halus": [
+        "6 bawang merah",
+        "3 bawang putih",
+        "1 kemiri",
+        "3 sdm minyak goreng"
+      ],
+      "cara_membuat": [
+        "Rebus mie sampai matang.",
+        "Haluskan semua bumbu.",
+        "Orak-arik telur.",
+        "Tumis bumbu hingga wangi.",
+        "Masukkan ayam, udang, dan cumi.",
+        "Tambahkan wortel, sawi, dan mie.",
+        "Aduk hingga matang dan merata."
+      ]
+    }
+  ]
+}

@@ -235,6 +235,70 @@
         "Tambahkan wortel, sawi, dan mie.",
         "Aduk hingga matang dan merata."
       ]
+
+    },
+    {
+      "nama": "Nasi pecel",
+      "desc": [
+        "Nasi Pecel makanan tradisional Jawa berupa rebusan berbagai macam sayuran yang disiram dengan sambal kacang kental."
+      ],
+      "bahan": [
+        "4 porsi nasi putih.",
+        "100 gram taoge",
+        "100 gram bayam",
+        "200 gram kangkung",
+        "200 gram kacang panjang, potong 2 cm",
+        "100 gram taoge pendek, seduh air panas, tiriskan",
+        "2 buah mentimun, cincang",
+        "70 gram daun kemangi",
+        "4 buah jeruk purut, belah 2 bagian",
+        "2 liter air, untuk merebus"
+      ],
+      "Bahan sambal pecel": [
+        "250 ml air panas",
+        "250 gram sambal pecel",
+        "1 sdm kecap manis"
+      ],
+      "cara_membuat": [
+        "Untuk sambel pecel, lumatkan sambel pecel siap makan dengan air panas. Tambahkan dengan kecap manis, aduk, lalu sisihkan.",
+        "Didihkan air, rebus sayuran secara terpisah, yang dimulai dari taoge, bayam, kangkung, dan kacang panjang. Jika sudah, tiriskan lalu sisihkan.",
+        "Orak-arik telur.",
+        "Siapkan nasi di atas piring saji, jika perlu alaskan dengan daun pisang terlebih dulu (sesuai selera).",
+        "Tuangkan sambal pecel di atasnya dan beri perasan jeruk purut sedikit (sesuai selera).Sajikan bersama pelengkap."
+      ]
+    },
+    {
+      "nama": "Nasi gudeg",
+      "desc": [
+        "Gudeg makanan khas Yogyakarta dan Jawa Tengah yang terbuat dari nangka muda yang direbus berjam-jam dengan santan,gula merah, dan bumbu rempah."
+      ],
+      "bahan": [
+        "1 kg nangka muda (gori), potong-potong.",
+        "500-700 ml santan kental",
+        "1 liter santan encer",
+        "200-250 gr gula merah, sisir",
+        "6-10 butir telur rebus",
+        "2-3 lembar daun jati",
+        "5-7 lembar daun salam",
+        "3 cm lengkuas, geprek",
+        "2 batang serai, geprek "
+      ],
+      "Bumbu_Halus": [
+        "10-15 butir bawang merah",
+        "7-10 siung bawang putih",
+        "5-7 butir kemiri",
+        "1 sdm ketumbar",
+        "1 sdt jintan",
+        "Garam dan penyedap rasa secukupnya"
+      ],
+      "cara_membuat": [
+        "Tata daun jati di dasar panci (disarankan panci tanah liat/gerabah).",
+        "Tuang santan encer hingga nangka terendam.",
+        "Masak dengan api sedang hingga mendidih, lalu kecilkan api dan masak selama 2-3 jam hingga air menyusut.",
+        "Tambahkan santan kental, masak kembali dengan api sangat kecil hingga gudeg kering dan warna berubah menjadi coklat tua.",
+        "Sajikan nasi gudeg dengan sambal krecek, opor ayam, dan tahu/tempe bacem."
+      ]
     }
+    
   ]
 }

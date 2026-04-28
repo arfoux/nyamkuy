@@ -1,15 +1,37 @@
-import { Button } from "@/components/ui/button";
+"use client"
 
-export default function AboutPage() {
+import SwipeCards from "@/components/SwipeCards"
+import { useState } from "react"
+
+export default function Page() {
+  const [bg, setBg] = useState(null)
+
   return (
-    <div className="p-6 space-y-4">
-      <h1 className="text-2xl font-bold">Main Page</h1>
-      <p className="text-gray-600">
-        Ini halaman utama
-      </p>
+    <main className="relative flex items-center justify-center min-h-screen overflow-hidden">
+      
+      {/* Background Blur (Fade) */}
+      {bg && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: `url(${bg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            filter: "blur(40px)",
+            transform: "scale(1.2)",
+            transition: "opacity 0.6s ease",
+          }}
+        />
+      )}
 
-      <Button variant="default">Click Me</Button>
-      <Button variant="outline">Secondary Action</Button>
-    </div>
-  );
+      {/* Overlay biar lebih enak dilihat */}
+      <div className="absolute inset-0 bg-black/30" />
+
+      {/* Content */}
+      <div className="relative z-10">
+        <SwipeCards setBg={setBg} />
+      </div>
+    </main>
+  )
 }

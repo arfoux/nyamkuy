@@ -298,7 +298,118 @@
         "Tambahkan santan kental, masak kembali dengan api sangat kecil hingga gudeg kering dan warna berubah menjadi coklat tua.",
         "Sajikan nasi gudeg dengan sambal krecek, opor ayam, dan tahu/tempe bacem."
       ]
+    },
+    {
+      "nama": "Ayam Geprek",
+      "bahan": [
+        "4 potong ayam (bisa bagian dada, paha, tanpa tulang ataupun dengan tulang sesuai selera)",
+        "1 sendok teh air perasan jeruk nipis",
+        "1/2 sendok teh lada bubuk",
+        "2 siung bawang putih, dimemarkan dan cincang halus",
+        "2 butir telur ayam, gunakan bagian putihnya saja, kocok lepas hingga berbuih",
+        "Minyak goreng secukupnya"
+      ],
+      "bahan_tepung_goreng": [
+        "100 gram tepung terigu",
+        "1 sendok makan tepung beras",
+        "1 sendok makan tepung maizena",
+        "1/4 sendok teh baking powder",
+        "1/2 sendok teh lada bubuk",
+        "1/2 sendok teh garam",
+        "1/2 sendok teh bawang putih bubuk"
+      ],
+      "bahan_sambal": [
+        "10 buah cabai rawit merah",
+        "5 buah cabai merah besar",
+        "3 siung bawang putih",
+        "1/2 sendok teh garam",
+        "1/2 sendok teh gula pasir",
+        "2 sendok makan minyak goreng yang dipanaskan"
+      ],
+      "cara_membuat_ayam": [
+        "Lumuri potongan ayam dengan perasan jeruk nipis, lada bubuk, dan bawang putih hingga merata, remas, lalu diamkan selama ± 30 menit.",
+        "Di wadah lainnya, campurkan semua bahan untuk tepung goreng ayam diaduk hingga tercampur rata.",
+        "Celupkan potongan ayam ke putih telur, kemudian guling-gulingkan ke campuran tepung sebelumnya hingga merata serta semua potongan daging tertutup tepung. Masukkan lagi ke putih telur dan gulingkan ke tepung kembali. Ulangi sekali lagi hingga total ayam telah dibaluri lapisan telur dan tepung sebanyak 3 kali.",
+        "Panaskan minyak goreng untuk goreng ayam yang telah dilapisi tepung hingga golden brown dan lapisan tepung renyah, tiriskan."
+      ],
+      "cara_membuat_sambal": [
+        "Uleg cabai rawit, cabai merah, bawang putih, garam dan gula pasir hingga cukup halus tapi tidak terlalu halus serta tidak terlalu kasar.",
+        "Siram sambal uleg dengan 2 sendok makan minyak goreng panas bekas menggoreng ayam sebelumnya, udek ringan sambil diaduk hingga minyak dan sambal merata.",
+        "Masukkan ayam yang telah digoreng sebelumnya ke dalam cobek berisi sambal, lalu geprek ayam hingga sedikit hancur dan bercampur dengan sambal. Ayam Geprek Renyah dengan Sambal Pedas siap disajikan."
+      ]
+    },
+    {
+      "nama": "Ayam Penyet",
+      "bahan_utama": [
+        "1 ekor ayam, potong",
+        "Garam",
+        "1 lembar daun salam",
+        "Air secukupnya",
+        "1 lembar daun jeruk",
+        "8 siung bawang putih",
+        "4 siung bawang merah",
+        "3 ruas jahe",
+        "1 sdt kunyit bubuk",
+        "3 ruas lengkuas",
+        "1 sdt ketumbar bubuk",
+        "2 batang serai putih",
+        "1 sdt lada bubuk"
+      ],
+      "bahan_sambal_terasi": [
+        "8 cabai merah keriting",
+        "4 rawit merah",
+        "1 siung bawang putih",
+        "4 rawit hijau",
+        "3 siung bawang merah",
+        "1 bungkus terasi",
+        "1 buah tomat"
+      ],
+      "cara_membuat": [
+        "Ulek atau blender bumbu halus, yaitu 8 siung bawang putih, 4 siung bawang merah, 3 ruas jahe, 1 sdt kunyit bubuk, 3 ruas lengkuas, 1 sdt ketumbar bubuk, 2 batang serai putih dan 1 sdt lada bubuk.",
+        "Kemudian, cuci bersih ayam dan lumuri dengan bumbu halus.",
+        "Tuangkan ayam ke dalam panci, tambahkan air secukupnya.",
+        "Taburi garam, masukan daun jeruk dan daun salam. Ungkep sampai ayam empuk. Tiriskan",
+        "Goreng ayam hingga matang. Penyet dengan ulekan.",
+        "Untuk membuat sambal terasi, tumis semua bahan sambel hingga layu.",
+        "Kemudian, haluskan sampai tekstur yang kamu inginkan.",
+        "Tambahkan garam, gula, dan kaldu bubuk. Kucuri air jeruk limau.",
+        "Lalu, tuangkan sambel di atas ayam penyet.",
+        "Sajikan."
+      ]
+    },
+    {
+      "nama": "Ayam Woku",
+      "bahan": [
+        "1 ekor ayam utuh, buang kulitnya",
+        "2 sdm air jeruk nipis",
+        "1 sdt garam",
+        "2 sdm minyak",
+        "6 lembar daun jeruk",
+        "Dua lembar daun kunyit",
+        "Dua batang serai, iris tipis",
+        "2 buah tomat, potong dadu",
+        "2 batang daun bawang, iris tipis",
+        "750 mililiter air",
+        "1 sdm gula pasir",
+        "2 sdt kaldu ayam",
+        "25 gram daun kemangi"
+      ],
+      "bumbu_halus": [
+        "12 butir bawang merah",
+        "5 siung bawang putih",
+        "4 buah cabai merah",
+        "6 buah cabai rawit merah",
+        "2 butir kemiri, sangrai",
+        "3 cm kunyit",
+        "2 cm jahe"
+      ],
+      "cara_membuat": [
+        "Pertama-tama bumbui potongan ayam dengan air jeruk nipis dan garam, lalu sisihkan.",
+        "Kemudian panaskan minyak, tumis bumbu halus hingga harum. Lalu, masukkan daun jeruk, daun kunyit, serai, dan tomat. Aduk rata.",
+        "Setelah itu, masukkan potongan ayam, aduk. Lalu, masukkan air, gula dan kaldu ayam, aduk.",
+        "Masak hingga air menyusut dan daging ayam matang. Lalu, masukkan daun kemangi dan daun bawang. Masak hingga daun kemangi layu.",
+        "Angkat dan sajikan ayam woku khas Manado selagi hangat untuk keluarga"
+      ]
     }
-    
   ]
 }

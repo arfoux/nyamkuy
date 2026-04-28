@@ -5,11 +5,12 @@ import { useState } from "react"
 
 export default function Page() {
   const [bg, setBg] = useState(null)
+  const [oldBg, setOldBg] = useState(null)
 
   return (
     <main className="relative flex items-center justify-center min-h-screen overflow-hidden">
       
-      {/* Background Blur (Fade) */}
+      {/* 🔥 BG BARU (langsung tampil, no delay) */}
       {bg && (
         <div
           style={{
@@ -20,17 +21,36 @@ export default function Page() {
             backgroundPosition: "center",
             filter: "blur(40px)",
             transform: "scale(1.2)",
-            transition: "opacity 0.6s ease",
+            zIndex: 1,
           }}
         />
       )}
 
-      {/* Overlay biar lebih enak dilihat */}
-      <div className="absolute inset-0 bg-black/30" />
+      {/* 🔥 BG LAMA (fade out) */}
+      {oldBg && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: `url(${oldBg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            filter: "blur(40px)",
+            transform: "scale(1.2)",
+            opacity: 0,
+            transition: "opacity 0.4s ease",
+            zIndex: 2,
+            pointerEvents: "none",
+          }}
+        />
+      )}
 
-      {/* Content */}
+      {/* overlay */}
+      <div className="absolute inset-0 bg-black/30 z-[3]" />
+
+      {/* content */}
       <div className="relative z-10">
-        <SwipeCards setBg={setBg} />
+        <SwipeCards setBg={setBg} setOldBg={setOldBg} />
       </div>
     </main>
   )

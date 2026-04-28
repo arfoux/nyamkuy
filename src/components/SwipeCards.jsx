@@ -6,10 +6,16 @@ const INITIAL_COUNT = 3
 
 function generateCard(id) {
   const seed = 100 + Math.floor(Math.random() * 800)
+  const image = `https://picsum.photos/seed/${seed}/400/600`
+
+  // 🔥 preload langsung (biar gak kejar-kejaran)
+  const img = new Image()
+  img.src = image
+
   return {
     id,
     title: `Card ${id}`,
-    image: `https://picsum.photos/seed/${seed}/400/600`,
+    image,
   }
 }
 
@@ -35,32 +41,33 @@ function SwipeCard({ card, isTop, onSwipe }) {
       drag.current.cx = cx
 
       el.style.transform = `translateX(${cx}px) translateY(${cy}px) rotate(${rot}deg)`
-
-      const likeEl = el.querySelector("[data-like]")
-      const nopeEl = el.querySelector("[data-nope]")
-      const ratio = Math.min(Math.abs(cx) / 70, 1)
-
-      if (likeEl) likeEl.style.opacity = cx > 8 ? ratio : 0
-      if (nopeEl) nopeEl.style.opacity = cx < -8 ? ratio : 0
     }
 
-    function end() {
-      if (!drag.current.on) return
-      drag.current.on = false
+function end() {
+  if (!drag.current.on) return
+  drag.current.on = false
 
-      const likeEl = el.querySelector("[data-like]")
-      const nopeEl = el.querySelector("[data-nope]")
-      if (likeEl) likeEl.style.opacity = 0
-      if (nopeEl) nopeEl.style.opacity = 0
+  const { cx } = drag.current
 
-      const { cx } = drag.current
-      if (Math.abs(cx) > 80) {
-        onSwipe(cx > 0 ? "right" : "left")
-      } else {
-        el.style.transition = "transform 0.4s cubic-bezier(.34,1.56,.64,1)"
-        el.style.transform = "translateX(0) translateY(0) rotate(0)"
-      }
-    }
+  // 🔥 kalau lolos swipe
+  if (Math.abs(cx) > 80) {
+    const dir = cx > 0 ? 1 : -1
+
+    // 🚀 animasi keluar LANGSUNG (tanpa React)
+    el.style.transition = "transform 0.35s ease-out, opacity 0.35s ease-out"
+    el.style.transform = `translateX(${dir * 600}px) rotate(${dir * 25}deg)`
+    el.style.opacity = "0"
+
+    // 🔥 setelah animasi selesai → baru update state
+    setTimeout(() => {
+      onSwipe(dir > 0 ? "right" : "left")
+    }, 200)
+
+  } else {
+    el.style.transition = "transform 0.4s cubic-bezier(.34,1.56,.64,1)"
+    el.style.transform = "translateX(0) translateY(0) rotate(0)"
+  }
+}
 
     function onMouseDown(e) {
       e.preventDefault()
@@ -81,7 +88,6 @@ function SwipeCard({ card, isTop, onSwipe }) {
     }
 
     function onTouchMove(e) {
-      e.preventDefault()
       const t = e.touches[0]
       move(t.clientX, t.clientY)
     }
@@ -93,8 +99,8 @@ function SwipeCard({ card, isTop, onSwipe }) {
     el.addEventListener("mousedown", onMouseDown)
     window.addEventListener("mousemove", onMouseMove)
     window.addEventListener("mouseup", onMouseUp)
-    el.addEventListener("touchstart", onTouchStart, { passive: true })
-    el.addEventListener("touchmove", onTouchMove, { passive: false })
+    el.addEventListener("touchstart", onTouchStart)
+    el.addEventListener("touchmove", onTouchMove)
     el.addEventListener("touchend", onTouchEnd)
 
     return () => {
@@ -118,12 +124,12 @@ function SwipeCard({ card, isTop, onSwipe }) {
         cursor: isTop ? "grab" : "default",
         boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
         userSelect: "none",
-        touchAction: "none",
       }}
     >
       <img
         src={card.image}
         alt={card.title}
+        loading="eager"
         style={{
           width: "100%",
           height: "100%",
@@ -150,7 +156,7 @@ function SwipeCard({ card, isTop, onSwipe }) {
   )
 }
 
-export default function SwipeCards({ setBg }) {
+export default function SwipeCards({ setBg, setOldBg }) {
   const nextId = useRef(INITIAL_COUNT + 1)
   const isBusy = useRef(false)
 
@@ -158,31 +164,53 @@ export default function SwipeCards({ setBg }) {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setCards(Array.from({ length: INITIAL_COUNT }, (_, i) => generateCard(i + 1)))
+    const initial = Array.from({ length: INITIAL_COUNT }, (_, i) =>
+      generateCard(i + 1)
+    )
+    setCards(initial)
     setMounted(true)
-  }, [])
 
-  // ✅ INI YANG KAMU TANYA (background sync)
-  useEffect(() => {
-    if (cards.length > 0) {
-      const topCard = cards[cards.length - 1]
-      setBg(topCard.image)
+    // set initial bg
+    if (initial.length > 0) {
+      setBg(initial[initial.length - 1].image)
     }
-  }, [cards, setBg])
+  }, [setBg])
 
-  const handleSwipe = useCallback((dir, id) => {
-    if (isBusy.current) return
-    isBusy.current = true
+const handleSwipe = useCallback((dir, id) => {
+  if (isBusy.current) return
+  isBusy.current = true
 
-    setTimeout(() => {
-      const newId = nextId.current++
-      setCards((prev) => {
-        const filtered = prev.filter((c) => c.id !== id)
-        return [generateCard(newId), ...filtered]
-      })
-      setTimeout(() => (isBusy.current = false), 50)
-    }, 300)
-  }, [])
+  const currentTop = cards[cards.length - 1]
+  const nextCard = cards[cards.length - 2]
+
+  // 🔥 set old bg dulu
+  if (currentTop) {
+    setOldBg(currentTop.image)
+  }
+
+  // 🔥 bg baru langsung (NO WAIT)
+  if (nextCard) {
+    setBg(nextCard.image)
+  }
+
+  // 🔥 hapus oldBg setelah fade selesai
+  setTimeout(() => {
+    setOldBg(null)
+  }, 400)
+
+  // 🔥 update cards TANPA delay panjang
+  const newId = nextId.current++
+
+  setCards((prev) => {
+    const filtered = prev.filter((c) => c.id !== id)
+    return [generateCard(newId), ...filtered]
+  })
+
+  setTimeout(() => {
+    isBusy.current = false
+  }, 100)
+
+}, [cards, setBg, setOldBg])
 
   if (!mounted) return null
 

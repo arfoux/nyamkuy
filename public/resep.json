@@ -304,35 +304,35 @@
       "bahan": [
         "4 potong ayam (bisa bagian dada, paha, tanpa tulang ataupun dengan tulang sesuai selera)",
         "1 sendok teh air perasan jeruk nipis",
-        "1/2 sendok teh lada bubuk",
+        "½ sendok teh lada bubuk",
         "2 siung bawang putih, dimemarkan dan cincang halus",
         "2 butir telur ayam, gunakan bagian putihnya saja, kocok lepas hingga berbuih",
         "Minyak goreng secukupnya"
       ],
-      "bahan_tepung_goreng": [
+      "bahan_tepung_goreng_ayam": [
         "100 gram tepung terigu",
         "1 sendok makan tepung beras",
         "1 sendok makan tepung maizena",
-        "1/4 sendok teh baking powder",
-        "1/2 sendok teh lada bubuk",
-        "1/2 sendok teh garam",
-        "1/2 sendok teh bawang putih bubuk"
+        "¼ sendok teh baking powder",
+        "½ sendok teh lada bubuk",
+        "½ sendok teh garam",
+        "½ sendok teh bawang putih bubuk"
       ],
-      "bahan_sambal": [
+      "bahan_sambal_ayam_geprek": [
         "10 buah cabai rawit merah",
         "5 buah cabai merah besar",
         "3 siung bawang putih",
-        "1/2 sendok teh garam",
-        "1/2 sendok teh gula pasir",
+        "½ sendok teh garam",
+        "½ sendok teh gula pasir",
         "2 sendok makan minyak goreng yang dipanaskan"
       ],
-      "cara_membuat_ayam": [
+      "cara_membuat_ayam_geprek": [
         "Lumuri potongan ayam dengan perasan jeruk nipis, lada bubuk, dan bawang putih hingga merata, remas, lalu diamkan selama ± 30 menit.",
         "Di wadah lainnya, campurkan semua bahan untuk tepung goreng ayam diaduk hingga tercampur rata.",
         "Celupkan potongan ayam ke putih telur, kemudian guling-gulingkan ke campuran tepung sebelumnya hingga merata serta semua potongan daging tertutup tepung. Masukkan lagi ke putih telur dan gulingkan ke tepung kembali. Ulangi sekali lagi hingga total ayam telah dibaluri lapisan telur dan tepung sebanyak 3 kali.",
         "Panaskan minyak goreng untuk goreng ayam yang telah dilapisi tepung hingga golden brown dan lapisan tepung renyah, tiriskan."
       ],
-      "cara_membuat_sambal": [
+      "cara_membuat_sambal_ayam_geprek": [
         "Uleg cabai rawit, cabai merah, bawang putih, garam dan gula pasir hingga cukup halus tapi tidak terlalu halus serta tidak terlalu kasar.",
         "Siram sambal uleg dengan 2 sendok makan minyak goreng panas bekas menggoreng ayam sebelumnya, udek ringan sambil diaduk hingga minyak dan sambal merata.",
         "Masukkan ayam yang telah digoreng sebelumnya ke dalam cobek berisi sambal, lalu geprek ayam hingga sedikit hancur dan bercampur dengan sambal. Ayam Geprek Renyah dengan Sambal Pedas siap disajikan."
@@ -380,28 +380,28 @@
     {
       "nama": "Ayam Woku",
       "bahan": [
-        "1 ekor ayam utuh, buang kulitnya",
-        "2 sdm air jeruk nipis",
-        "1 sdt garam",
-        "2 sdm minyak",
-        "6 lembar daun jeruk",
-        "Dua lembar daun kunyit",
-        "Dua batang serai, iris tipis",
-        "2 buah tomat, potong dadu",
-        "2 batang daun bawang, iris tipis",
-        "750 mililiter air",
-        "1 sdm gula pasir",
-        "2 sdt kaldu ayam",
-        "25 gram daun kemangi"
+        "1 ekor ayam utuh, buang kulitnya.",
+        "2 sdm air jeruk nipis.",
+        "1 sdt garam.",
+        "2 sdm minyak.",
+        "6 lembar daun jeruk.",
+        "Dua lembar daun kunyit.",
+        "Dua batang serai, iris tipis.",
+        "2 buah tomat, potong dadu.",
+        "2 batang daun bawang, iris tipis.",
+        "750 mililiter air.",
+        "1 sdm gula pasir.",
+        "2 sdt kaldu ayam.",
+        "25 gram daun kemangi."
       ],
       "bumbu_halus": [
-        "12 butir bawang merah",
-        "5 siung bawang putih",
-        "4 buah cabai merah",
-        "6 buah cabai rawit merah",
-        "2 butir kemiri, sangrai",
-        "3 cm kunyit",
-        "2 cm jahe"
+        "12 butir bawang merah.",
+        "5 siung bawang putih.",
+        "4 buah cabai merah.",
+        "6 buah cabai rawit merah.",
+        "2 butir kemiri, sangrai.",
+        "3 cm kunyit.",
+        "2 cm jahe."
       ],
       "cara_membuat": [
         "Pertama-tama bumbui potongan ayam dengan air jeruk nipis dan garam, lalu sisihkan.",
@@ -409,6 +409,431 @@
         "Setelah itu, masukkan potongan ayam, aduk. Lalu, masukkan air, gula dan kaldu ayam, aduk.",
         "Masak hingga air menyusut dan daging ayam matang. Lalu, masukkan daun kemangi dan daun bawang. Masak hingga daun kemangi layu.",
         "Angkat dan sajikan ayam woku khas Manado selagi hangat untuk keluarga"
+      ]
+    },
+    {
+      "nama": "Ayam Rica Rica",
+      "bahan": [
+        "1 ekor ayam kampung, potong dengan ukuran tak terlalu besar.",
+        "1 lembar daun jeruk.",
+        "Satu lembar daun salam.",
+        "Satu batang serai, memarkan.",
+        "2 ruas jari lengkuas.",
+        "Garam, gula merah sisir dan kaldu penyedap (secukupnya).",
+        "Sedikit minyak untuk menumis."
+      ],
+      "bumbu_halus": [
+        "100 gram cabai rawit.",
+        "100 gram cabai keriting.",
+        "3 siung bawang putih.",
+        "9 siung bawang merah.",
+        "1 ruas jari kunyit.",
+        "1 ruas jari jahe."
+      ],
+      "cara_membuat": [
+        "Pertama-tama, siapkan semua bahan dan haluskan bumbu halus dengan menguleknya. Bumbu ulek akan memberikan cita rasa dan tekstur yang lebih sedap.",
+        "Kemudian, panaskan sedikit minyak, lalu tumis bumbu hingga harum.",
+        "Tambahkan daun jeruk, daun salam, batang serai, lengkuas, garam, gula merah sisir dan kaldu penyedap. Masak hingga daun salam layu.",
+        "Lalu, tambahkan sedikit air, masukkan daging ayam ke dalam bumbu. Aduk rata.",
+        "Tutup wajan untuk memasak rapat-rapat dan masak daging ayam bersama bumbu dengan api sedang hingga matang.",
+        "Sesekali balik daging ayam dan tambahkan air jika daging ayam belum empuk, namun air sudah asat.",
+        "Masak selama beberapa menit hingga daging ayam empuk dan bumbu meresap. Koreksi rasa.",
+        "Angkat dan sajikan rica–rica ayam kampung selagi hangat."
+      ]
+    },
+    {
+      "nama": "Ayam Pop",
+      "bahan": [
+        "1 ekor Ayam Kampung, potong 4 bagian (bisa diganti juga denghan ayam pejantan)",
+        "750 ml Air Kelapa",
+        "1 ruas Jahe, memarkan",
+        "1 ruas Lengkuas, memarkan",
+        "4 lembar Daun Jeruk",
+        "2 lembar Daun Salam",
+        "1 batang Sereh, memarkan",
+        "2 sendok teh Gula Pasir",
+        "2 sendok teh Garam"
+      ],
+      "bumbu_halus": [
+        "6 siung Bawang Putih",
+        "3 siung Bawang Merah",
+        "3 buah Kemiri, sangrai terlebih dahulu"
+      ],
+      "lalapan_daun_singkong": [
+        "250 gram atau 1 ikat Daun Singkong Muda",
+        "500 ml Air",
+        "1 sendok teh Soda Kue",
+        "1 sendok teh Garam"
+      ],
+      "cara_membuat_lalapan": [
+        "Didihkan air bersama soda kue dan garam, masukkan daun singkong dan rebus hingga daun layu, tiriskan."
+      ],
+      "bahan_pelengkap": [
+        "Bawang Merah Goreng",
+        "Sambal Tomat (cek resep sambal tomat di sini)"
+      ],
+      "cara_membuat_ayam_pop": [
+        "Didihkan air kelapa bersama daun salam, daun jeruk, serai, lengkuas, jahe, serta bumbu Ayam Pop yang telah dihaluskan.",
+        "Setelah mendidih, masukkan potongan Ayam yang telah dibersihkan. Aduk hingga semua bumbu dan bahan tercampur rata. Tutup panci dan masak hingga airnya menyusut dan mengering, tiriskan Ayam.",
+        "Sajikan Ayam Pop dengan sepiring nasi hangat, lalapan daun singkong serta sambal favorit Anda."
+      ]
+    },
+    {
+      "nama": "Empal Gepuk Sapi",
+      "bahan": [
+        "Daging merah (500 g)",
+        "Santan (1 liter)",
+        "Garam (secukupnya)",
+        "Gula pasir & gula merah (secukupnya)",
+        "Sereh (1 batang)",
+        "Daun salam (2 lembar)",
+        "Air asam jawa (1 sdm)"
+      ],
+      "bahan_halus": [
+        "Bawang merah (9 siung)",
+        "Ketumbar (1 sdm)",
+        "Merica (⅓ sdt)",
+        "Bawang putih (5 siung)",
+        "Kemiri (3 butir)",
+        "Lengkuas (2 buku jari)"
+      ],
+      "langkah_langkah": [
+        "Tuang semua bahan dan bahan halus ke dalam wajan, termasuk daging yang belum dipotong.",
+        "Nyalakan api dan oseng hingga merata.",
+        "Diamkan hingga mendidih, lalu cicipi dan sesuaikan rasa.",
+        "Jika sudah terasa sesuai, biarkan hingga santan menyusut setengahnya dan daging mulai empuk.",
+        "Setelah empuk, matikan api dan angkat daging.",
+        "Iris daging sesuai keinginan lalu tepuk tepuk dengan alat pemipih daging hingga pipih.",
+        "Kembalikan daging ke dalam wajan.",
+        "Kembali masak dengan api sedang hingga kuah menyusut dan daging telah benar-benar empuk.",
+        "Jika sudah, angkat dan tiriskan.",
+        "Terakhir, goreng hingga daging matang dan siap disantap dengan nasi hangat."
+      ]
+    },
+    {
+      "nama": "Dendeng Balado",
+      "bahan": [
+        "500 gram daging sapi has dalam atau has luar, kemudian iris tipis-tipis melawan serat.",
+        "3 siung bawang putih yang sudah dihaluskan.",
+        "1 sdt ketumbar.",
+        "2 butir kemiri.",
+        "1 sdm garam.",
+        "1 sdt merica.",
+        "1 liter air."
+      ],
+      "bahan_sambal_balado": [
+        "15 buah cabai merah keriting, tumbuk kasar.",
+        "5 siung bawang merah.",
+        "2 siung bawang putih.",
+        "2 lembar daun jeruk purut.",
+        "1 batang serai memar.",
+        "1 buah tomat, potong-potong.",
+        "1 sdt gula pasir.",
+        "Garam dan gula secukupnya.",
+        "1 sdm air jeruk nipis."
+      ],
+      "cara_memasak": [
+        "Setelah mengiris tipis daging melawan arah, rebus air hingga mendidih dan masukkan daging bersama bawang putih halus, ketumbar, kemiri, garam, dan merica. Angkat dan tiriskan daging setelah airnya menyusut.",
+        "Setelah kering, pukul-pukul dagingnya hingga agak pilih.",
+        "Panaskan minyak dalam jumlah banyak di wajan dan goreng daging hingga kering dan renyah. Angkat dan tiriskan apabila sudah matang.",
+        "Sekarang, kamu akan membuat sambal balado. Selain cabai yang ditumbuk kasar, haluskan bawang merah dan bawang putih.",
+        "Panaskan sedikit minyak di wajan untuk menumis bumbu bersama daun jeruk purut, serai, dan tomat yang sudah dipotong. Lakukan proses ini hingga harum dan betulan matang.",
+        "Tambahkan garam dan gula pasir secukupnya hingga rasanya pas serta air jeruk nipis. Aduk lagi hingga tercampur sempurna.",
+        "Campur daging goreng ke dalam wajan berisi sambal balado dan aduk hingga setiap bagian daging terbalut sambal."
+      ]
+    },
+    {
+      "nama": "Rawon",
+      "bahan": [
+        "600 gr daging sapi bagian sandung lamur",
+        "2 liter air",
+        "2 lembar daun salam",
+        "3 batang serai, memarkan",
+        "3 cm lengkuas, memarkan",
+        "3 lembar daun jeruk",
+        "5 sdm minyak untuk menumis"
+      ],
+      "bumbu_halus": [
+        "5 siung bawang merah",
+        "3 siung bawang putih",
+        "4 buah cabai merah",
+        "2 butir kemiri",
+        "1 sdt ketumbar",
+        "3 buah keluak tua, kukus, ambil isinya",
+        "2 cm jahe",
+        "3 cm kunyit",
+        "1 sdt terasi matang",
+        "2 sdt garam",
+        "1 sdt AJI-NO-MOTO®",
+        "2 tangkai daun bawang, iris",
+        "100 gr tauge pendek (tauge soto)",
+        "2 butir telur asin"
+      ],
+      "cara_membuat": [
+        "Rebus daging bersama daun salam, serai, lengkuas, dan daun jeruk hingga daging empuk dan matang.",
+        "Setelah matang, angkat dagingnya dan potong kecil-kecil. Saring air rebusannya, lalu masak kembali bersama potongan daging.",
+        "Panaskan sedikit minyak, tumis bumbu halus bersama irisan daun bawang sampai harum dan matang sempurna.",
+        "Setelah itu, masukkan tumisan bumbu ke dalam kaldu daging. Masak lagi dengan api kecil sampai kuah mendidih.",
+        "Sajikan rawon dalam mangkuk, tambahkan tauge pendek di atasnya. Lengkapi dengan telur asin dan sambal terasi agar makin mantap."
+      ]
+    },
+    {
+      "nama": "Empal Gentong",
+      "bahan": [
+        "250 gram daging sapi",
+        "250 gram jeroan sapi (paru/babat)",
+        "1 liter air atau secukupnya",
+        "1 liter santan encer",
+        "3 lembar daun jeruk",
+        "1 batang serai, memarkan",
+        "1 ruas lengkuas, memarkan",
+        "2 cm jahe, memarkan",
+        "2 butir cengkeh",
+        "2 buah kapulaga",
+        "gula dan garam secukupnya",
+        "kaldu sapi atau penyedap rasa"
+      ],
+      "bumbu_halus": [
+        "8 butir bawang merah",
+        "5 siung bawang putih",
+        "5 butir kemiri",
+        "1 ruas kunyit",
+        "1 sendok teh merica butir, haluskan",
+        "1 sendok teh ketumbar, haluskan",
+        "1/2 sendok teh jintan"
+      ],
+      "cara_membuat": [
+        "Rebus daging dan jeroan di panci terpisah sampai empuk. Buang busanya agar air gak kotor, kecilkan api. Tiriskan daging dan jeroan.",
+        "Sisihkan air rebusan daging dan buang air rebusan jeroan.",
+        "Potong-potong daging dan pukul-pukul agar empuk. Jeroan cukup dipotong-potong saja. Tidak perlu dipukul-pukul.",
+        "Tumis bumbu halus hingga harum, lalu masukkan cengkeh, serai, daun jeruk, lengkuas, kapulaga, dan kayu manis ke dalamnya. Tumis hingga harum dan matang.",
+        "Masukkan lagi daging dan jeroan ke dalam air rebusan daging. Masukkan juga bumbu halus yang sudah ditumis tadi.",
+        "Masukkan santan dan aduk rata. Tambahkan air jika terlalu kental. Masak hingga mendidih dan sedap.",
+        "Bumbui dengan garam, gula pasir, dan kaldu bubuk secukupnya. Lakukan tes rasa. Jika sudah pas, segera matikan api dan empal gentong siap disajikan!"
+      ]
+    },
+    {
+      "nama": "Semur Daging",
+      "bahan": [
+        "Daging sapi (1 kg)",
+        "Lengkuras, iris geprek (2 ruas)",
+        "Daun salam (3 lembar)",
+        "Serai, geprek (2 batang)",
+        "Gula jawa (1 blok)",
+        "Kaldu bubuk (1 sdt)",
+        "Air (600 ml)",
+        "Garam (secukupnya)",
+        "Gula pasir (secukupnya)",
+        "Kecap manis (secukupnya)"
+      ],
+      "bumbu_ulek": [
+        "Ketumbar (1 sdm)",
+        "Merica (½ sdt)",
+        "Kemiri (1 ½ butir)",
+        "Bawang merah (6 siung)",
+        "Bawang putih (6 siung)",
+        "Tomat (1 buah)",
+        "Jahe (1 buah)"
+      ],
+      "cara_mengolah": [
+        "Iris tipis daging dengan pisau secara berlawanan arah dengan tekstur daging",
+        "Nyalakan kompor gas, kemudian masukkan daun salam, serai, dan lengkuas",
+        "Tuang air ke dalam tumisan beserta kaldu bubuk, gula pasir, dan gula jawa. Lalu, aduk hingga rata",
+        "Masukkan juga daging sapi dan aduk hingga merata",
+        "Tambahkan kecap manis, aduk hingga rata, kemudian tutup panci",
+        "Diamkan hingga daging empuk dan bumbu meresap",
+        "Apabila air sudah menyusut, tambahkan garam",
+        "Jika rasa sudah pas, angkat semur daging dan sajikan",
+        "Semur daging sapi kecap pun siap disantap"
+      ]
+    },
+    {
+      "nama": "Tongseng Sapi",
+      "bahan": [
+        "500 gram daging sapi, potong-potong sesuai selera",
+        "5 lembar kubis, rajang kasar",
+        "2 buah tomat merah, potong menjadi 4 bagian",
+        "1 batang daun bawang, iris halus",
+        "100 ml santan kental",
+        "2 sendok makan kecap manis",
+        "3 lembar daun jeruk purut",
+        "2 lembar daun salam",
+        "2 batang serai, memarkan",
+        "2 cm jahe, memarkan",
+        "2 cm lengkuas, memaskan",
+        "1 batang kayu manis",
+        "2 butir kapulaga",
+        "1 buah bunga lawang atau pekak",
+        "2 buah cengkeh",
+        "1 sendok makan gula jawa",
+        "1 sendok teh garam",
+        "1 sendok teh kaldu sapi bubuk",
+        "1 sendok teh lada bubuk",
+        "1 liter air",
+        "Minyak goreng secukupnya"
+      ],
+      "bumbu_halus": [
+        "6 siung bawang merah",
+        "4 siung bawang putih",
+        "3 buah cabai merah keriting",
+        "3 buah kemiri, disangrai terlebih dahulu",
+        "1 sendok teh ketumbar",
+        "1 sendok teh jintan",
+        "¼ buah pala",
+        "1 cm kunyit"
+      ],
+      "cara_membuat": [
+        "Panaskan minyak goreng dan tumis bumbu Tongseng Daging Sapi yang telah dihaluskan hingga harum.",
+        "Setelah harum, tambahkan daun jeruk, daun salam, serai, jahe, lengkuas, kayu manis, kapulaga, bunga lawang, serta cengkeh. Tumis hingga rempah sedikit layu.",
+        "Masukkan potongan daging. Masak bersama bumbu hingga daging berubah warna lalu masukkan air.",
+        "Bumbui dengan gula jawa, garam, kaldu sapi bubuk, lada bubuk, dan masak dengan api kecil hingga daging empuk dan air sedikit berkurang.",
+        "Setelah daging empuk, tambahkan santan, kecap manis, tomat, serta kubis. Masak hingga mendidih kembali sambil terus diaduk perlahan. Tongseng Daging Sapi siap disajikan."
+      ]
+    },
+    {
+      "nama": "Sate Ayam",
+      "bahan": [
+        "250 gram ayam fillet, boleh paha atau dada.",
+        "Tusuk sate secukupnya."
+      ],
+      "bumbu_marinasi": [
+        "2 sdt ketumbar.",
+        "3 siung bawang putih.",
+        "Kecap manis secukupnya.",
+        "½ sdt garam."
+      ],
+      "bumbu_kacang": [
+        "150 – 200 gram kacang tanah goreng.",
+        "1.5 buah gula Jawa.",
+        "2 buah kemiri.",
+        "5 siung bawang merah.",
+        "2 siung bawang putih.",
+        "2 sdm kecap manis.",
+        "¾ sdt garam.",
+        "1 sdt kaldu jamur.",
+        "Minyak goreng secukupnya.",
+        "Air putih secukupnya."
+      ],
+      "cara_membuat": [
+        "Masukkan semua bumbu marinasi ke dalam blender, lalu haluskan. Tambahkan sedikit air agar teksturnya lebih encer.",
+        "Potong daging ayam kecil-kecil atau sesuai selera, lalu rendam ke dalam bumbu marinasi selama 15 sampai 30 menit.",
+        "Selagi menunggu proses marinasi, kamu bisa membuat bumbu kacangnya terlebih dahulu. Blender semua bahan bumbu kacang sampai halus.",
+        "Setelah halus, tumis bumbu dan beri sedikit air.",
+        "Tambahkan gula Jawa, garam, kaldu jamur, dan kecap manis. Masak sampai teksturnya mengental.",
+        "Koreksi rasa, lalu tempatkan dalam wadah.",
+        "Ambil tusuk sate, lalu tusukkan daging ayam yang sudah dimarinasi.",
+        "Ambil 4 – 5 sdm bumbu kacang untuk bahan olesan sate.",
+        "Panggang sampai matang dan warnanya berubah menjadi kecoklatan.",
+        "Sajikan dengan bumbu kacang, kecap manis, sambal, acar, dan lontong atau nasi."
+      ]
+    },
+    {
+      "nama": "Sate Kambing",
+      "bahan": [
+        "500 gr daging kambing",
+        "Tusukan sate secukupnya",
+        "2 lembar daun pepaya"
+      ],
+      "bumbu_marinasi": [
+        "Garam 3/4 sdt",
+        "Gula merah jawa 1/2 keping, sisir halus",
+        "Bubuk kaldu penyedap 1/2 sdt (boleh merek apa pun)",
+        "Ketumbar bubuk 1 sdt"
+      ],
+      "bumbu_oles": [
+        "Kecap manis 4 sdm",
+        "Minyak goreng 2 sdm",
+        "Air hangat 2 sdm"
+      ],
+      "cara_membuat": [
+        "Bersihkan daging pakai tisu dapur.",
+        "Potong-potong seukuran bite size dan taruh di wadah. Kemudian, campurkan bumbu marinasi.",
+        "Bungkus daging marinasi dengan daun pepaya yang sudah diremas-remas minimal 1 jam.",
+        "Susun potongan daging ke dalam tusukan sate.",
+        "Olesi sate dengan bumbu sate kambing sebelum dibakar.",
+        "Bakar sate dengan tingkat kematangan sesuai selera.",
+        "Sajikan sate kambing dengan sambal kecap."
+      ]
+    },
+    {
+      "nama": "Sate Padang",
+      "bahan": [
+        "300 gram daging sapi (direkomendasikan bagian sandung lamur atau brisket)",
+        "200 gram lidah sapi",
+        "50 gram kacang tanah kupas, sangrai dan cincang kasar",
+        "1,250 ml air",
+        "2 lembar daun kunyit",
+        "1 batang serai, ambil bagian putihnya saja, memarkan",
+        "1 sendok makan air asam jawa",
+        "50 gram tepung beras, larutkan dengan 50 ml air"
+      ],
+      "bumbu_halus": [
+        "1 ruas kunyit, bakar terlebih dahulu",
+        "6 siung bawang merah",
+        "3 siung bawang putih",
+        "3 buah cabai merah besar",
+        "5 buah cabai rawit merah",
+        "1 sendok teh ketumbar",
+        "1 sendok teh jintan",
+        "2 buah kapulaga",
+        "1 cm lengkuas",
+        "½ sendok teh gula pasir",
+        "1 sendok teh garam",
+        "½ sendok teh lada bubuk"
+      ],
+      "bahan_pelengkap": [
+        "Bawang merah goreng secukupnya",
+        "Keripik singkong secukupnya",
+        "Ketupat atau lontong secukupnya"
+      ],
+      "cara_membuat": [
+        "Rebus daging sapi dan lidah sapi bersama bumbu yang telah dihaluskan serta serai hingga daging sapi serta lidah sapi matang dan empuk.",
+        "Tiriskan daging dan lidah yang telah matang dan simpan kaldu dengan bumbu bekas merebus daging dan lidah untuk membuat saus nanti.",
+        "Potong daging dan lidah kotak-kotak dengan ukuran sekitar 1 cm, kemudian tusuk-tusuk secara berselang-seling menggunakan tusuk sate hingga semua potongan daging dan lidah habis.",
+        "Didihkan kembali kaldu bekas rebusan daging sapi dan lidah sapi yang telah berbumbu, kemudian tambahkan daun kunyit dan air asam jawa.",
+        "Perlahan tuang larutan tepung beras ke dalam kaldu sambil terus diaduk hingga kaldu mengental, lalu tambahkan cincangan kacang tanah dan saus untuk Sate Padang siap digunakan.",
+        "Panaskan arang atau alat pemanggang, kemudian bakar Sate Padang sambil sesekali dibolak-balik hingga daging dan lidah agak sedikit mengering.",
+        "Setelah dibakar, sajikan Sate Padang di atas piring, siram dengan saus Sate Padang yang dibuat sebelumnya, taburi dengan bawang goreng dan sebagai pelengkap sajikan Sate Padang bersama potongan ketupat serta keripik singkong."
+      ]
+    },
+    {
+      "nama": "Sate Lilit",
+      "bahan": [
+        "500 g daging ayam fillet (atau ikan tenggiri/udang, sesuai selera)",
+        "100 g kelapa parut muda (sangrai sebentar untuk wangi)",
+        "1 butir telur (opsional, untuk mengikat adonan)",
+        "2 sdm santan kental",
+        "1 sdt garam",
+        "½ sdt gula pasir",
+        "½ sdt kaldu bubuk (opsional)"
+      ],
+      "bumbu_halus": [
+        "5 siung bawang merah",
+        "3 siung bawang putih",
+        "3 buah cabai merah besar (buang biji)",
+        "5 cm kunyit (bakar sebentar)",
+        "3 cm jahe",
+        "3 cm lengkuas",
+        "2 batang serai (ambil bagian putih, iris halus)",
+        "3 butir kemiri sangrai",
+        "½ sdt ketumbar bubuk",
+        "½ sdt terasi bakar"
+      ],
+      "bahan_pelengkap": [
+        "Batang serai (pangkas bagian daun, sisakan batang untuk tusuk) atau tusuk sate bambu tebal"
+      ],
+      "cara_membuat": [
+        "Haluskan bumbu – Blender/ulek semua bumbu halus hingga benar-benar lembut.",
+        "Campur adonan – Masukkan daging ayam cincang, kelapa parut, santan, garam, gula, dan kaldu bubuk. Aduk rata hingga adonan lengket.",
+        "Koreksi rasa – Ambil sedikit adonan, goreng sebentar untuk tes rasa.",
+        "Bentuk sate – Ambil segenggam adonan, lilitkan pada batang serai atau tusuk sate bambu. Tekan-tekan supaya padat dan menempel kuat.",
+        "Panggang – Bakar di atas bara arang atau grill pan dengan api kecil, sambil dioles sedikit minyak kelapa/santan supaya wangi. Bolak-balik sampai matang dan agak kecokelatan.",
+        "Sajikan – Hidangkan hangat bersama sambal matah atau sambal kecap."
+      ],
+      "tips": [
+        "Gunakan kelapa parut muda yang disangrai sebentar supaya harum.",
+        "Kalau adonan terasa terlalu lembek, tambahkan sedikit tepung tapioka.",
+        "Gunakan minyak kelapa saat memanggang untuk aroma khas Bali."
       ]
     }
   ]

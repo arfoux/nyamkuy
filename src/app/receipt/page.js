@@ -2,82 +2,101 @@ import React from 'react';
 
 export default function RecipePage() {
   return (
-    <div className="min-h-screen bg-white flex justify-center p-8 font-sans">
+    <div className="min-h-screen relative flex flex-col items-center justify-center p-6 md:p-12 font-sans overflow-hidden">
       
-      {/* Kontena Utama */}
-      <div className="relative flex flex-col md:flex-row items-start md:items-start w-full max-w-5xl mt-10">
+      {/* ========================================= */}
+      {/* BACKGROUND GAMBAR PICSUM DENGAN EFEK BLUR */}
+      {/* ========================================= */}
+      {/* Latar Belakang Asli dari Picsum */}
+      <div 
+        className="absolute inset-0 z-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('https://picsum.photos/1920/1080?random=background')" }}
+      ></div>
+      
+      {/* Efek Frosted Glass & Vignette (Glow Cokelat/Krem) */}
+      <div className="absolute inset-0 z-0 backdrop-blur-3xl bg-[#7c5b46]/40"></div>
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(44,26,17,0.7)_100%)]"></div>
 
-        {/* Gambar Makanan (Bulat) */}
-        {/* z-10 memastikan bulatan gambar berada di atas elemen lain */}
-        <div className="w-48 h-48 md:w-72 md:h-72 bg-[#d9d9d9] rounded-full flex items-center justify-center shrink-0 z-10 shadow-lg mx-auto md:mx-0 overflow-hidden border-4 border-white mt-4 md:mt-0">
-           {/* Anda boleh menggantikan <span> di bawah dengan tag <img src="..." alt="Rendang" className="object-cover w-full h-full" /> */}
-          <span className="text-gray-600 text-lg md:text-2xl font-medium">Foto Rendang</span>
-        </div>
+      {/* ========================================= */}
+      {/* KONTEN UTAMA                              */}
+      {/* ========================================= */}
+      
+      {/* Judul Utama */}
+<h1 className="text-6xl md:text-[5.5rem] font-black text-white mb-20 md:mb-16 z-10 tracking-wider drop-shadow-lg">
+  Nasi Pecel
+</h1>
 
-        {/* Bahagian Kandungan Resipi */}
-        {/* -ml-0 md:-ml-16 menarik blok ini ke kiri untuk menghasilkan kesan bertindih dengan bulatan */}
-        <div className="flex-1 md:-ml-16 flex flex-col gap-6 w-full mt-6 md:mt-4">
+      {/* Kontainer Utama Card */}
+      <div className="relative w-full max-w-6xl bg-[#5e4134] rounded-[2.5rem] shadow-2xl flex flex-col md:flex-row z-10">
 
-          {/* Sepanduk Tajuk (Banner) */}
-          {/* Padding kiri (md:pl-24) ditambah agar teks tidak tertutup oleh gambar bulat */}
-          <div className="bg-[#c4c4c4] w-full py-4 px-6 md:pl-24 md:pr-8 rounded-r-sm shadow-sm text-center md:text-left">
-            <h1 className="text-2xl md:text-3xl font-semibold text-black tracking-wide uppercase">
-              Rendang Daging Asli
-            </h1>
+        {/* KOLOM KIRI (Gelap, Foto & Deskripsi) */}
+        {/* Diberi margin/padding khusus dan shadow ke kanan agar terlihat menumpuk di atas kartu utama */}
+        <div className="w-full md:w-[32%] bg-[#3b251d] rounded-[2.5rem] p-8 pt-36 md:pt-44 flex flex-col items-center relative shadow-[10px_0_20px_rgba(0,0,0,0.25)] z-20">
+          
+          {/* Foto Lingkaran Overlap (Tanpa Badges) */}
+          <div className="absolute -top-16 md:-top-20 left-1/2 transform -translate-x-1/2 w-56 h-56 md:w-64 md:h-64 bg-white rounded-full border-[6px] md:border-[8px] border-white shadow-xl flex items-center justify-center z-30 overflow-hidden">
+            <img 
+              src="https://picsum.photos/400/400?random=food" 
+              alt="Nasi Pecel" 
+              className="object-cover w-full h-full"
+            />
           </div>
 
-          {/* Kandungan Resipi (Bahan & Langkah) */}
-          <div className="flex flex-col gap-8 md:pl-24 px-6 md:pr-8 text-gray-800">
-            
-            {/* Bahagian Bahan-bahan */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h2 className="text-lg font-bold mb-2 border-b-2 border-[#d9d9d9] pb-1">Bahan-bahan</h2>
-                  <ul className="list-disc list-inside space-y-1 text-sm md:text-base leading-relaxed">
-                    <li>1 kg daging lembu (potong kiub)</li>
-                    <li>1 liter santan pekat (3-4 biji kelapa)</li>
-                    <li>500 ml santan cair</li>
-                    <li>2 batang serai (dititik)</li>
-                    <li>5 helai daun limau purut</li>
-                    <li>2 helai daun kunyit (disimpul)</li>
-                    <li>2 keping asam kandis</li>
-                  </ul>
-                </div>
-                
-                <div>
-                  <h2 className="text-lg font-bold mb-2 border-b-2 border-[#d9d9d9] pb-1">Bahan Kisar Halus</h2>
-                  <ul className="list-disc list-inside space-y-1 text-sm md:text-base leading-relaxed">
-                    <li>100 gram cili merah keriting</li>
-                    <li>15 ulas bawang merah</li>
-                    <li>7 ulas bawang putih</li>
-                    <li>3 cm halia</li>
-                    <li>3 cm lengkuas</li>
-                    <li>2 cm kunyit hidup</li>
-                    <li>1 sudu kecil ketumbar (disangrai)</li>
-                    <li>Garam secukup rasa</li>
-                  </ul>
-                </div>
-            </div>
+          {/* Teks Deskripsi Kiri */}
+          <p className="text-white text-center text-sm md:text-[15px] leading-relaxed font-normal mt-4 px-2">
+            <span className="font-bold">Nasi Pecel</span> makanan tradisional Jawa berupa rebusan berbagai macam sayuran bayam, tauge, kacang panjang, kol, kenikir yang disiram dengan sambal kacang kental
+          </p>
+        </div>
 
-            {/* Bahagian Cara Memasak */}
-            <div>
-              <h2 className="text-lg font-bold mb-2 border-b-2 border-[#d9d9d9] pb-1">Cara Memasak</h2>
-              <ol className="list-decimal list-inside space-y-3 text-sm md:text-base text-justify leading-relaxed">
-                <li>Masukkan santan cair, bahan kisar halus, serai, daun limau purut, daun kunyit, dan asam kandis ke dalam kuali atau periuk besar.</li>
-                <li>Kacau campuran perlahan-lahan di atas api sederhana sehingga santan mendidih. Pastikan anda sentiasa mengacau supaya santan tidak pecah.</li>
-                <li>Setelah mendidih dan naik bau wangi, masukkan potongan daging lembu ke dalam kuali. Gaulkan sehingga daging bersalut rata dengan bumbu.</li>
-                <li>Apabila kuah mula menyusut sedikit, tuangkan santan pekat. Kurangkan api ke tahap minimum (api sangat perlahan).</li>
-                <li>Teruskan memasak dan kacau sesekali dari dasar kuali supaya bahagian bawah tidak hangus. Proses mereneh ini mengambil masa kira-kira <strong>3 hingga 4 jam</strong>.</li>
-                <li>Masak sehingga kuah mengering, dedak bumbu bertukar menjadi minyak, dan warna daging menjadi coklat kehitaman yang cantik. Angkat dan sedia untuk dihidangkan.</li>
-              </ol>
-            </div>
+        {/* KOLOM KANAN (Daftar Resep 2 Kolom) */}
+        <div className="w-full md:w-[68%] p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 text-white z-10">
+          
+          {/* Kolom Bahan-bahan */}
+          <div>
+            <h2 className="text-lg md:text-xl font-bold mb-4 tracking-wide text-white">Bahan-bahan:</h2>
+            <ul className="list-disc pl-5 space-y-1.5 text-sm md:text-[15px] text-gray-200 leading-relaxed marker:text-gray-300">
+              <li>4 porsi nasi putih.</li>
+              <li>100 gram taoge, siangi.</li>
+              <li>100 gram bayam, siangi.</li>
+              <li>200 gram kangkung, siangi.</li>
+              <li>200 gram kacang panjang, potong 2 cm.</li>
+              <li>100 gram taoge pendek, seduh air panas, tiriskan.</li>
+              <li>2 buah mentimun, cincang.</li>
+              <li>70 gram daun kemangi.</li>
+              <li>4 buah jeruk purut, belah 2 bagian.</li>
+              <li>2 liter air, untuk merebus.</li>
+            </ul>
 
+            <h2 className="text-lg md:text-xl font-bold mt-8 mb-4 tracking-wide text-white">Bahan-bahan sambal pecel:</h2>
+            <ul className="list-disc pl-5 space-y-1.5 text-sm md:text-[15px] text-gray-200 leading-relaxed marker:text-gray-300">
+              <li>250 ml air panas.</li>
+              <li>250 gram sambal pecel khas Madiun siap santap.</li>
+              <li>1 sdm kecap manis.</li>
+            </ul>
+          </div>
+
+          {/* Kolom Cara Membuat */}
+          <div>
+            <h2 className="text-lg md:text-xl font-bold mb-4 tracking-wide text-white">Cara membuat</h2>
+            <ul className="list-disc pl-5 space-y-6 text-sm md:text-[15px] text-gray-200 leading-relaxed marker:text-gray-300">
+              <li>
+                Untuk sambel pecel, lumatkan sambel pecel siap makan dengan air panas. Tambahkan dengan kecap manis, aduk, lalu sisihkan.
+              </li>
+              <li>
+                Didihkan air, rebus sayuran secara terpisah, yang dimulai dari taoge, bayam, kangkung, dan kacang panjang. Jika sudah, tiriskan lalu sisihkan.
+              </li>
+              <li>
+                Siapkan nasi di atas piring saji, jika perlu alaskan dengan daun pisang terlebih dulu (sesuai selera).
+              </li>
+              <li>
+                Tuangkan sambal pecel di atasnya dan beri perasan jeruk purut sedikit (sesuai selera). Sajikan bersama pelengkap.
+              </li>
+            </ul>
           </div>
 
         </div>
-        
+
       </div>
-      
     </div>
   );
 }

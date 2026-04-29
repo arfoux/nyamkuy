@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "open-next:build": "open-next build",
+    "build:edge": "open-next build",
+    "deploy:cf": "npm run build && npm run build:edge",
     "start": "next start",
     "lint": "eslint"
   },

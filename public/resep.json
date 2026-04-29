@@ -2,6 +2,9 @@
   "resep": [
     {
       "nama": "Nasi Liwet",
+      "desc": [
+        "Makanan khas Solo (Jawa Tengah) dan Sunda (Jawa Barat),  Nasi gurih yang dimasak dengan santan dan rempah. Versi Solo umumnya disajikan dengan suwiran ayam, telur, dan sayur labu siam. Versi Sunda dimasak di ketel dengan ikan asin, cabai, dan petai."
+      ],
       "bahan": [
         "2 liter beras pandan",
         "10 butir bawang merah",
@@ -33,6 +36,9 @@
     },
     {
       "nama": "Nasi Uduk",
+      "desc": [
+        "Makanan khas Betawi (Jakarta), Nasi yang dimasak dengan santan, daun salam, laos, dan serai. Disajikan dengan taburan bawang goreng, kering tempe, telur dadar iris, dan sambal kacang."
+      ],
       "bahan": [
         "Beras, cuci bersih (500 gram)",
         "Daun pandan (1 lembar)",
@@ -63,6 +69,9 @@
     },
     {
       "nama": "Nasi Kuning",
+      "desc": [
+        "Makanan Nusantara yang populer di Jawa, Bali, dan Manado, Nasi yang dimasak dengan kunyit, santan, dan rempah-rempah, menghasilkan warna kuning dan aroma harum. Sering disajikan dalam bentuk tumpeng untuk perayaan."
+      ],
       "bahan": [
         "500 ml beras",
         "475 ml air",
@@ -102,6 +111,9 @@
     },
     {
       "nama": "Nasi Goreng Sederhana",
+      "desc": [
+        "Makanan Nusantara, Nasi yang digoreng bersama bumbu, kecap manis, telur, dan berbagai bahan tambahan seperti ayam, bakso, atau sosis."
+      ],
       "bahan": [
         "1 siung bawang putih, iris tipis",
         "1 siung bawang merah, iris tipis",
@@ -123,6 +135,9 @@
     },
     {
       "nama": "Nasi Goreng Jawa",
+      "desc": [
+        "Makanan Nusantara khas jawa, Nasi yang digoreng bersama bumbu, kecap manis, telur, dan berbagai bahan tambahan seperti ayam, bakso, atau sosis."
+      ],
       "bahan": [
         "3 piring nasi dingin",
         "1 butir telur",
@@ -151,6 +166,9 @@
     },
     {
       "nama": "Nasi Goreng Kampung",
+      "desc": [
+        "Makanan Nusantara, Nasi yang digoreng bersama bumbu, kecap manis, telur, dan berbagai bahan tambahan seperti ayam, bakso, atau sosis."
+      ],
       "bahan": [
         "2 piring nasi dingin",
         "2 butir telur, kocok lepas",
@@ -177,6 +195,9 @@
     },
     {
       "nama": "Nasi Goreng Spesial",
+      "desc": [
+        "Makanan Nusantara, Nasi yang digoreng bersama bumbu, kecap manis, telur, dan berbagai bahan tambahan seperti ayam, bakso, atau sosis."
+      ],
       "bahan": [
         "2 porsi nasi",
         "50 gr daging ayam potong dadu",
@@ -208,6 +229,9 @@
     },
     {
       "nama": "Mie Goreng",
+      "desc": [
+        "Makanan Nusantara, Mie kuning yang ditumis dengan kecap manis, bawang putih, sayuran (caisim/kol), telur, dan potongan daging atau makanan laut."
+      ],
       "bahan": [
         "1 bungkus mie hokkian",
         "3 sdm kecap manis",

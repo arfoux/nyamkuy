@@ -16,25 +16,25 @@ export default function RecipePage() {
       {/* Efek Frosted Glass & Vignette (Glow Cokelat/Krem) */}
       <div className="absolute inset-0 z-0 backdrop-blur-3xl bg-[#7c5b46]/40"></div>
       <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(44,26,17,0.7)_100%)]"></div>
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,#dcc1b0_10%,#4a2d1d_100%)]"></div>
 
       {/* ========================================= */}
       {/* KONTEN UTAMA                              */}
       {/* ========================================= */}
       
       {/* Judul Utama */}
-<h1 className="text-6xl md:text-[5.5rem] font-black text-white mb-20 md:mb-16 z-10 tracking-wider drop-shadow-lg">
-  Nasi Pecel
-</h1>
+  <h1 className="text-6xl md:text-[6rem] font-black text-[#2e1d15] mb-12 z-10 tracking-widest drop-shadow-sm">
+    Nasi Pecel
+  </h1>
 
       {/* Kontainer Utama Card */}
       <div className="relative w-full max-w-6xl bg-[#5e4134] rounded-[2.5rem] shadow-2xl flex flex-col md:flex-row z-10">
 
-        {/* KOLOM KIRI (Gelap, Foto & Deskripsi) */}
-        {/* Diberi margin/padding khusus dan shadow ke kanan agar terlihat menumpuk di atas kartu utama */}
-        <div className="w-full md:w-[32%] bg-[#3b251d] rounded-[2.5rem] p-8 pt-36 md:pt-44 flex flex-col items-center relative shadow-[10px_0_20px_rgba(0,0,0,0.25)] z-20">
+        {/* KOLOM KIRI (Gelap, Foto & Deskripsi) - DIPERBAIKI: FOTO LEBIH BESAR & LEBIH KE KANAN (MD) */}
+        <div className="w-full md:w-[35%] bg-[#3b251d] rounded-[2.5rem] p-8 min-h-[520px] md:min-h-[600px] flex flex-col items-center justify-end relative shadow-[15px_0_30px_rgba(0,0,0,0.35)] z-20">
           
-          {/* Foto Lingkaran Overlap (Tanpa Badges) */}
-          <div className="absolute -top-16 md:-top-20 left-1/2 transform -translate-x-1/2 w-56 h-56 md:w-64 md:h-64 bg-white rounded-full border-[6px] md:border-[8px] border-white shadow-xl flex items-center justify-center z-30 overflow-hidden">
+          {/* Foto Piring - Ukuran diperbesar (w-64/w-[21rem]) dan digeser ke kanan (md:-left-4) */}
+          <div className="absolute top-8 md:top-12 left-1/2 md:-left-4 transform -translate-x-1/2 md:translate-x-0 w-64 h-64 md:w-[21rem] md:h-[21rem] bg-white rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.4)] flex items-center justify-center z-30 overflow-hidden">
             <img 
               src="https://picsum.photos/400/400?random=food" 
               alt="Nasi Pecel" 
@@ -42,8 +42,8 @@ export default function RecipePage() {
             />
           </div>
 
-          {/* Teks Deskripsi Kiri */}
-          <p className="text-white text-center text-sm md:text-[15px] leading-relaxed font-normal mt-4 px-2">
+          {/* Teks Deskripsi Kiri - Otomatis terdorong ke dasar kotak karena mt-auto */}
+          <p className="text-white text-center text-sm md:text-[14px] leading-relaxed font-light mt-auto pt-4 relative z-40">
             <span className="font-bold">Nasi Pecel</span> makanan tradisional Jawa berupa rebusan berbagai macam sayuran bayam, tauge, kacang panjang, kol, kenikir yang disiram dengan sambal kacang kental
           </p>
         </div>

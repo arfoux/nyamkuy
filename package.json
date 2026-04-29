@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "build:edge": "open-next build",
-    "deploy:cf": "npm run build && npm run build:edge",
+    "deploy:cf": "npm run build && npm run build:edge && npx wrangler deploy",
     "start": "next start",
     "lint": "eslint"
   },

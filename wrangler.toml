@@ -1,0 +1,7 @@
+name = "smtdua-frontend"
+compatibility_date = "2024-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "config"
+database_id = "1b7432bb-9815-470f-b362-d7e1d4d82a8a"

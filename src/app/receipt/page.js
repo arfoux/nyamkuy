@@ -30,22 +30,30 @@ export default function RecipePage() {
       {/* Kontainer Utama Card */}
       <div className="relative w-full max-w-6xl bg-[#5e4134] rounded-[2.5rem] shadow-2xl flex flex-col md:flex-row z-10">
 
-        {/* KOLOM KIRI (Gelap, Foto & Deskripsi) - DIPERBAIKI: FOTO LEBIH BESAR & LEBIH KE KANAN (MD) */}
-        <div className="w-full md:w-[35%] bg-[#3b251d] rounded-[2.5rem] p-8 min-h-[520px] md:min-h-[600px] flex flex-col items-center justify-end relative shadow-[15px_0_30px_rgba(0,0,0,0.35)] z-20">
+        {/* KOLOM KIRI (Gelap) */}
+        <div className="w-full md:w-[35%] bg-[#3b251d] rounded-[2.5rem] relative shadow-[15px_0_30px_rgba(0,0,0,0.35)] z-20 min-h-[600px] md:min-h-[650px] flex flex-col justify-start">
           
-          {/* Foto Piring - Ukuran diperbesar (w-64/w-[21rem]) dan digeser ke kanan (md:-left-4) */}
-          <div className="absolute top-8 md:top-12 left-1/2 md:-left-4 transform -translate-x-1/2 md:translate-x-0 w-64 h-64 md:w-[21rem] md:h-[21rem] bg-white rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.4)] flex items-center justify-center z-30 overflow-hidden">
-            <img 
-              src="https://picsum.photos/400/400?random=food" 
-              alt="Nasi Pecel" 
-              className="object-cover w-full h-full"
-            />
+          {/* KONTAINER WRAPPER FOTO & TEKS */}
+          {/* md:-translate-x-[10%] akan membuat posisinya lebih masuk ke kanan (sebelumnya -20%) */}
+          <div className="absolute top-4 md:top-6 left-1/2 md:left-0 transform -translate-x-1/2 md:-translate-x-[10%] w-full md:w-auto px-6 md:px-4 flex flex-col items-center z-30">
+            
+            {/* Foto Piring */}
+            {/* Diperbesar menjadi md:w-[23rem] md:h-[23rem] (sebelumnya 21rem) dan w-72 di HP */}
+            <div className="w-72 h-72 md:w-[23rem] md:h-[23rem] bg-white rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.4)] flex items-center justify-center overflow-hidden mb-6 md:mb-8">
+              <img 
+                src="https://picsum.photos/400/400?random=food" 
+                alt="Nasi Pecel" 
+                className="object-cover w-full h-full"
+              />
+            </div>
+
+            {/* Teks Deskripsi Kiri */}
+            {/* Lebar maksimal teks disesuaikan agar tidak terlalu melebar */}
+            <p className="text-white text-center text-sm md:text-[14.5px] leading-relaxed font-light relative z-40 max-w-sm md:max-w-[19rem] px-2">
+              <span className="font-bold">Nasi Pecel</span> makanan tradisional Jawa berupa rebusan berbagai macam sayuran bayam, tauge, kacang panjang, kol, kenikir yang disiram dengan sambal kacang kental
+            </p>
           </div>
 
-          {/* Teks Deskripsi Kiri - Otomatis terdorong ke dasar kotak karena mt-auto */}
-          <p className="text-white text-center text-sm md:text-[14px] leading-relaxed font-light mt-auto pt-4 relative z-40">
-            <span className="font-bold">Nasi Pecel</span> makanan tradisional Jawa berupa rebusan berbagai macam sayuran bayam, tauge, kacang panjang, kol, kenikir yang disiram dengan sambal kacang kental
-          </p>
         </div>
 
         {/* KOLOM KANAN (Daftar Resep 2 Kolom) */}

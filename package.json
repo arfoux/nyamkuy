@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "NEXT_DISABLE_TURBOPACK=1 next build",
-    "postbuild": "open-next build",
+    "build": "next build",
+    "open-next:build": "open-next build",
     "start": "next start",
     "lint": "eslint"
   },

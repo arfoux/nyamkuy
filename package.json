@@ -5,18 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:edge": "open-next build",
-    "deploy:cf": "npm run build && npm run build:edge && npx wrangler deploy",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.38.0",
     "lucide-react": "^1.8.0",
     "next": "16.2.3",
-    "open-next": "^3.1.3",
     "radix-ui": "^1.4.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",

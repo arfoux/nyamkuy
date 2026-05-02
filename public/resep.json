@@ -325,6 +325,9 @@
     },
     {
       "nama": "Ayam Geprek",
+      "desc": [
+        "Ayam Geprek Kuliner modern yang tercipta dan populer dari Yogyakarta. Berupa ayam goreng tepung krispi yang dihancurkan (digeprek) bersamaan dengan sambal bawang mentah yang sangat pedas di atas piring cobek."
+      ],
       "bahan": [
         "4 potong ayam (bisa bagian dada, paha, tanpa tulang ataupun dengan tulang sesuai selera)",
         "1 sendok teh air perasan jeruk nipis",
@@ -364,6 +367,9 @@
     },
     {
       "nama": "Ayam Penyet",
+      "desc" :[
+      "Ayam Penyet Sajian lauk yang berasal dari Jawa Timur (khususnya Surabaya). Berupa ayam goreng bumbu kuning tradisional yang ditekan atau dipenyet di atas cobek berisi sambal terasi mentah hingga dagingnya sedikit hancur dan menyatu dengan sambal.",
+      ],
       "bahan_utama": [
         "1 ekor ayam, potong",
         "Garam",
@@ -403,6 +409,9 @@
     },
     {
       "nama": "Ayam Woku",
+      "desc" :[
+      "Ayam Woku Makanan khas dari Minahasa (Sulawesi Utara). Olahan ayam ini memiliki kuah kental berwarna kuning yang sangat pedas dan kaya akan aroma daun aromatik seperti kemangi, daun jeruk, serai, dan daun pandan."
+      ],
       "bahan": [
         "1 ekor ayam utuh, buang kulitnya.",
         "2 sdm air jeruk nipis.",
@@ -437,6 +446,9 @@
     },
     {
       "nama": "Ayam Rica Rica",
+      "desc" :[
+      "Ayam Rica-rica Hidangan pedas yang berasal dari Minahasa (Sulawesi Utara). Ayam ini dimasak dengan bumbu cabai merah (rica) yang sangat melimpah, dipadukan dengan jahe, bawang merah, dan perasan jeruk nipis sehingga cita rasanya pedas dan segar."
+      ],
       "bahan": [
         "1 ekor ayam kampung, potong dengan ukuran tak terlalu besar.",
         "1 lembar daun jeruk.",
@@ -467,6 +479,9 @@
     },
     {
       "nama": "Ayam Pop",
+      "desc" :[
+      "Ayam Pop Lauk ayam khas dari daerah Minangkabau (Sumatera Barat). Ciri khasnya adalah ayam kampung yang direbus dengan air kelapa dan bawang putih hingga pucat, lalu digoreng sebentar saja dalam minyak panas. Disajikan dengan sambal tomat merah yang khas."
+      ],
       "bahan": [
         "1 ekor Ayam Kampung, potong 4 bagian (bisa diganti juga denghan ayam pejantan)",
         "750 ml Air Kelapa",
@@ -504,6 +519,9 @@
     },
     {
       "nama": "Empal Gepuk Sapi",
+      "desc" :[
+      "Empal Gepuk Sapi Lauk daging tradisional dari Sunda (Jawa Barat). Daging sapi diiris searah serat, direbus, dipukul-pukul (digepuk) agar bentuknya pipih dan teksturnya empuk, dibumbui ketumbar dan gula merah, lalu digoreng hingga harum."
+      ],
       "bahan": [
         "Daging merah (500 g)",
         "Santan (1 liter)",
@@ -536,6 +554,9 @@
     },
     {
       "nama": "Dendeng Balado",
+      "desc" :[
+      "Dendeng Balado Sajian daging populer dari Minangkabau (Sumatera Barat). Terdiri dari irisan daging sapi tipis yang dikeringkan dan digoreng hingga teksturnya renyah, kemudian disiram dengan sambal balado (cabai merah tumbuk kasar) yang pedas."
+      ],
       "bahan": [
         "500 gram daging sapi has dalam atau has luar, kemudian iris tipis-tipis melawan serat.",
         "3 siung bawang putih yang sudah dihaluskan.",
@@ -568,6 +589,9 @@
     },
     {
       "nama": "Rawon",
+      "desc" :[
+      "Rawon Sup daging sapi legendaris yang berasal dari Jawa Timur (terutama Surabaya dan Malang). Sup ini berkuah hitam pekat di mana warna hitam dan cita rasa khasnya berasal dari rempah bernama kluwek. Biasanya disajikan dengan kecambah mentah dan telur asin."
+      ],
       "bahan": [
         "600 gr daging sapi bagian sandung lamur",
         "2 liter air",
@@ -603,6 +627,10 @@
     },
     {
       "nama": "Empal Gentong",
+      "desc" :[
+        "Empal Gentong", 
+        "Sup kaya rempah yang berasal dari Cirebon (Jawa Barat). Sup ini berkuah santan kekuningan yang berisi potongan daging sapi dan jeroan. Secara tradisional dimasak menggunakan kayu bakar di dalam periuk tanah liat yang disebut gentong."
+      ],
       "bahan": [
         "250 gram daging sapi",
         "250 gram jeroan sapi (paru/babat)",
@@ -638,6 +666,10 @@
     },
     {
       "nama": "Semur Daging",
+      "desc" : [
+        "Semur Daging", 
+        "Masakan Nusantara yang merupakan hasil adaptasi pengaruh Belanda (dari kata Smoor). Ini adalah rebusan daging sapi yang dimasak dalam kuah berwarna cokelat gelap pekat yang terbuat dari perpaduan kecap manis, bawang merah, pala, dan cengkeh."
+      ],
       "bahan": [
         "Daging sapi (1 kg)",
         "Lengkuras, iris geprek (2 ruas)",
@@ -673,6 +705,10 @@
     },
     {
       "nama": "Tongseng Sapi",
+      "desc" : [
+        "Tongseng Sapi", 
+        "Hidangan berkuah yang asalnya dari Jawa Tengah (terkenal di Solo dan Boyolali). Berupa sup daging sapi berkuah santan bumbu gulai yang ditumis lagi dengan tambahan kecap manis, potongan tomat segar, cabai rawit utuh, dan irisan kubis."
+      ],
       "bahan": [
         "500 gram daging sapi, potong-potong sesuai selera",
         "5 lembar kubis, rajang kasar",
@@ -716,6 +752,10 @@
     },
     {
       "nama": "Sate Ayam",
+      "desc" : [
+        "Sate Ayam", 
+        "Kuliner bakar yang sangat ikonik dari Madura dan Ponorogo (Jawa Timur). Terdiri dari potongan daging ayam yang ditusuk lidi, dibakar di atas arang, dan disajikan dengan saus kacang yang manis, gurih, siraman kecap manis, serta irisan bawang merah."
+      ],
       "bahan": [
         "250 gram ayam fillet, boleh paha atau dada.",
         "Tusuk sate secukupnya."
@@ -753,6 +793,10 @@
     },
     {
       "nama": "Sate Kambing",
+      "desc" : [
+        "Sate Kambing", 
+        "Sajian sate yang sangat populer di tanah Jawa. Sate berbahan potongan daging kambing yang dibakar ini biasanya tidak memakai saus kacang, melainkan disajikan dengan kecap manis yang dicampur irisan cabai rawit, bawang merah, dan tomat segar."
+      ],
       "bahan": [
         "500 gr daging kambing",
         "Tusukan sate secukupnya",
@@ -781,6 +825,10 @@
     },
     {
       "nama": "Sate Padang",
+      "desc": [
+        "Sate Padang", 
+        "Hidangan sate khas dari Minangkabau (Sumatera Barat). Menggunakan daging sapi atau jeroan yang direbus dengan bumbu terlebih dahulu sebelum dibakar. Disajikan dengan kuah kental berwarna kuning atau kemerahan yang sangat pedas dan kaya rempah."
+      ],
       "bahan": [
         "300 gram daging sapi (direkomendasikan bagian sandung lamur atau brisket)",
         "200 gram lidah sapi",
@@ -822,6 +870,10 @@
     },
     {
       "nama": "Sate Lilit",
+      "desc":[
+        "Sate Lilit", 
+        "Sate beraroma khas yang berasal dari Pulau Dewata, Bali. Terbuat dari daging cincang (bisa ayam, ikan, atau babi) yang dicampur kelapa parut dan bumbu rempah basa genep, lalu dililitkan mengepal pada batang serai atau tusukan bambu pipih sebelum dibakar."
+      ],
       "bahan": [
         "500 g daging ayam fillet (atau ikan tenggiri/udang, sesuai selera)",
         "100 g kelapa parut muda (sangrai sebentar untuk wangi)",
@@ -862,6 +914,10 @@
     },
     {
       "nama": "Ayam ungkep",
+      "desc":[
+        "Ayam Ungkep", 
+        "Teknik memasak lauk khas Nusantara yang diterapkan di berbagai daerah. Berupa potongan daging ayam yang dibumbui rempah halus (seperti kunyit, ketumbar, jahe, dan bawang putih) lalu direbus perlahan dengan sedikit air hingga airnya menyusut dan bumbu meresap sempurna sebelum akhirnya digoreng."
+      ],
       "bahan": [
         "1 kg ayam",
         "Minyak goreng (secukupnya)",
@@ -890,6 +946,10 @@
     },
     {
       "nama": "Ayam Bakar",
+      "desc": [
+        "Ayam Bakar", 
+        "Makanan panggang andalan Nusantara. Berupa potongan daging ayam yang terlebih dahulu diungkep dengan bumbu agar meresap, kemudian dibakar di atas bara arang sambil terus diolesi bumbu kecap manis atau bumbu rempah lainnya hingga berkaramel."
+      ],
       "bahan": [
         "800 g (1 ekor) ayam utuh pejantan, potong jadi 4 bagian",
         "4 lembar daun salam",
@@ -922,6 +982,10 @@
     },
     {
       "nama": "Ayam Taliwang",
+      "desc": [
+        "Ayam Taliwang", 
+        "Kuliner pedas gurih yang asalnya dari Lombok (Nusa Tenggara Barat). Menggunakan ayam kampung muda yang dibakar dengan bumbu pedas manis berbahan dasar cabai merah, bawang, tomat, dan terasi khas Lombok yang aromatik."
+      ],
       "bahan": [
         "1 ekor Ayam Kampung, belah menjadi dua namun tidak sampai putus.",
         "2 buah Jeruk Nipis",
@@ -953,6 +1017,10 @@
     },
     {
       "nama": "Sate Taichan",
+      "desc":[
+        "Sate Taichan", 
+        "Inovasi sate modern yang asalnya dari daerah Senayan, Jakarta. Berupa sate ayam yang dibakar polos tanpa bumbu kacang atau kecap sehingga warnanya putih pucat, lalu disajikan hanya dengan perasan jeruk nipis dan sambal rawit yang sangat pedas."
+      ],
       "bahan": [
         "600g fillet dada ayam, potong kotak 1,5 cm",
         "6 siung bawang putih, cincang halus",
@@ -978,6 +1046,10 @@
     },
     {
       "nama": "Opor Ayam",
+      "desc":[
+        "Opor Ayam", 
+        "Sajian wajib saat Lebaran yang berasal dari daerah Jawa Tengah. Berupa potongan ayam rebus yang dimasak dalam kuah santan kental berwarna putih atau kuning muda, dibumbui dengan rempah seperti serai, kencur, ketumbar, dan bawang."
+      ],
       "bahan": [
         "1 ekor (700 g) ayam kampung, potong 12 bagian, rebus hingga setengah matang",
         "4 lembar daun salam",
@@ -1010,6 +1082,10 @@
     },
     {
       "nama": "Soto Betawi",
+      "desc":[
+        "Soto Betawi", 
+        "Makanan khas masyarakat Betawi (Jakarta). Merupakan sup daging dan jeroan sapi dengan kuah putih susu yang sangat gurih, terbuat dari campuran santan kelapa dan susu sapi segar, ditambah minyak samin untuk menambah aroma."
+      ],
       "bahan": [
         "1 kg daging sapi rebus",
         "5 lembar daun salam",
@@ -1042,6 +1118,10 @@
     },
     {
       "nama": "Soto Ayam",
+      "desc":[
+        "Soto Ayam", 
+        "Sup kuah kuning populer yang dapat ditemukan di seluruh Nusantara. Berupa sup kaldu ayam kaldu kuning (warna dari kunyit), disajikan dengan isian suwiran ayam, mi soun, irisan telur rebus, tauge, dan siraman perasan jeruk nipis."
+      ],
       "bahan": [
         "1 ekor ayam kampung, belah 2 bagian",
         "2 L untuk merebus",
@@ -1088,6 +1168,10 @@
     },
     {
       "nama": "Soto Lamongan",
+      "desc":[
+        "Soto Lamongan", 
+        "Varian soto ayam kaldu kuning yang asalnya dari Lamongan (Jawa Timur). Ciri khas utamanya yang membedakan dari soto lain adalah taburan bubuk koya gurih (terbuat dari campuran kerupuk udang dan bawang putih goreng yang dihaluskan)."
+      ],
       "bahan": [
         "8 porsi",
         "1 ekor ayam petelor / ayam Kampung",
@@ -1143,6 +1227,10 @@
     },
     {
       "nama": "Mie Ayam",
+      "desc":[
+        "Mie Ayam", 
+        "Jajanan kaki lima Nusantara yang dipengaruhi oleh budaya Tionghoa-Indonesia. Berupa mie gandum rebus yang disajikan dengan taburan potongan daging ayam rebus berbumbu kecap manis, sayur sawi hijau, dan disiram dengan kuah kaldu terpisah."
+      ],
       "bahan": [
         "Dada ayam fillet, potong dadu kecil",
         "Air bersih secukupnya",
@@ -1194,6 +1282,10 @@
     },
     {
       "nama": "Gurame Bakar",
+      "desc":[
+        "Gurami Bakar", 
+        "Hidangan ikan bakar populer khas Nusantara. Menggunakan ikan air tawar (gurami) utuh yang dibersihkan, diolesi bumbu perpaduan kecap manis, ketumbar, dan bawang, lalu dibakar di atas pemanggang hingga matang dan harum."
+      ],
       "bahan": [
         "800 g (2 ekor) ikan gurame, bersihkan, kerat kedua sisi",
         "2 sdt air perasan jeruk nipis",
@@ -1233,6 +1325,10 @@
     },
     {
       "nama": "Sop Ayam",
+      "desc":[
+        "Sop Ayam", 
+        "Masakan rumahan Nusantara yang sangat menghangatkan. Berupa sup kuah kaldu bening sederhana yang berisi kaldu ayam pekat, potongan daging ayam, sayuran seperti wortel, kentang, buncis, dan ditaburi daun seledri serta bawang goreng."
+      ],
       "bahan": [
         "½ ekor ayam, potong 4 bagian.",
         "4 siung bawang putih.",
@@ -1258,6 +1354,10 @@
     },
     {
       "nama": "Sop Iga",
+      "desc":[
+        "Sop Iga", 
+        "Sup mewah ala Nusantara yang digemari banyak orang. Berupa sup berkuah kaldu sapi bening yang dimasak lama, berisi potongan iga sapi berdaging empuk, dilengkapi sayuran seperti wortel, tomat, kentang, dan taburan daun bawang."
+      ],
       "bahan": [
         "750 gr iga sapi",
         "2 jempol jahe",
@@ -1295,6 +1395,10 @@
     },
     {
       "nama": "Gurame Goreng",
+      "desc":[
+        "Gurami Goreng", 
+        "Sajian ikan goreng renyah ala Nusantara. Menggunakan ikan gurami utuh yang dikerat-kerat badannya, dibumbui ketumbar, kunyit, dan garam, kemudian digoreng kering dalam minyak banyak panas (deep-fried) hingga tekstur luarnya krispi."
+      ],
       "bahan": [
         "150 gram ikan gurame potong 2 X 5 cm",
         "1 bungkus Royco Bumbu Komplit Ikan Goreng",
@@ -1315,6 +1419,10 @@
     },
     {
       "nama": "Udang Mentega",
+      "desc":[
+        "Udang Mentega", 
+        "Olahan boga bahari Nusantara yang mendapat pengaruh kuat masakan Tionghoa-Indonesia. Udang segar ditumis cepat dengan margarin atau mentega, kecap manis, saus kecap inggris, dan irisan bawang bombay, menghasilkan rasa gurih manis yang khas."
+      ],
       "bahan": [
         "500g udang, kupas dan buang kepala dan ekor",
         "6 siung bawang putih, cincang halus",
@@ -1348,6 +1456,10 @@
     },
     {
       "nama": "Gurami Asam Manis",
+      "desc":[
+        "Gurami Asam Manis", 
+        "Sajian perjamuan Nusantara dengan pengaruh Tionghoa-Indonesia. Berupa fillet ikan gurami yang digoreng balut tepung krispi, kemudian disiram dengan saus kental manis dan sedikit asam yang terbuat dari campuran saus tomat, nanas segar, dan kacang polong."
+      ],
       "bahan": [
         "1 ekor Ikan Gurame",
         "½ sdt Garam",
@@ -1385,6 +1497,10 @@
     },
     {
       "nama": "Cumi Saus Padang",
+      "desc":[
+        "Cumi Saus Padang", 
+        "Menu seafood populer Nusantara yang merupakan hasil adaptasi bumbu Minang dan gaya memasak Seafood khas Jakarta. Potongan cumi-cumi ditumis dengan saus kental perpaduan dari saus sambal, saus tiram, cabai, dan bumbu rempah yang rasanya pedas, asam, dan gurih."
+      ],
       "bahan": [
         "250 gr cumi",
         "250 gr udang",
@@ -1417,6 +1533,10 @@
     },
     {
       "nama": "Udang Saus Padang",
+      "desc":[
+        "Udang Saus Padang", 
+        "Masih merupakan adaptasi bumbu Minang dan Seafood khas Nusantara. Sama halnya dengan cumi, hidangan ini menggunakan udang segar kualitas baik yang dimasak meresap dalam saus pedas merah yang kental dan menggugah selera."
+      ],
       "bahan": [
         "350 gr udang",
         "2 buah jagung manis, sudah dimasak",
@@ -1462,6 +1582,10 @@
     },
     {
       "nama": "Martabak Manis",
+      "desc":[
+        "Martabak Manis", 
+        "Jajanan malam legendaris yang asalnya dari Bangka Belitung (di sana awalnya bernama Hok Lo Pan). Adalah kue dadar tebal dan bersarang yang dipanggang di wajan besi tebal, kemudian diolesi mentega melimpah dan diisi dengan topping cokelat, keju, kacang, serta kucuran susu kental manis."
+      ],
       "Adonan": [
         "20 gr mentega",
         "2 gelas air mineral",
@@ -1494,6 +1618,10 @@
     },
     {
       "nama": "Seblak",
+      "desc":[
+        "Seblak", 
+        "Jajanan pedas kekinian yang asalnya dari Bandung (Jawa Barat). Makanan berkuah pedas gurih ini berbahan dasar kerupuk mentah yang direbus hingga teksturnya kenyal, dimasak dengan bumbu kencur (cikur) yang kuat, cabai, telur, dan aneka isian tambahan seperti sosis, bakso, atau ceker."
+      ],
       "bumbu_halus": [
         "6 siung bawang putih",
         "2 ruas kencur",
@@ -1525,6 +1653,10 @@
     },
     {
       "nama": "Cah Kangkung",
+      "desc":[
+        "Cah Kangkung", 
+        "Sayuran tumis andalan Nusantara yang dipengaruhi teknik masak Tionghoa. Terdiri dari sayur kangkung segar yang ditumis sangat cepat dengan api besar menggunakan bumbu dasar bawang putih, terasi wangi, saus tiram, dan irisan cabai merah."
+      ],
       "bahan": [
         "1 ikat sayur kangkung",
         "3 siung bawang putih yang diiris tipis",
@@ -1553,6 +1685,10 @@
     },
     {
       "nama": "Martabak Telur",
+      "desc":[
+        "Martabak Telur", 
+        "Camilan gurih Nusantara yang berakar dari pengaruh kuliner India dan Timur Tengah. Terdiri dari adonan tepung tipis lentur yang dilebarkan, diisi dengan campuran kocokan telur (bebek atau ayam), irisan daun bawang, dan daging cincang berbumbu, lalu digoreng lipat di wajan datar hingga renyah."
+      ],
       "kulit": [
         "100 gram tepung terigu",
         "½ sendok teh garam",
@@ -1593,6 +1729,10 @@
     },
     {
       "nama": "Ketoprak",
+      "desc":[
+        "Ketoprak", 
+        "Makanan tradisional yang sangat mudah ditemui di Jakarta (khas Betawi). Merupakan sajian berisi potongan tahu goreng, bihun, mentimun segar, tauge rebus, dan ketupat, yang disiram limpah dengan saus kacang tanah ulek bumbu bawang putih, lalu disajikan bersama kerupuk renyah."
+      ],
       "bahan": [
         "200 gram tahu goreng",
         "100 gram toge, rebus sebentar",
@@ -1624,6 +1764,10 @@
     },
     {
       "nama": "Kwetiau Goreng",
+      "desc":[
+        "Kwetiau Goreng", 
+        "Makanan Nusantara hasil adapatasi budaya Tionghoa (khususnya daerah Fujian/Chaozhou). Terbuat dari mie pipih dan lebar berbahan tepung beras. Diolah dan disajikan dengan cara digoreng cepat (kwetiau goreng) bersama kecap, sayuran, bakso/telur, atau bisa juga disiram kuah kental gurih (kwetiau siram)."
+      ],
       "bahan": [
         "200 gram kwetiau basah",
         "2 sdm Sasa Sambal Terasi",
@@ -1654,6 +1798,10 @@
     },
     {
       "nama": "Batagor",
+      "desc":[
+        "Batagor", 
+        "Jajanan khas dari Bandung (Jawa Barat) yang namanya merupakan singkatan dari 'Bakso Tahu Goreng'. Terbuat dari adonan ikan tenggiri dan tepung tapioka yang dimasukkan ke dalam tahu atau dibungkus kulit pangsit, digoreng renyah, lalu dipotong-potong dan disiram saus bumbu kacang manis pedas."
+      ],
       "bahan": [
         "300 g daging ikan tenggiri filet, haluskan",
         "60 g tepung tapioka",
@@ -1693,6 +1841,10 @@
     },
     {
       "nama": "Bubur Ayam",
+      "desc":[
+        "Bubur Ayam", 
+        "Sarapan favorit masyarakat Nusantara yang terinspirasi dari kuliner Tionghoa. Berupa bubur beras putih bertekstur lembut yang disajikan mangkuk dengan aneka pelengkap seperti suwiran ayam kuning, kacang kedelai goreng, irisan cakwe, kerupuk, daun bawang, serta siraman kecap manis dan kuah kaldu berbumbu kuning."
+      ],
       "bahan": [
         "300g beras",
         "1.5 l air",

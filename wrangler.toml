@@ -6,5 +6,5 @@ pages_build_output_dir = ".vercel/output/static"
 
 [[d1_databases]]
 binding = "DB"
-database_name = "config"
-database_id = ""
+database_name = "std"
+database_id = "4e53615f-4d03-4000-b0d3-5be3d0208733"

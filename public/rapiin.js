@@ -1,10 +1,10 @@
-// normalizer.js - Normalisasi Resep JSON ke Struktur Baru
+// normalizer.js - Normalisasi Resep JSON ke Struktur Baru (Flat)
 // Copy-paste JSON data Anda ke variabel 'rawData'
 
 const rawData = {
   // PASTE SELURUH JSON RESEP ANDA DISINI
-    
 };
+
 function normalizeKey(key) {
   return key
     .trim()
@@ -13,87 +13,93 @@ function normalizeKey(key) {
     .replace(/-+/g, '_');
 }
 
+// Helper: push items ke array flat dengan field tambahan
+function pushFlat(targetArray, value, extraFields = {}) {
+  const items = Array.isArray(value) ? value : [value];
+  items.forEach(item => {
+    if (item) targetArray.push({ nama: item, ...extraFields });
+  });
+}
+
 function normalizeResep(rawResep) {
   const normalized = {
     nama: rawResep.nama || '',
-    deskripsi: Array.isArray(rawResep.desc)
-      ? rawResep.desc.join(' ')
-      : (rawResep.desc || ''),
 
-    bahan: { utama: [], pelengkap: [], tepung: [], minyak: [] },
-    bumbu: { umum: [], halus: [], marinasi: [], oles: [] },
-    sambal: {
-      pecel: [], taichan: [], ayam_geprek: [], terasi: [],
-      kecap: [], balado: [], umum: [], saus: []
-    },
-    komponen: {
-      kulit: [], isian: [], lauk_pendamping: [], topping: [], kuah: []
-    },
+    // Fix bug: JSON pakai 'deskripsi', bukan 'desc'
+    deskripsi: Array.isArray(rawResep.deskripsi)
+      ? rawResep.deskripsi.join(' ')
+      : (rawResep.deskripsi || rawResep.desc || ''),
 
-    lalapan: [],
-    cara_membuat: [],
-    langkah_langkah: [],
-    tips: []
+    // Format flat — tidak ada sub-key kosong
+    bahan:     [],   // { nama, jumlah, kategori }  ← jumlah dipisah nanti jika perlu
+    bumbu:     [],   // { nama, jenis }
+    sambal:    [],   // { nama, jenis }
+    komponen:  [],   // { nama, jenis }
+    lalapan:   [],
+    langkah:   [],   // { no, instruksi }  ← gabungan cara_membuat + langkah_langkah
+    tips:      [],
   };
 
+  // ─── Rules: key JSON → { section, sub/jenis }
   const rulesRaw = {
-    // ─── Bahan ───────────────────────────────────────────────
-    bahan:                        'bahan.utama',
-    bahan_utama:                  'bahan.utama',
-    bahan_pelengkap:              'bahan.pelengkap',
-    bahan_tepung_goreng_ayam:     'bahan.tepung',
-    pelengkap:                    'bahan.pelengkap',
-    tambahan:                     'bahan.pelengkap',
-    minyak_ayam:                  'bahan.minyak',
+    // ── Bahan ──────────────────────────────────────────
+    bahan:                           { s: 'bahan',    j: 'utama' },
+    bahan_utama:                     { s: 'bahan',    j: 'utama' },
+    bahan_pelengkap:                 { s: 'bahan',    j: 'pelengkap' },
+    bahan_tepung_goreng_ayam:        { s: 'bahan',    j: 'tepung' },
+    pelengkap:                       { s: 'bahan',    j: 'pelengkap' },
+    tambahan:                        { s: 'bahan',    j: 'pelengkap' },
+    minyak_ayam:                     { s: 'bahan',    j: 'minyak' },
 
-    // ─── Bumbu ───────────────────────────────────────────────
-    bumbu:                        'bumbu.umum',
-    bumbu_halus:                  'bumbu.halus',
-    bumbuhalus:                   'bumbu.halus',
-    bahan_halus:                  'bumbu.halus',   // Recipe 16
-    bumbu_ulek:                   'bumbu.halus',   // Recipe 20
-    bumbu_marinasi:               'bumbu.marinasi',
-    bumbu_oles:                   'bumbu.oles',
+    // ── Bumbu ──────────────────────────────────────────
+    bumbu:                           { s: 'bumbu',    j: 'umum' },
+    bumbu_halus:                     { s: 'bumbu',    j: 'halus' },
+    bumbuhalus:                      { s: 'bumbu',    j: 'halus' },
+    bahan_halus:                     { s: 'bumbu',    j: 'halus' },
+    bumbu_ulek:                      { s: 'bumbu',    j: 'halus' },
+    bumbu_marinasi:                  { s: 'bumbu',    j: 'marinasi' },
+    bumbu_oles:                      { s: 'bumbu',    j: 'oles' },
 
-    // ─── Sambal ──────────────────────────────────────────────
-    bahan_sambal_ayam_geprek:     'sambal.ayam_geprek',
-    bahan_sambal_terasi:          'sambal.terasi',
-    sambal_kacang:                'sambal.pecel',
-    bahan_sambal_pecel:           'sambal.pecel',
-    bumbu_kacang:                 'sambal.pecel',  // Recipe 22
-    sambel_kacang:                'sambal.pecel',  // Recipe 47
-    bumbukacang:                  'sambal.pecel',  // Recipe 49
-    sambal_taichan:               'sambal.taichan',
-    sambal_kecap:                 'sambal.kecap',  // Recipe 35
-    sambal:                       'sambal.umum',   // Recipe 33
-    bahan_sambal_balado:          'sambal.balado', // Recipe 17
-    saus:                         'sambal.saus',   // Recipe 42
+    // ── Sambal ─────────────────────────────────────────
+    bahan_sambal_ayam_geprek:        { s: 'sambal',   j: 'ayam_geprek' },
+    bahan_sambal_terasi:             { s: 'sambal',   j: 'terasi' },
+    sambal_kacang:                   { s: 'sambal',   j: 'pecel' },
+    bahan_sambal_pecel:              { s: 'sambal',   j: 'pecel' },
+    bumbu_kacang:                    { s: 'sambal',   j: 'pecel' },
+    sambel_kacang:                   { s: 'sambal',   j: 'pecel' },
+    bumbukacang:                     { s: 'sambal',   j: 'pecel' },
+    sambal_taichan:                  { s: 'sambal',   j: 'taichan' },
+    sambal_kecap:                    { s: 'sambal',   j: 'kecap' },
+    sambal:                          { s: 'sambal',   j: 'umum' },
+    bahan_sambal_balado:             { s: 'sambal',   j: 'balado' },
+    saus:                            { s: 'sambal',   j: 'saus' },
+    bumbu_asam_manis:                { s: 'sambal',   j: 'saus' },
 
-    // ─── Komponen ────────────────────────────────────────────
-    kulit:                        'komponen.kulit',
-    isian:                        'komponen.isian',
-    isi:                          'komponen.isian',
-    adonan:                       'komponen.isian',
-    topping_dan_olesa:            'komponen.topping',
-    lauk_pendamping:              'komponen.lauk_pendamping', // Recipe 3
-    kuah:                         'komponen.kuah',            // Recipe 50
+    // ── Komponen ───────────────────────────────────────
+    kulit:                           { s: 'komponen', j: 'kulit' },
+    isian:                           { s: 'komponen', j: 'isian' },
+    isi:                             { s: 'komponen', j: 'isian' },
+    adonan:                          { s: 'komponen', j: 'isian' },
+    topping_dan_olesa:               { s: 'komponen', j: 'topping' },
+    lauk_pendamping:                 { s: 'komponen', j: 'lauk_pendamping' },
+    kuah:                            { s: 'komponen', j: 'kuah' },
 
-    // ─── Lalapan ─────────────────────────────────────────────
-    lalapan_daun_singkong:        'lalapan',       // Recipe 15
+    // ── Lalapan ────────────────────────────────────────
+    lalapan:                         { s: 'lalapan' },
+    lalapan_daun_singkong:           { s: 'lalapan' },
 
-    // ─── Cara Membuat ────────────────────────────────────────
-    cara_membuat:                 'cara_membuat',
-    cara_memasak:                 'cara_membuat',
-    cara_mengolah:                'cara_membuat',  // Recipe 20
-    cara_membuat_ayam_geprek:     'cara_membuat',  // Recipe 11
-    cara_membuat_sambal_ayam_geprek: 'cara_membuat',
-    cara_membuat_lalapan:         'cara_membuat',  // Recipe 15
-    cara_membuat_ayam_pop:        'cara_membuat',
+    // ── Langkah (gabungan cara_membuat + langkah_langkah) ──
+    cara_membuat:                    { s: 'langkah' },
+    cara_memasak:                    { s: 'langkah' },
+    cara_mengolah:                   { s: 'langkah' },
+    cara_membuat_ayam_geprek:        { s: 'langkah' },
+    cara_membuat_sambal_ayam_geprek: { s: 'langkah' },
+    cara_membuat_lalapan:            { s: 'langkah' },
+    cara_membuat_ayam_pop:           { s: 'langkah' },
+    langkah_langkah:                 { s: 'langkah' },
 
-    // ─── Langkah & Tips ──────────────────────────────────────
-    langkah_langkah:              'langkah_langkah',
-    tips:                         'tips',           // Recipe 25
-    bumbu_asam_manis:             'sambal.saus',   // Recipe 40 — saus asam manis
+    // ── Tips ───────────────────────────────────────────
+    tips:                            { s: 'tips' },
   };
 
   const rules = Object.fromEntries(
@@ -107,22 +113,52 @@ function normalizeResep(rawResep) {
     const value = rawResep[rawKey];
     const rule = rules[key];
 
-    if (rule && value !== undefined) {
-      if (rule.includes('.')) {
-        const [section, sub] = rule.split('.');
-        const target = normalized?.[section]?.[sub];
-        if (Array.isArray(target)) {
-          Array.isArray(value) ? target.push(...value) : target.push(value);
-        }
-      } else {
-        const target = normalized[rule];
-        if (Array.isArray(target)) {
-          Array.isArray(value) ? target.push(...value) : target.push(value);
-        }
+    if (!rule) {
+      if (!['nama', 'deskripsi', 'desc'].includes(key) && value !== undefined) {
+        unknownKeys[key] = value;
       }
-    } else if (!['nama', 'desc'].includes(key) && value !== undefined) {
-      unknownKeys[key] = value;
+      return;
     }
+
+    const { s: section, j: jenis } = rule;
+
+    if (section === 'bahan') {
+      pushFlat(normalized.bahan, value, { kategori: jenis });
+
+    } else if (section === 'bumbu') {
+      pushFlat(normalized.bumbu, value, { jenis });
+
+    } else if (section === 'sambal') {
+      pushFlat(normalized.sambal, value, { jenis });
+
+    } else if (section === 'komponen') {
+      pushFlat(normalized.komponen, value, { jenis });
+
+    } else if (section === 'lalapan') {
+      const items = Array.isArray(value) ? value : [value];
+      items.forEach(i => { if (i) normalized.lalapan.push(i); });
+
+    } else if (section === 'langkah') {
+      // Gabungkan semua cara_membuat & langkah_langkah, beri nomor urut
+      const items = Array.isArray(value) ? value : [value];
+      items.forEach(instruksi => {
+        if (instruksi) {
+          normalized.langkah.push({
+            no: normalized.langkah.length + 1,
+            instruksi,
+          });
+        }
+      });
+
+    } else if (section === 'tips') {
+      const items = Array.isArray(value) ? value : [value];
+      items.forEach(t => { if (t) normalized.tips.push(t); });
+    }
+  });
+
+  // Hapus array kosong agar JSON lebih bersih
+  ['bahan', 'bumbu', 'sambal', 'komponen', 'lalapan', 'tips'].forEach(k => {
+    if (normalized[k].length === 0) delete normalized[k];
   });
 
   if (Object.keys(unknownKeys).length > 0) {
@@ -145,12 +181,11 @@ const result = {
 
 console.log(`✅ Selesai! ${result.resep.length} resep`);
 
-// Log sisa unmapped (harusnya kosong)
 let adaUnmapped = false;
 result.resep.forEach((r, i) => {
   if (r._unmapped) {
     adaUnmapped = true;
-    console.log(`\n📌 Recipe ${i + 1} unmapped:`);
+    console.log(`\n📌 Recipe ${i + 1} (${r.nama}) — unmapped keys:`);
     console.log(JSON.stringify(r._unmapped, null, 2));
   }
 });

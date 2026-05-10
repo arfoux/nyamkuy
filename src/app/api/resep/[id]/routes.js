@@ -1,9 +1,12 @@
 // /api/resep/[id]/route.js
 // GET /api/resep/1 → detail resep + bahan, bumbu, sambal, komponen, lalapan, langkah, tips
 
+import { getRequestContext } from "@cloudflare/next-on-pages"
+
 export const runtime = "edge"
 
-export async function GET(request, { params, env }) {
+export async function GET(request, { params }) {
+  const { env } = getRequestContext()
   const db = env.DB
   const id = parseInt(params.id)
 
@@ -12,6 +15,7 @@ export async function GET(request, { params, env }) {
   }
 
   try {
+    // Ambil semua data sekaligus pakai batch — lebih efisien dari query satu-satu
     const [
       resepResult,
       bahanResult,

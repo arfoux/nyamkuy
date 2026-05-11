@@ -4,8 +4,6 @@
 
 import { getRequestContext } from "@cloudflare/next-on-pages"
 
-export const runtime = "edge"
-
 export async function GET(request) {
   const { env } = getRequestContext()
   const db = env.DB

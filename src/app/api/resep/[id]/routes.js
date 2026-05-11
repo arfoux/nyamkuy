@@ -1,10 +1,9 @@
 // /api/resep/[id]/route.js
 // GET /api/resep/1 → detail resep + bahan, bumbu, sambal, komponen, lalapan, langkah, tips
 
-import { getRequestContext } from "@cloudflare/next-on-pages"
+export const runtime = "edge"
 
-export async function GET(request, { params }) {
-  const { env } = getRequestContext()
+export async function GET(request, { params, env }) {
   const db = env.DB
   const id = parseInt(params.id)
 

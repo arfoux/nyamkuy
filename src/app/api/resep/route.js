@@ -2,10 +2,9 @@
 // GET /api/resep          → semua resep (tanpa detail child)
 // GET /api/resep?page=2   → pagination, 20 per halaman
 
-import { getRequestContext } from "@cloudflare/next-on-pages"
+export const runtime = "edge"
 
-export async function GET(request) {
-  const { env } = getRequestContext()
+export async function GET(request, { env }) {
   const db = env.DB
 
   const { searchParams } = new URL(request.url)

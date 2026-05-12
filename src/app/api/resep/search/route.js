@@ -2,9 +2,12 @@
 // GET /api/resep/search?q=ayam        → cari resep by nama
 // GET /api/resep/search?q=ayam&page=2 → dengan pagination
 
+import { getRequestContext } from "@cloudflare/next-on-pages"
+
 export const runtime = "edge"
 
-export async function GET(request, { env }) {
+export async function GET(request) {
+  const { env } = getRequestContext()
   const db = env.DB
 
   const { searchParams } = new URL(request.url)

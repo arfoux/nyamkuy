@@ -13,23 +13,25 @@ export default function Page() {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
-  function handleCardClick(card) {
-    const params = new URLSearchParams({
-      nama: card.title,
-      deskripsi: card.description,
-    })
+// handleCardClick
+function handleCardClick(card) {
+  const params = new URLSearchParams({
+    id: card.id,           // ← tambah ini
+    nama: card.title,
+    deskripsi: card.description,
+  })
+  router.push(`/receipt?${params.toString()}`)
+}
 
-    router.push(`/receipt?${params.toString()}`)
-  }
-
-  function openRecipe(item) {
-    const params = new URLSearchParams({
-      nama: item.nama || item.title,
-      deskripsi: item.deskripsi || item.description || "",
-    })
-
-    router.push(`/receipt?${params.toString()}`)
-  }
+// openRecipe
+function openRecipe(item) {
+  const params = new URLSearchParams({
+    id: item.id,           // ← tambah ini
+    nama: item.nama || item.title,
+    deskripsi: item.deskripsi || item.description || "",
+  })
+  router.push(`/receipt?${params.toString()}`)
+}
 
   useEffect(() => {
     const keyword = search.trim()

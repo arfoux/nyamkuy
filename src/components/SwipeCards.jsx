@@ -19,11 +19,11 @@ function mapRecipeToCard(recipe) {
   preload.src = imageUrl
 
   return {
-    id: `${recipe.id}-${Math.random()}`,
-    title: recipe.nama,
-    description: recipe.deskripsi,
-    image: imageUrl,
-  }
+  id: recipe.id,          // ← pakai ID asli, bukan yang dicampur Math.random()
+  title: recipe.nama,
+  description: recipe.deskripsi,
+  image: imageUrl,
+}
 }
 
 function SwipeCard({ card, isTop, onSwipe, onCardClick }) {

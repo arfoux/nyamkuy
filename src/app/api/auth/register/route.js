@@ -39,7 +39,7 @@ export async function POST(req) {
 }
 
 async function sendVerificationEmail(to, token) {
-  const link = `${process.env.NEXT_PUBLIC_APP_URL}/auth/verify?token=${token}`;
+  const link = `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/verify?token=${token}`;
 
   await fetch("https://api.resend.com/emails", {
     method: "POST",

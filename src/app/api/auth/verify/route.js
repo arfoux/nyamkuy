@@ -1,15 +1,18 @@
 import { NextResponse } from "next/server";
-import { getDB, UserQuery } from "@/lib/db";
+import { getRequestContext } from "@cloudflare/next-on-pages";
+import { UserQuery } from "@/lib/db";
 
 export const runtime = "edge";
 
-export async function GET() {
+export async function GET(req) {  // ← tambah req
   const token = req.nextUrl.searchParams.get("token");
 
   if (!token)
     return NextResponse.json({ error: "Token tidak valid" }, { status: 400 });
 
-  const db   = getDB();
+  const { env } = getRequestContext();
+  const db = env.DB;
+
   const user = await UserQuery.byVerifyToken(db, token);
 
   if (!user)

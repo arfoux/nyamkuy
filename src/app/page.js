@@ -1,7 +1,7 @@
 "use client"
 
 import SwipeCards from "@/components/SwipeCards"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 
@@ -9,6 +9,8 @@ export default function Page() {
   const [bg, setBg] = useState(null)
   const [oldBg, setOldBg] = useState(null)
   const [search, setSearch] = useState("")
+  const [results, setResults] = useState([])
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
   function handleCardClick(card) {
@@ -20,20 +22,49 @@ export default function Page() {
     router.push(`/receipt?${params.toString()}`)
   }
 
-  async function handleSearch() {
-    if (!search.trim()) return
+  function openRecipe(item) {
+    const params = new URLSearchParams({
+      nama: item.nama || item.title,
+      deskripsi: item.deskripsi || item.description || "",
+    })
 
-    try {
-      const res = await fetch(
-        `/api/resep/search?q=${encodeURIComponent(search)}`
-      )
-
-      const data = await res.json()
-      console.log(data)
-    } catch (err) {
-      console.error(err)
-    }
+    router.push(`/receipt?${params.toString()}`)
   }
+
+  useEffect(() => {
+    const keyword = search.trim()
+
+    if (!keyword) {
+      setResults([])
+      setLoading(false)
+      return
+    }
+
+    const delay = setTimeout(async () => {
+      try {
+        setLoading(true)
+
+        const res = await fetch(
+          `/api/resep/search?q=${encodeURIComponent(keyword)}`
+        )
+
+        const data = await res.json()
+
+        const list = Array.isArray(data)
+          ? data
+          : data.data || data.results || data.resep || []
+
+        setResults(list)
+      } catch (err) {
+        console.error(err)
+        setResults([])
+      } finally {
+        setLoading(false)
+      }
+    }, 350)
+
+    return () => clearTimeout(delay)
+  }, [search])
 
   return (
     <main className="relative flex items-center justify-center min-h-screen overflow-hidden">
@@ -95,41 +126,87 @@ export default function Page() {
           onCardClick={handleCardClick}
         />
 
-        {/* SEARCH BOX DI BAWAH KOTAKAN */}
-        <div className="flex items-center gap-2 rounded-full bg-white/85 px-3 py-2 shadow-lg backdrop-blur">
-          <button
-            type="button"
-            onClick={handleSearch}
-            className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-black/10 transition"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="black"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.3-4.3" />
-            </svg>
-          </button>
+        {/* SEARCH */}
+        <div className="relative w-[340px]">
+          <div className="flex items-center gap-2 rounded-full bg-white/85 px-3 py-2 shadow-lg backdrop-blur">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="black"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
+            </div>
 
-          <input
-            type="text"
-            placeholder="Cari resep..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleSearch()
-              }
-            }}
-            className="w-64 bg-transparent outline-none text-black placeholder:text-black/50"
-          />
+            <input
+              type="text"
+              placeholder="Cari resep..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full bg-transparent outline-none text-black placeholder:text-black/50"
+            />
+          </div>
+
+          {/* DROPDOWN */}
+          {search.trim() && (
+            <div className="absolute left-0 right-0 top-[58px] z-30 max-h-80 overflow-y-auto rounded-2xl bg-white/95 shadow-xl backdrop-blur">
+              {loading && (
+                <div className="px-4 py-3 text-sm text-black/60">
+                  Mencari...
+                </div>
+              )}
+
+              {!loading && results.length === 0 && (
+                <div className="px-4 py-3 text-sm text-black/60">
+                  Resep tidak ditemukan
+                </div>
+              )}
+
+              {!loading &&
+                results.map((item, index) => {
+                  const nama = item.nama || item.title || "Tanpa nama"
+                  const deskripsi =
+                    item.deskripsi || item.description || "Tidak ada deskripsi"
+
+                  return (
+                    <button
+                      key={`${nama}-${index}`}
+                      type="button"
+                      onClick={() => openRecipe(item)}
+                      className="flex w-full items-center gap-3 px-3 py-3 text-left hover:bg-black/5 transition"
+                    >
+                      <img
+                        src={`/api/image/cropped?nama=${encodeURIComponent(
+                          nama
+                        )}`}
+                        alt={nama}
+                        className="h-14 w-14 shrink-0 rounded-xl object-cover bg-black/10"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none"
+                        }}
+                      />
+
+                      <div className="min-w-0">
+                        <div className="truncate font-semibold text-black">
+                          {nama}
+                        </div>
+                        <div className="line-clamp-2 text-sm text-black/60">
+                          {deskripsi}
+                        </div>
+                      </div>
+                    </button>
+                  )
+                })}
+            </div>
+          )}
         </div>
       </div>
     </main>

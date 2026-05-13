@@ -67,7 +67,7 @@ export default function Page() {
   }, [search])
 
   return (
-    <main className="relative flex items-center justify-center min-h-screen overflow-hidden">
+    <main className="relative flex h-[100dvh] items-center justify-center overflow-hidden touch-none">
       {/* BG BARU */}
       {bg && (
         <div
@@ -155,58 +155,91 @@ export default function Page() {
             />
           </div>
 
-          {/* DROPDOWN */}
-          {search.trim() && (
-            <div className="absolute left-0 right-0 top-[58px] z-30 max-h-80 overflow-y-auto rounded-2xl bg-white/95 shadow-xl backdrop-blur">
-              {loading && (
-                <div className="px-4 py-3 text-sm text-black/60">
-                  Mencari...
-                </div>
-              )}
+{/* DROPDOWN */}
+{search.trim() && (
+  <div
+    className="
+      absolute
+      left-0
+      right-0
+      bottom-[58px]
+      z-30
+      overflow-hidden
+      rounded-2xl
+      bg-white/95
+      shadow-2xl
+      backdrop-blur
+      animate-in
+      fade-in
+      slide-in-from-bottom-2
+      duration-200
+    "
+  >
+    {loading && (
+      <div className="px-4 py-3 text-sm text-black/60">
+        Mencari...
+      </div>
+    )}
 
-              {!loading && results.length === 0 && (
-                <div className="px-4 py-3 text-sm text-black/60">
-                  Resep tidak ditemukan
-                </div>
-              )}
+    {!loading && results.length === 0 && (
+      <div className="px-4 py-3 text-sm text-black/60">
+        Resep tidak ditemukan
+      </div>
+    )}
 
-              {!loading &&
-                results.map((item, index) => {
-                  const nama = item.nama || item.title || "Tanpa nama"
-                  const deskripsi =
-                    item.deskripsi || item.description || "Tidak ada deskripsi"
+    {!loading &&
+      results.map((item, index) => {
+        const nama = item.nama || item.title || "Tanpa nama"
+        const deskripsi =
+          item.deskripsi || item.description || "Tidak ada deskripsi"
 
-                  return (
-                    <button
-                      key={`${nama}-${index}`}
-                      type="button"
-                      onClick={() => openRecipe(item)}
-                      className="flex w-full items-center gap-3 px-3 py-3 text-left hover:bg-black/5 transition"
-                    >
-                      <img
-                        src={`/api/image/cropped?nama=${encodeURIComponent(
-                          nama
-                        )}`}
-                        alt={nama}
-                        className="h-14 w-14 shrink-0 rounded-xl object-cover bg-black/10"
-                        onError={(e) => {
-                          e.currentTarget.style.display = "none"
-                        }}
-                      />
+        return (
+          <button
+            key={`${nama}-${index}`}
+            type="button"
+            onClick={() => openRecipe(item)}
+            className="
+              flex
+              w-full
+              items-center
+              gap-3
+              px-3
+              py-3
+              text-left
+              hover:bg-black/5
+              transition
+            "
+          >
+            <img
+              src={`/api/image/cropped?nama=${encodeURIComponent(nama)}`}
+              alt={nama}
+              className="
+                h-14
+                w-14
+                shrink-0
+                rounded-xl
+                object-cover
+                bg-black/10
+              "
+              onError={(e) => {
+                e.currentTarget.style.display = "none"
+              }}
+            />
 
-                      <div className="min-w-0">
-                        <div className="truncate font-semibold text-black">
-                          {nama}
-                        </div>
-                        <div className="line-clamp-2 text-sm text-black/60">
-                          {deskripsi}
-                        </div>
-                      </div>
-                    </button>
-                  )
-                })}
+            <div className="min-w-0">
+              <div className="truncate font-semibold text-black">
+                {nama}
+              </div>
+
+              <div className="line-clamp-2 text-sm text-black/60">
+                {deskripsi}
+              </div>
             </div>
-          )}
+          </button>
+        )
+      })}
+  </div>
+)}
         </div>
       </div>
     </main>

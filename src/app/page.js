@@ -105,6 +105,23 @@ export default function Page() {
 
       {/* overlay */}
       <div className="absolute inset-0 bg-black/30 z-[3]" />
+      
+      <div 
+        className="absolute top-5 left-8 z-20 flex items-center gap-3 cursor-pointer transition-transform hover:scale-105"
+        onClick={() => router.push('/')}
+      >
+        <img 
+          src="/logo.png" 
+          alt="NyamKuy Logo" 
+          className="h-12 w-12 object-contain drop-shadow-lg" 
+          onError={(e) => {
+            e.currentTarget.style.display = "none" // Menyembunyikan gambar jika file logo.png belum ada
+          }}
+        />
+        <span className="text-3xl font-extrabold text-white drop-shadow-lg tracking-wide">
+          NyamKuy
+        </span>
+      </div>
 
       {/* kanan atas */}
       <div className="absolute top-5 right-5 z-20">

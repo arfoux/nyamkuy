@@ -1,112 +1,272 @@
 "use client"
 
-import React from 'react';
+import { useSearchParams, useRouter } from "next/navigation"
+import { useEffect, useState, Suspense } from "react"
+import { ArrowLeft } from "lucide-react"
 
+// ─── Fallback data jika tidak ada query params ───────────────────────────────
+const FALLBACK = {
+  nama: "Nasi Pecel",
+  deskripsi:
+    "Makanan tradisional Jawa berupa rebusan berbagai macam sayuran bayam, tauge, kacang panjang, kol, kenikir yang disiram dengan sambal kacang kental.",
+}
+
+// ─── Placeholder resep statis (akan diganti API jika tersedia) ────────────────
+const STATIC_RECIPE = {
+  bahan: [
+    "4 porsi nasi putih",
+    "100 g taoge, siangi",
+    "100 g bayam, siangi",
+    "200 g kangkung, siangi",
+    "200 g kacang panjang, potong 2 cm",
+    "100 g taoge pendek, seduh & tiriskan",
+    "2 buah mentimun, cincang",
+    "70 g daun kemangi",
+    "4 buah jeruk purut, belah 2",
+    "2 liter air untuk merebus",
+  ],
+  sambal: [
+    "250 ml air panas",
+    "250 g sambal pecel Madiun siap santap",
+    "1 sdm kecap manis",
+  ],
+  cara: [
+    "Lumatkan sambal pecel dengan air panas, tambahkan kecap manis, aduk rata, sisihkan.",
+    "Didihkan air, rebus sayuran secara terpisah: taoge, bayam, kangkung, dan kacang panjang. Tiriskan, sisihkan.",
+    "Siapkan nasi di atas piring saji. Alasi daun pisang jika suka.",
+    "Tuang sambal pecel di atasnya, beri perasan jeruk purut secukupnya. Sajikan selagi hangat.",
+  ],
+}
+
+// ─── Komponen utama ──────────────────────────────────────────────────────────
+function ReceiptContent() {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
+  const nama = searchParams.get("nama") || FALLBACK.nama
+  const deskripsi = searchParams.get("deskripsi") || FALLBACK.deskripsi
+
+  const bgUrl = `/api/image/base?nama=${encodeURIComponent(nama)}`
+  const croppedUrl = `/api/image/cropped?nama=${encodeURIComponent(nama)}`
+
+  // Track apakah gambar cropped berhasil dimuat
+  const [imgLoaded, setImgLoaded] = useState(false)
+  const [imgError, setImgError] = useState(false)
+
+  return (
+    <div className="min-h-screen relative flex flex-col items-center justify-center p-4 md:p-10 overflow-hidden font-sans">
+
+      {/* ── LAYER BACKGROUND ─────────────────────────────── */}
+      {/* Gambar asli dari API */}
+      <div
+        className="absolute inset-0 z-0 bg-cover bg-center"
+        style={{ backgroundImage: `url('${bgUrl}')` }}
+      />
+      {/* Blur + vignette warm-brown */}
+      <div className="absolute inset-0 z-0 backdrop-blur-3xl bg-[#6b4a36]/50" />
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,rgba(220,185,155,0.25)_0%,rgba(30,15,8,0.72)_100%)]" />
+
+      {/* ── TOMBOL KEMBALI ───────────────────────────────── */}
+      <button
+        onClick={() => router.back()}
+        className="absolute top-5 left-5 z-30 flex items-center gap-2 px-4 py-2 rounded-full
+          bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20
+          text-white text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95"
+      >
+        <ArrowLeft size={15} />
+        Kembali
+      </button>
+
+      {/* ── JUDUL ────────────────────────────────────────── */}
+      <h1
+        className="relative z-10 text-center font-black tracking-widest uppercase mb-8 drop-shadow-lg
+          text-4xl md:text-6xl lg:text-7xl"
+        style={{
+          color: "#f5e6d5",
+          textShadow: "0 4px 24px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.12)",
+          letterSpacing: "0.18em",
+        }}
+      >
+        {nama}
+      </h1>
+
+      {/* ── CARD UTAMA ───────────────────────────────────── */}
+      <div
+        className="relative z-10 w-full max-w-5xl rounded-3xl overflow-hidden shadow-2xl
+          flex flex-col md:flex-row"
+        style={{
+          background: "rgba(255,255,255,0.07)",
+          backdropFilter: "blur(28px) saturate(1.4)",
+          WebkitBackdropFilter: "blur(28px) saturate(1.4)",
+          border: "1px solid rgba(255,255,255,0.18)",
+          boxShadow: "0 24px 80px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
+        }}
+      >
+
+        {/* ── PANEL KIRI ──────────────────────────────────── */}
+        <div
+          className="w-full md:w-[38%] flex flex-col items-center justify-start py-10 px-6 md:px-8 gap-6 relative"
+          style={{
+            background: "rgba(40,20,10,0.45)",
+            backdropFilter: "blur(10px)",
+            borderRight: "1px solid rgba(255,255,255,0.08)",
+          }}
+        >
+          {/* Foto makanan */}
+          <div
+            className="relative flex items-center justify-center"
+            style={{ width: "100%", maxWidth: 260 }}
+          >
+            {/* Glow lembut di belakang gambar */}
+            <div
+              className="absolute inset-0 rounded-full blur-2xl opacity-40"
+              style={{ background: "radial-gradient(circle, #d4956a 0%, transparent 70%)" }}
+            />
+
+            <img
+              src={croppedUrl}
+              alt={nama}
+              onLoad={() => setImgLoaded(true)}
+              onError={() => setImgError(true)}
+              className="relative z-10 w-full object-contain"
+              style={{
+                maxHeight: 280,
+                // Outline mengikuti kontur asli gambar, bukan dipaksa lingkaran
+                filter: imgLoaded
+                  ? "drop-shadow(0 12px 32px rgba(0,0,0,0.55)) drop-shadow(0 0 8px rgba(220,160,100,0.35))"
+                  : "none",
+                opacity: imgLoaded ? 1 : 0,
+                transition: "opacity 0.5s ease",
+              }}
+            />
+
+            {/* Skeleton saat gambar belum muat */}
+            {!imgLoaded && !imgError && (
+              <div
+                className="absolute inset-0 rounded-2xl animate-pulse"
+                style={{ background: "rgba(255,255,255,0.08)" }}
+              />
+            )}
+          </div>
+
+          {/* Deskripsi */}
+          <p
+            className="text-center text-sm md:text-[14.5px] leading-relaxed"
+            style={{ color: "rgba(245,225,200,0.88)", maxWidth: 240 }}
+          >
+            <span className="font-semibold" style={{ color: "#f5e6d5" }}>{nama}</span>
+            {" — "}
+            {deskripsi}
+          </p>
+
+          {/* Label dekoratif */}
+          <div
+            className="px-4 py-1 rounded-full text-xs font-semibold tracking-widest uppercase"
+            style={{
+              background: "rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.15)",
+              color: "rgba(245,200,160,0.8)",
+              letterSpacing: "0.15em",
+            }}
+          >
+            Resep Tradisional
+          </div>
+        </div>
+
+        {/* ── PANEL KANAN ─────────────────────────────────── */}
+        <div className="w-full md:w-[62%] p-8 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+
+          {/* ── Bahan Utama ── */}
+          <div>
+            <SectionTitle>Bahan Utama</SectionTitle>
+            <IngredientList items={STATIC_RECIPE.bahan} />
+
+            <div className="mt-8">
+              <SectionTitle>Sambal Pecel</SectionTitle>
+              <IngredientList items={STATIC_RECIPE.sambal} />
+            </div>
+          </div>
+
+          {/* ── Cara Membuat ── */}
+          <div>
+            <SectionTitle>Cara Membuat</SectionTitle>
+            <ol className="space-y-5 mt-1">
+              {STATIC_RECIPE.cara.map((step, i) => (
+                <li key={i} className="flex gap-3">
+                  <span
+                    className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mt-0.5"
+                    style={{
+                      background: "rgba(220,160,100,0.22)",
+                      border: "1px solid rgba(220,160,100,0.4)",
+                      color: "#e8b882",
+                    }}
+                  >
+                    {i + 1}
+                  </span>
+                  <p
+                    className="text-sm leading-relaxed"
+                    style={{ color: "rgba(240,220,195,0.85)" }}
+                  >
+                    {step}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+        </div>
+      </div>
+
+      {/* Padding bawah */}
+      <div className="h-8" />
+    </div>
+  )
+}
+
+// ─── Sub-komponen ─────────────────────────────────────────────────────────────
+function SectionTitle({ children }) {
+  return (
+    <h2
+      className="text-sm font-bold uppercase tracking-[0.2em] mb-3 pb-2"
+      style={{
+        color: "#e8b882",
+        borderBottom: "1px solid rgba(220,160,100,0.25)",
+      }}
+    >
+      {children}
+    </h2>
+  )
+}
+
+function IngredientList({ items }) {
+  return (
+    <ul className="space-y-1.5">
+      {items.map((item, i) => (
+        <li
+          key={i}
+          className="flex items-start gap-2 text-sm"
+          style={{ color: "rgba(240,220,195,0.82)" }}
+        >
+          <span
+            className="mt-[6px] w-1.5 h-1.5 rounded-full flex-shrink-0"
+            style={{ background: "rgba(220,160,100,0.6)" }}
+          />
+          {item}
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+// ─── Export dengan Suspense (diperlukan untuk useSearchParams) ────────────────
 export default function RecipePage() {
   return (
-    <div className="min-h-screen relative flex flex-col items-center justify-center p-6 md:p-12 font-sans overflow-hidden">
-      
-      {/* ========================================= */}
-      {/* BACKGROUND GAMBAR PICSUM DENGAN EFEK BLUR */}
-      {/* ========================================= */}
-      {/* Latar Belakang Asli dari Picsum */}
-      <div 
-        className="absolute inset-0 z-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('https://picsum.photos/1920/1080?random=background')" }}
-      ></div>
-      
-      {/* Efek Frosted Glass & Vignette (Glow Cokelat/Krem) */}
-      <div className="absolute inset-0 z-0 backdrop-blur-3xl bg-[#7c5b46]/40"></div>
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(44,26,17,0.7)_100%)]"></div>
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,#dcc1b0_10%,#4a2d1d_100%)]"></div>
-
-      {/* ========================================= */}
-      {/* KONTEN UTAMA                              */}
-      {/* ========================================= */}
-      
-      {/* Judul Utama */}
-  <h1 className="text-6xl md:text-[6rem] font-black text-[#2e1d15] mb-12 z-10 tracking-widest drop-shadow-sm">
-    Nasi Pecel
-  </h1>
-
-      {/* Kontainer Utama Card */}
-      <div className="relative w-full max-w-6xl bg-[#5e4134] rounded-[2.5rem] shadow-2xl flex flex-col md:flex-row z-10">
-
-        {/* KOLOM KIRI (Gelap) */}
-        <div className="w-full md:w-[35%] bg-[#3b251d] rounded-[2.5rem] relative shadow-[15px_0_30px_rgba(0,0,0,0.35)] z-20 min-h-[600px] md:min-h-[650px] flex flex-col justify-start">
-          
-          {/* KONTAINER WRAPPER FOTO & TEKS */}
-          {/* md:-translate-x-[10%] akan membuat posisinya lebih masuk ke kanan (sebelumnya -20%) */}
-          <div className="absolute top-4 md:top-6 left-1/2 md:left-0 transform -translate-x-1/2 md:-translate-x-[10%] w-full md:w-auto px-6 md:px-4 flex flex-col items-center z-30">
-            
-            {/* Foto Piring */}
-            {/* Diperbesar menjadi md:w-[23rem] md:h-[23rem] (sebelumnya 21rem) dan w-72 di HP */}
-            <div className="w-72 h-72 md:w-[23rem] md:h-[23rem] bg-white rounded-full shadow-[0_15px_30px_rgba(0,0,0,0.4)] flex items-center justify-center overflow-hidden mb-6 md:mb-8">
-              <img 
-                src="https://picsum.photos/400/400?random=food" 
-                alt="Nasi Pecel" 
-                className="object-cover w-full h-full"
-              />
-            </div>
-
-            {/* Teks Deskripsi Kiri */}
-            {/* Lebar maksimal teks disesuaikan agar tidak terlalu melebar */}
-            <p className="text-white text-center text-sm md:text-[14.5px] leading-relaxed font-light relative z-40 max-w-sm md:max-w-[19rem] px-2">
-              <span className="font-bold">Nasi Pecel</span> makanan tradisional Jawa berupa rebusan berbagai macam sayuran bayam, tauge, kacang panjang, kol, kenikir yang disiram dengan sambal kacang kental
-            </p>
-          </div>
-
-        </div>
-
-        {/* KOLOM KANAN (Daftar Resep 2 Kolom) */}
-        <div className="w-full md:w-[68%] p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 text-white z-10">
-          
-          {/* Kolom Bahan-bahan */}
-          <div>
-            <h2 className="text-lg md:text-xl font-bold mb-4 tracking-wide text-white">Bahan-bahan:</h2>
-            <ul className="list-disc pl-5 space-y-1.5 text-sm md:text-[15px] text-gray-200 leading-relaxed marker:text-gray-300">
-              <li>4 porsi nasi putih.</li>
-              <li>100 gram taoge, siangi.</li>
-              <li>100 gram bayam, siangi.</li>
-              <li>200 gram kangkung, siangi.</li>
-              <li>200 gram kacang panjang, potong 2 cm.</li>
-              <li>100 gram taoge pendek, seduh air panas, tiriskan.</li>
-              <li>2 buah mentimun, cincang.</li>
-              <li>70 gram daun kemangi.</li>
-              <li>4 buah jeruk purut, belah 2 bagian.</li>
-              <li>2 liter air, untuk merebus.</li>
-            </ul>
-
-            <h2 className="text-lg md:text-xl font-bold mt-8 mb-4 tracking-wide text-white">Bahan-bahan sambal pecel:</h2>
-            <ul className="list-disc pl-5 space-y-1.5 text-sm md:text-[15px] text-gray-200 leading-relaxed marker:text-gray-300">
-              <li>250 ml air panas.</li>
-              <li>250 gram sambal pecel khas Madiun siap santap.</li>
-              <li>1 sdm kecap manis.</li>
-            </ul>
-          </div>
-
-          {/* Kolom Cara Membuat */}
-          <div>
-            <h2 className="text-lg md:text-xl font-bold mb-4 tracking-wide text-white">Cara membuat</h2>
-            <ul className="list-disc pl-5 space-y-6 text-sm md:text-[15px] text-gray-200 leading-relaxed marker:text-gray-300">
-              <li>
-                Untuk sambel pecel, lumatkan sambel pecel siap makan dengan air panas. Tambahkan dengan kecap manis, aduk, lalu sisihkan.
-              </li>
-              <li>
-                Didihkan air, rebus sayuran secara terpisah, yang dimulai dari taoge, bayam, kangkung, dan kacang panjang. Jika sudah, tiriskan lalu sisihkan.
-              </li>
-              <li>
-                Siapkan nasi di atas piring saji, jika perlu alaskan dengan daun pisang terlebih dulu (sesuai selera).
-              </li>
-              <li>
-                Tuangkan sambal pecel di atasnya dan beri perasan jeruk purut sedikit (sesuai selera). Sajikan bersama pelengkap.
-              </li>
-            </ul>
-          </div>
-
-        </div>
-
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-[#2e1a0e]">
+        <div className="text-[#e8b882] text-lg tracking-widest animate-pulse">Memuat resep…</div>
       </div>
-    </div>
-  );
+    }>
+      <ReceiptContent />
+    </Suspense>
+  )
 }

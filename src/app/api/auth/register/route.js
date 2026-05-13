@@ -1,3 +1,43 @@
+import { NextResponse } from "next/server";
+import { getDB, UserQuery } from "@/lib/db";
+import { hashPassword } from "@/lib/password";
+
+export const runtime = "edge";
+
+export async function POST(req) {
+  const { email, password } = await req.json();
+
+  if (!email || !password)
+    return NextResponse.json({ error: "Email dan password wajib" }, { status: 400 });
+
+  if (password.length < 8)
+    return NextResponse.json({ error: "Password minimal 8 karakter" }, { status: 400 });
+
+  const db = getDB();
+
+  const existing = await UserQuery.byEmail(db, email.toLowerCase().trim());
+  if (existing)
+    return NextResponse.json({ error: "Email sudah terdaftar" }, { status: 409 });
+
+  const id            = crypto.randomUUID();
+  const verify_token  = crypto.randomUUID();
+  const verify_exp    = Date.now() + 24 * 60 * 60 * 1000;
+  const password_hash = await hashPassword(password);
+
+  await UserQuery.create(db, {
+    id,
+    email: email.toLowerCase().trim(),
+    password_hash,
+    role: "user",
+    verify_token,
+    verify_exp,
+  });
+
+  await sendVerificationEmail(email, verify_token);
+
+  return NextResponse.json({ ok: true, message: "Cek inbox untuk verifikasi email" });
+}
+
 async function sendVerificationEmail(to, token) {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL;
   const link = `${appUrl}/api/auth/verify?token=${token}`;

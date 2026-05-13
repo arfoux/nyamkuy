@@ -9,6 +9,23 @@ function slugifyFoodName(name) {
     .replace(/\s+/g, "_")
 }
 
+const EXTENSIONS = ["png", "jpg", "jpeg", "webp"]
+
+async function fetchFirstAvailable(slug, folder) {
+  for (const ext of EXTENSIONS) {
+    const url = `https://raw.githubusercontent.com/arfoux/smtdua-frontend/main/public/images/${folder}/${slug}.${ext}`
+
+    try {
+      const res = await fetch(url)
+      if (res.ok) return res
+    } catch {
+      // try next extension
+    }
+  }
+
+  return null
+}
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url)
   const nama = searchParams.get("nama")
@@ -18,41 +35,19 @@ export async function GET(request) {
   }
 
   const slug = slugifyFoodName(nama)
+  const res = await fetchFirstAvailable(slug, "cropped")
 
-  const primaryUrl =
-    `https://cdn.jsdelivr.net/gh/arfoux/smtdua-frontend@main/public/images/cropped/${slug}.png`
-
-  const fallbackUrl =
-    `https://raw.githubusercontent.com/arfoux/smtdua-frontend/main/public/images/cropped/${slug}.png`
-
-  try {
-    const res = await fetch(primaryUrl)
-
-    if (res.ok) {
-      const blob = await res.arrayBuffer()
-      return new Response(blob, {
-        headers: {
-          "Content-Type": "image/png",
-          "Cache-Control": "public, max-age=86400",
-        },
-      })
-    }
-
-    throw new Error("Primary failed")
-
-  } catch {
-    const fallbackRes = await fetch(fallbackUrl)
-
-    if (fallbackRes.ok) {
-      const blob = await fallbackRes.arrayBuffer()
-      return new Response(blob, {
-        headers: {
-          "Content-Type": "image/png",
-          "Cache-Control": "public, max-age=86400",
-        },
-      })
-    }
-
+  if (!res) {
     return new Response("Image not found", { status: 404 })
   }
+
+  const contentType = res.headers.get("Content-Type") ?? "application/octet-stream"
+  const blob = await res.arrayBuffer()
+
+  return new Response(blob, {
+    headers: {
+      "Content-Type": contentType,
+      "Cache-Control": "public, max-age=86400",
+    },
+  })
 }

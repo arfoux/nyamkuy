@@ -11,24 +11,12 @@ function slugifyFoodName(name) {
 
 const EXTENSIONS = ["png", "jpg", "jpeg", "webp"]
 
-async function fetchFirstAvailable(slug) {
+async function fetchFirstAvailable(slug, folder) {
   for (const ext of EXTENSIONS) {
-    const primaryUrl = `https://cdn.jsdelivr.net/gh/arfoux/smtdua-frontend@main/public/images/receipt/${slug}.${ext}`
+    const url = `https://raw.githubusercontent.com/arfoux/smtdua-frontend/main/public/images/${folder}/${slug}.${ext}`
 
     try {
-      const res = await fetch(primaryUrl)
-      if (res.ok) return res
-    } catch {
-      // try next extension
-    }
-  }
-
-  // Fallback ke raw GitHub jika semua CDN gagal
-  for (const ext of EXTENSIONS) {
-    const fallbackUrl = `https://raw.githubusercontent.com/arfoux/smtdua-frontend/main/public/images/receipt/${slug}.${ext}`
-
-    try {
-      const res = await fetch(fallbackUrl)
+      const res = await fetch(url)
       if (res.ok) return res
     } catch {
       // try next extension
@@ -47,13 +35,12 @@ export async function GET(request) {
   }
 
   const slug = slugifyFoodName(nama)
-  const res = await fetchFirstAvailable(slug)
+  const res = await fetchFirstAvailable(slug, "receipt")
 
   if (!res) {
     return new Response("Image not found", { status: 404 })
   }
 
-  // Deteksi Content-Type dari response asli, fallback ke octet-stream
   const contentType = res.headers.get("Content-Type") ?? "application/octet-stream"
   const blob = await res.arrayBuffer()
 

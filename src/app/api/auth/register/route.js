@@ -42,7 +42,7 @@ async function sendVerificationEmail(to, token) {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL;
   const link = `${appUrl}/api/auth/verify?token=${token}`;
 
-  const companyName = process.env.APP_NAME || "Aplikasi Kamu";
+  const companyName = "NyamKuy";
   const companyAddress = process.env.APP_ADDRESS || "";
   const firstName = to.split("@")[0];
 

@@ -1,72 +1,101 @@
 "use client"
 
 import { useSearchParams, useRouter } from "next/navigation"
-import { useEffect, useState, Suspense } from "react"
+import { useEffect, useMemo, useState, Suspense } from "react"
 import { ArrowLeft } from "lucide-react"
 
-// ─── Fallback data jika tidak ada query params ───────────────────────────────
 const FALLBACK = {
   nama: "Nasi Pecel",
   deskripsi:
-    "Makanan tradisional Jawa berupa rebusan berbagai macam sayuran bayam, tauge, kacang panjang, kol, kenikir yang disiram dengan sambal kacang kental.",
+    "Makanan tradisional Jawa berupa rebusan berbagai macam sayuran yang disiram dengan sambal kacang kental.",
 }
 
-// ─── Placeholder resep statis (akan diganti API jika tersedia) ────────────────
-const STATIC_RECIPE = {
-  bahan: [
-    "4 porsi nasi putih",
-    "100 g taoge, siangi",
-    "100 g bayam, siangi",
-    "200 g kangkung, siangi",
-    "200 g kacang panjang, potong 2 cm",
-    "100 g taoge pendek, seduh & tiriskan",
-    "2 buah mentimun, cincang",
-    "70 g daun kemangi",
-    "4 buah jeruk purut, belah 2",
-    "2 liter air untuk merebus",
-  ],
-  sambal: [
-    "250 ml air panas",
-    "250 g sambal pecel Madiun siap santap",
-    "1 sdm kecap manis",
-  ],
-  cara: [
-    "Lumatkan sambal pecel dengan air panas, tambahkan kecap manis, aduk rata, sisihkan.",
-    "Didihkan air, rebus sayuran secara terpisah: taoge, bayam, kangkung, dan kacang panjang. Tiriskan, sisihkan.",
-    "Siapkan nasi di atas piring saji. Alasi daun pisang jika suka.",
-    "Tuang sambal pecel di atasnya, beri perasan jeruk purut secukupnya. Sajikan selagi hangat.",
-  ],
-}
-
-// ─── Komponen utama ──────────────────────────────────────────────────────────
 function ReceiptContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const nama = searchParams.get("nama") || FALLBACK.nama
-  const deskripsi = searchParams.get("deskripsi") || FALLBACK.deskripsi
+  const id = searchParams.get("id")
+  const namaParam = searchParams.get("nama") || FALLBACK.nama
+  const deskripsiParam = searchParams.get("deskripsi") || FALLBACK.deskripsi
+
+  const [recipe, setRecipe] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [imgLoaded, setImgLoaded] = useState(false)
+  const [imgError, setImgError] = useState(false)
+
+  useEffect(() => {
+    async function loadRecipe() {
+      if (!id) {
+        setLoading(false)
+        return
+      }
+
+      try {
+        setLoading(true)
+
+        const res = await fetch(`/api/resep/${id}`)
+
+        if (!res.ok) {
+          throw new Error("Gagal mengambil detail resep")
+        }
+
+        const json = await res.json()
+        setRecipe(json.data)
+      } catch (err) {
+        console.error(err)
+        setRecipe(null)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadRecipe()
+  }, [id])
+
+  const nama = recipe?.nama || namaParam
+  const deskripsi = recipe?.deskripsi || deskripsiParam
 
   const bgUrl = `/api/image/base?nama=${encodeURIComponent(nama)}`
   const croppedUrl = `/api/image/cropped?nama=${encodeURIComponent(nama)}`
 
-  // Track apakah gambar cropped berhasil dimuat
-  const [imgLoaded, setImgLoaded] = useState(false)
-  const [imgError, setImgError] = useState(false)
+  const bahanUtama = useMemo(() => {
+    const bahan = recipe?.bahan || []
+    const bumbu = recipe?.bumbu || []
+    const komponen = recipe?.komponen || []
+    const lalapan = recipe?.lalapan || []
+
+    return [
+      ...bahan.map((item) => item.nama),
+      ...bumbu.map((item) => item.nama),
+      ...komponen.map((item) => item.nama),
+      ...lalapan,
+    ].filter(Boolean)
+  }, [recipe])
+
+  const sambal = useMemo(() => {
+    return (recipe?.sambal || [])
+      .map((item) => item.nama)
+      .filter(Boolean)
+  }, [recipe])
+
+  const langkah = useMemo(() => {
+    return (recipe?.langkah || [])
+      .map((item) => item.instruksi)
+      .filter(Boolean)
+  }, [recipe])
+
+  const tips = recipe?.tips || []
 
   return (
     <div className="min-h-screen relative flex flex-col items-center justify-center p-4 md:p-10 overflow-hidden font-sans">
-
-      {/* ── LAYER BACKGROUND ─────────────────────────────── */}
-      {/* Gambar asli dari API */}
       <div
         className="absolute inset-0 z-0 bg-cover bg-center"
         style={{ backgroundImage: `url('${bgUrl}')` }}
       />
-      {/* Blur + vignette warm-brown */}
+
       <div className="absolute inset-0 z-0 backdrop-blur-3xl bg-[#6b4a36]/50" />
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,rgba(220,185,155,0.25)_0%,rgba(30,15,8,0.72)_100%)]" />
 
-      {/* ── TOMBOL KEMBALI ───────────────────────────────── */}
       <button
         onClick={() => router.back()}
         className="absolute top-5 left-5 z-30 flex items-center gap-2 px-4 py-2 rounded-full
@@ -77,20 +106,19 @@ function ReceiptContent() {
         Kembali
       </button>
 
-      {/* ── JUDUL ────────────────────────────────────────── */}
       <h1
         className="relative z-10 text-center font-black tracking-widest uppercase mb-8 drop-shadow-lg
           text-4xl md:text-6xl lg:text-7xl"
         style={{
           color: "#f5e6d5",
-          textShadow: "0 4px 24px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.12)",
+          textShadow:
+            "0 4px 24px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.12)",
           letterSpacing: "0.18em",
         }}
       >
         {nama}
       </h1>
 
-      {/* ── CARD UTAMA ───────────────────────────────────── */}
       <div
         className="relative z-10 w-full max-w-5xl rounded-3xl overflow-hidden shadow-2xl
           flex flex-col md:flex-row"
@@ -99,11 +127,10 @@ function ReceiptContent() {
           backdropFilter: "blur(28px) saturate(1.4)",
           WebkitBackdropFilter: "blur(28px) saturate(1.4)",
           border: "1px solid rgba(255,255,255,0.18)",
-          boxShadow: "0 24px 80px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
+          boxShadow:
+            "0 24px 80px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
         }}
       >
-
-        {/* ── PANEL KIRI ──────────────────────────────────── */}
         <div
           className="w-full md:w-[38%] flex flex-col items-center justify-start py-10 px-6 md:px-8 gap-6 relative"
           style={{
@@ -112,15 +139,16 @@ function ReceiptContent() {
             borderRight: "1px solid rgba(255,255,255,0.08)",
           }}
         >
-          {/* Foto makanan */}
           <div
             className="relative flex items-center justify-center"
             style={{ width: "100%", maxWidth: 260 }}
           >
-            {/* Glow lembut di belakang gambar */}
             <div
               className="absolute inset-0 rounded-full blur-2xl opacity-40"
-              style={{ background: "radial-gradient(circle, #d4956a 0%, transparent 70%)" }}
+              style={{
+                background:
+                  "radial-gradient(circle, #d4956a 0%, transparent 70%)",
+              }}
             />
 
             <img
@@ -131,7 +159,6 @@ function ReceiptContent() {
               className="relative z-10 w-full object-contain"
               style={{
                 maxHeight: 280,
-                // Outline mengikuti kontur asli gambar, bukan dipaksa lingkaran
                 filter: imgLoaded
                   ? "drop-shadow(0 12px 32px rgba(0,0,0,0.55)) drop-shadow(0 0 8px rgba(220,160,100,0.35))"
                   : "none",
@@ -140,7 +167,6 @@ function ReceiptContent() {
               }}
             />
 
-            {/* Skeleton saat gambar belum muat */}
             {!imgLoaded && !imgError && (
               <div
                 className="absolute inset-0 rounded-2xl animate-pulse"
@@ -149,17 +175,23 @@ function ReceiptContent() {
             )}
           </div>
 
-          {/* Deskripsi */}
           <p
             className="text-center text-sm md:text-[14.5px] leading-relaxed"
-            style={{ color: "rgba(245,225,200,0.88)", maxWidth: 240 }}
+            style={{
+              color: "rgba(245,225,200,0.88)",
+              maxWidth: 240,
+            }}
           >
-            <span className="font-semibold" style={{ color: "#f5e6d5" }}>{nama}</span>
+            <span
+              className="font-semibold"
+              style={{ color: "#f5e6d5" }}
+            >
+              {nama}
+            </span>
             {" — "}
             {deskripsi}
           </p>
 
-          {/* Label dekoratif */}
           <div
             className="px-4 py-1 rounded-full text-xs font-semibold tracking-widest uppercase"
             style={{
@@ -173,57 +205,82 @@ function ReceiptContent() {
           </div>
         </div>
 
-        {/* ── PANEL KANAN ─────────────────────────────────── */}
         <div className="w-full md:w-[62%] p-8 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
-
-          {/* ── Bahan Utama ── */}
           <div>
             <SectionTitle>Bahan Utama</SectionTitle>
-            <IngredientList items={STATIC_RECIPE.bahan} />
+
+            {loading ? (
+              <LoadingText />
+            ) : (
+              <IngredientList items={bahanUtama} emptyText="Bahan belum tersedia" />
+            )}
 
             <div className="mt-8">
-              <SectionTitle>Sambal Pecel</SectionTitle>
-              <IngredientList items={STATIC_RECIPE.sambal} />
+              <SectionTitle>Sambal / Pelengkap</SectionTitle>
+
+              {loading ? (
+                <LoadingText />
+              ) : (
+                <IngredientList items={sambal} emptyText="Sambal belum tersedia" />
+              )}
             </div>
+
+            {tips.length > 0 && (
+              <div className="mt-8">
+                <SectionTitle>Tips</SectionTitle>
+                <IngredientList items={tips} />
+              </div>
+            )}
           </div>
 
-          {/* ── Cara Membuat ── */}
           <div>
             <SectionTitle>Cara Membuat</SectionTitle>
-            <ol className="space-y-5 mt-1">
-              {STATIC_RECIPE.cara.map((step, i) => (
-                <li key={i} className="flex gap-3">
-                  <span
-                    className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mt-0.5"
-                    style={{
-                      background: "rgba(220,160,100,0.22)",
-                      border: "1px solid rgba(220,160,100,0.4)",
-                      color: "#e8b882",
-                    }}
-                  >
-                    {i + 1}
-                  </span>
-                  <p
-                    className="text-sm leading-relaxed"
-                    style={{ color: "rgba(240,220,195,0.85)" }}
-                  >
-                    {step}
-                  </p>
-                </li>
-              ))}
-            </ol>
-          </div>
 
+            {loading ? (
+              <LoadingText />
+            ) : langkah.length > 0 ? (
+              <ol className="space-y-5 mt-1">
+                {langkah.map((step, i) => (
+                  <li key={i} className="flex gap-3">
+                    <span
+                      className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mt-0.5"
+                      style={{
+                        background: "rgba(220,160,100,0.22)",
+                        border: "1px solid rgba(220,160,100,0.4)",
+                        color: "#e8b882",
+                      }}
+                    >
+                      {i + 1}
+                    </span>
+
+                    <p
+                      className="text-sm leading-relaxed"
+                      style={{
+                        color: "rgba(240,220,195,0.85)",
+                      }}
+                    >
+                      {step}
+                    </p>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p
+                className="text-sm leading-relaxed"
+                style={{ color: "rgba(240,220,195,0.7)" }}
+              >
+                Langkah membuat belum tersedia.
+              </p>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Padding bawah */}
       <div className="h-8" />
     </div>
   )
 }
 
-// ─── Sub-komponen ─────────────────────────────────────────────────────────────
 function SectionTitle({ children }) {
   return (
     <h2
@@ -238,7 +295,18 @@ function SectionTitle({ children }) {
   )
 }
 
-function IngredientList({ items }) {
+function IngredientList({ items, emptyText = "Belum tersedia" }) {
+  if (!items || items.length === 0) {
+    return (
+      <p
+        className="text-sm leading-relaxed"
+        style={{ color: "rgba(240,220,195,0.7)" }}
+      >
+        {emptyText}
+      </p>
+    )
+  }
+
   return (
     <ul className="space-y-1.5">
       {items.map((item, i) => (
@@ -258,14 +326,28 @@ function IngredientList({ items }) {
   )
 }
 
-// ─── Export dengan Suspense (diperlukan untuk useSearchParams) ────────────────
+function LoadingText() {
+  return (
+    <p
+      className="text-sm animate-pulse"
+      style={{ color: "rgba(240,220,195,0.65)" }}
+    >
+      Memuat...
+    </p>
+  )
+}
+
 export default function RecipePage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-[#2e1a0e]">
-        <div className="text-[#e8b882] text-lg tracking-widest animate-pulse">Memuat resep…</div>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-[#2e1a0e]">
+          <div className="text-[#e8b882] text-lg tracking-widest animate-pulse">
+            Memuat resep…
+          </div>
+        </div>
+      }
+    >
       <ReceiptContent />
     </Suspense>
   )

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { User, LogOut } from "lucide-react"
+import Image from "next/image";
 
 export default function Page() {
   const [bg, setBg] = useState(null)
@@ -185,14 +186,15 @@ export default function Page() {
         className="absolute top-5 left-8 z-20 flex items-center gap-3 cursor-pointer transition-transform hover:scale-105"
         onClick={() => router.push("/")}
       >
-        <img
-          src="/logo.png"
-          alt="NyamKuy Logo"
-          className="h-12 w-12 object-contain drop-shadow-lg"
-          onError={(e) => {
-            e.currentTarget.style.display = "none"
-          }}
-        />
+
+<Image
+  src="/android-chrome-512x512.png"
+  alt="Logo NyamKuy, tempat cari ide masakan dan resep harian"
+  width={48}
+  height={48}
+  className="h-12 w-12 object-contain drop-shadow-lg"
+  priority
+/>
 
         <span className="text-3xl font-extrabold text-white drop-shadow-lg tracking-wide">
           NyamKuy

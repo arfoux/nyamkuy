@@ -23,13 +23,25 @@ export default function Page() {
 
   const router = useRouter()
 
-  // cek cookie session
+  // cek login dari server
   useEffect(() => {
-    const hasSession = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("session="))
+    async function checkAuth() {
+      try {
+        const res = await fetch("/api/auth/me", {
+          credentials: "include",
+        })
 
-    setAuthorized(!!hasSession)
+        if (res.ok) {
+          setAuthorized(true)
+        } else {
+          setAuthorized(false)
+        }
+      } catch (err) {
+        setAuthorized(false)
+      }
+    }
+
+    checkAuth()
   }, [])
 
   // tutup dropdown ketika klik luar

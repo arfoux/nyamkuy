@@ -318,28 +318,18 @@ export default function Page() {
             className="
               pointer-events-none
               absolute
-              left-[-70px]
+              left-[-45px]
               top-1/2
               -translate-y-1/2
               z-50
-              flex
-              h-12
-              w-12
-              items-center
-              justify-center
-              rounded-full
-              bg-white/90
-              shadow-2xl
-              backdrop-blur
-              opacity-0
-              scale-75
+              text-white/30
               transition-all
               duration-300
-              group-hover:opacity-100
-              group-hover:scale-100
+              group-hover:text-white
+              group-hover:scale-110
             "
           >
-            <ChevronRight className="h-6 w-6 rotate-180 text-black" />
+            <ChevronRight className="h-10 w-10 rotate-180 drop-shadow-2xl" />
           </div>
 
           {/* PANAH KANAN */}
@@ -347,28 +337,18 @@ export default function Page() {
             className="
               pointer-events-none
               absolute
-              right-[-70px]
+              right-[-45px]
               top-1/2
               -translate-y-1/2
               z-50
-              flex
-              h-12
-              w-12
-              items-center
-              justify-center
-              rounded-full
-              bg-white/90
-              shadow-2xl
-              backdrop-blur
-              opacity-0
-              scale-75
+              text-white/30
               transition-all
               duration-300
-              group-hover:opacity-100
-              group-hover:scale-100
+              group-hover:text-white
+              group-hover:scale-110
             "
           >
-            <ChevronRight className="h-6 w-6 text-black" />
+            <ChevronRight className="h-10 w-10 drop-shadow-2xl" />
           </div>
         </div>
 

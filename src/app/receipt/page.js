@@ -190,7 +190,7 @@ function ReceiptContent() {
             boxShadow: "0 24px 80px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
           }}
         >
-          {/* Panel Kiri */}
+          {/* Panel Kiri (Keterangan dengan warna asli) */}
           <div
             className="w-full md:w-[38%] flex flex-col items-center justify-start py-10 px-6 md:px-8 gap-6 relative"
             style={{
@@ -232,9 +232,9 @@ function ReceiptContent() {
 
             <p
               className="text-center text-sm md:text-[14.5px] leading-relaxed"
-              style={{ color: "#ffffff", maxWidth: 240 }}
+              style={{ color: "rgba(245,225,200,0.88)", maxWidth: 240 }}
             >
-              <span className="font-bold" style={{ color: "#ffffff" }}>
+              <span className="font-semibold" style={{ color: "#f5e6d5" }}>
                 {nama}
               </span>
               {" — "}
@@ -246,7 +246,7 @@ function ReceiptContent() {
               style={{
                 background: "rgba(255,255,255,0.08)",
                 border: "1px solid rgba(255,255,255,0.15)",
-                color: "#ffffff",
+                color: "rgba(245,200,160,0.8)",
                 letterSpacing: "0.15em",
               }}
             >
@@ -254,7 +254,7 @@ function ReceiptContent() {
             </div>
           </div>
 
-          {/* Panel Kanan */}
+          {/* Panel Kanan (Menu resep dengan warna putih terang) */}
           <div className="w-full md:w-[62%] p-8 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
             <div>
               <SectionTitle>Bahan Utama</SectionTitle>

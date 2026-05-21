@@ -22,7 +22,6 @@ function ReceiptContent() {
   const [loading, setLoading] = useState(true)
   const [imgLoaded, setImgLoaded] = useState(false)
   const [imgError, setImgError] = useState(false)
-  const [isCardHovered, setIsCardHovered] = useState(false)
 
   useEffect(() => {
     async function loadRecipe() {
@@ -30,7 +29,6 @@ function ReceiptContent() {
         setLoading(false)
         return
       }
-
       try {
         setLoading(true)
         const res = await fetch(`/api/resep/${id}`)
@@ -44,7 +42,6 @@ function ReceiptContent() {
         setLoading(false)
       }
     }
-
     loadRecipe()
   }, [id])
 
@@ -60,7 +57,6 @@ function ReceiptContent() {
     [id, router]
   )
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "ArrowRight") navigateTo("next")
@@ -105,7 +101,6 @@ function ReceiptContent() {
 
   return (
     <div className="min-h-screen relative flex flex-col items-center justify-center p-4 md:p-10 overflow-hidden font-sans">
-      {/* Background layers */}
       <div
         className="absolute inset-0 z-0 bg-cover bg-center"
         style={{ backgroundImage: `url('${bgUrl}')` }}
@@ -113,7 +108,6 @@ function ReceiptContent() {
       <div className="absolute inset-0 z-0 backdrop-blur-3xl bg-[#6b4a36]/50" />
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,rgba(220,185,155,0.25)_0%,rgba(30,15,8,0.72)_100%)]" />
 
-      {/* Back button */}
       <button
         onClick={() => router.back()}
         className="absolute top-5 left-5 z-30 flex items-center gap-2 px-4 py-2 rounded-full
@@ -124,7 +118,6 @@ function ReceiptContent() {
         Kembali
       </button>
 
-      {/* Title */}
       <h1
         className="relative z-10 text-center font-black tracking-widest uppercase mb-8 drop-shadow-lg
           text-4xl md:text-6xl lg:text-7xl"
@@ -137,59 +130,56 @@ function ReceiptContent() {
         {nama}
       </h1>
 
-      {/* Wrapper for card + arrow buttons */}
-      <div
-        className="relative z-10 w-full max-w-5xl"
-        onMouseEnter={() => setIsCardHovered(true)}
-        onMouseLeave={() => setIsCardHovered(false)}
-      >
-        {/* Left arrow */}
+      <div className="relative z-10 w-full max-w-5xl">
+        {/* Tombol Kiri */}
         <button
           onClick={() => navigateTo("prev")}
+          disabled={!canGoPrev}
           aria-label="Resep sebelumnya"
           className="absolute -left-14 top-1/2 -translate-y-1/2 z-20
             w-11 h-11 rounded-full flex items-center justify-center
-            transition-all duration-300 hover:scale-110 active:scale-95
+            transition-all duration-200 hover:scale-110 active:scale-95
             focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
           style={{
             background: "rgba(255,255,255,0.12)",
             border: "1px solid rgba(255,255,255,0.22)",
             backdropFilter: "blur(8px)",
             color: canGoPrev ? "#f5e6d5" : "rgba(245,230,213,0.3)",
-            opacity: isCardHovered ? 1 : 0,
-            pointerEvents: isCardHovered ? "auto" : "none",
+            opacity: 1,
+            pointerEvents: "auto",
             cursor: canGoPrev ? "pointer" : "not-allowed",
-            transform: `translateY(-50%) translateX(${isCardHovered ? "0" : "8px"})`,
+            transform: "translateY(-50%)",
             boxShadow: "0 4px 20px rgba(0,0,0,0.35)",
           }}
         >
           <ChevronLeft size={22} />
         </button>
 
-        {/* Right arrow */}
+        {/* Tombol Kanan */}
         <button
           onClick={() => navigateTo("next")}
+          disabled={!canGoNext}
           aria-label="Resep berikutnya"
           className="absolute -right-14 top-1/2 -translate-y-1/2 z-20
             w-11 h-11 rounded-full flex items-center justify-center
-            transition-all duration-300 hover:scale-110 active:scale-95
+            transition-all duration-200 hover:scale-110 active:scale-95
             focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
           style={{
             background: "rgba(255,255,255,0.12)",
             border: "1px solid rgba(255,255,255,0.22)",
             backdropFilter: "blur(8px)",
             color: canGoNext ? "#f5e6d5" : "rgba(245,230,213,0.3)",
-            opacity: isCardHovered ? 1 : 0,
-            pointerEvents: isCardHovered ? "auto" : "none",
+            opacity: 1,
+            pointerEvents: "auto",
             cursor: canGoNext ? "pointer" : "not-allowed",
-            transform: `translateY(-50%) translateX(${isCardHovered ? "0" : "-8px"})`,
+            transform: "translateY(-50%)",
             boxShadow: "0 4px 20px rgba(0,0,0,0.35)",
           }}
         >
           <ChevronRight size={22} />
         </button>
 
-        {/* Recipe card */}
+        {/* Kartu Resep */}
         <div
           className="w-full rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row"
           style={{
@@ -200,7 +190,7 @@ function ReceiptContent() {
             boxShadow: "0 24px 80px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
           }}
         >
-          {/* Left panel */}
+          {/* Panel Kiri */}
           <div
             className="w-full md:w-[38%] flex flex-col items-center justify-start py-10 px-6 md:px-8 gap-6 relative"
             style={{
@@ -244,7 +234,9 @@ function ReceiptContent() {
               className="text-center text-sm md:text-[14.5px] leading-relaxed"
               style={{ color: "rgba(245,225,200,0.88)", maxWidth: 240 }}
             >
-              <span className="font-semibold" style={{ color: "#f5e6d5" }}>{nama}</span>
+              <span className="font-semibold" style={{ color: "#f5e6d5" }}>
+                {nama}
+              </span>
               {" — "}
               {deskripsi}
             </p>
@@ -262,7 +254,7 @@ function ReceiptContent() {
             </div>
           </div>
 
-          {/* Right panel */}
+          {/* Panel Kanan */}
           <div className="w-full md:w-[62%] p-8 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
             <div>
               <SectionTitle>Bahan Utama</SectionTitle>
@@ -307,14 +299,20 @@ function ReceiptContent() {
                       >
                         {i + 1}
                       </span>
-                      <p className="text-sm leading-relaxed" style={{ color: "rgba(240,220,195,0.85)" }}>
+                      <p
+                        className="text-sm leading-relaxed"
+                        style={{ color: "rgba(240,220,195,0.85)" }}
+                      >
                         {step}
                       </p>
                     </li>
                   ))}
                 </ol>
               ) : (
-                <p className="text-sm leading-relaxed" style={{ color: "rgba(240,220,195,0.7)" }}>
+                <p
+                  className="text-sm leading-relaxed"
+                  style={{ color: "rgba(240,220,195,0.7)" }}
+                >
                   Langkah membuat belum tersedia.
                 </p>
               )}
@@ -350,8 +348,15 @@ function IngredientList({ items, emptyText = "Belum tersedia" }) {
   return (
     <ul className="space-y-1.5">
       {items.map((item, i) => (
-        <li key={i} className="flex items-start gap-2 text-sm" style={{ color: "rgba(240,220,195,0.82)" }}>
-          <span className="mt-[6px] w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "rgba(220,160,100,0.6)" }} />
+        <li
+          key={i}
+          className="flex items-start gap-2 text-sm"
+          style={{ color: "rgba(240,220,195,0.82)" }}
+        >
+          <span
+            className="mt-[6px] w-1.5 h-1.5 rounded-full flex-shrink-0"
+            style={{ background: "rgba(220,160,100,0.6)" }}
+          />
           {item}
         </li>
       ))}
@@ -372,7 +377,9 @@ export default function RecipePage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex items-center justify-center bg-[#2e1a0e]">
-          <div className="text-[#e8b882] text-lg tracking-widest animate-pulse">Memuat resep…</div>
+          <div className="text-[#e8b882] text-lg tracking-widest animate-pulse">
+            Memuat resep…
+          </div>
         </div>
       }
     >

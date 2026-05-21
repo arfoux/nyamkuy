@@ -4,6 +4,7 @@ import SwipeCards from "@/components/SwipeCards"
 import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
+
 import {
   User,
   LogOut,
@@ -13,27 +14,45 @@ import {
 export default function Page() {
   const [bg, setBg] = useState(null)
   const [oldBg, setOldBg] = useState(null)
+
   const [search, setSearch] = useState("")
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
 
   // auth state
-  const [authorized, setAuthorized] = useState(false)
+  const [authorized, setAuthorized] =
+    useState(false)
 
   // dropdown profile
-  const [openProfile, setOpenProfile] = useState(false)
+  const [openProfile, setOpenProfile] =
+    useState(false)
+
+  // hover arrow
+  const [hoverLeft, setHoverLeft] =
+    useState(false)
+
+  const [hoverRight, setHoverRight] =
+    useState(false)
 
   const profileRef = useRef(null)
 
+  // swipe ref
+  const swipeRef = useRef(null)
+
   const router = useRouter()
 
-  // cek login dari server
+  // =========================
+  // AUTH CHECK
+  // =========================
   useEffect(() => {
     async function checkAuth() {
       try {
-        const res = await fetch("/api/auth/me", {
-          credentials: "include",
-        })
+        const res = await fetch(
+          "/api/auth/me",
+          {
+            credentials: "include",
+          }
+        )
 
         if (res.ok) {
           setAuthorized(true)
@@ -48,31 +67,46 @@ export default function Page() {
     checkAuth()
   }, [])
 
-  // tutup dropdown ketika klik luar
+  // =========================
+  // CLOSE DROPDOWN
+  // =========================
   useEffect(() => {
     function handleClickOutside(event) {
       if (
         profileRef.current &&
-        !profileRef.current.contains(event.target)
+        !profileRef.current.contains(
+          event.target
+        )
       ) {
         setOpenProfile(false)
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside)
+    document.addEventListener(
+      "mousedown",
+      handleClickOutside
+    )
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      )
     }
   }, [])
 
-  // logout
+  // =========================
+  // LOGOUT
+  // =========================
   async function handleLogout() {
     try {
-      const res = await fetch("/api/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      })
+      const res = await fetch(
+        "/api/auth/logout",
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      )
 
       if (res.ok) {
         setAuthorized(false)
@@ -82,11 +116,16 @@ export default function Page() {
         router.refresh()
       }
     } catch (err) {
-      console.error("Logout gagal:", err)
+      console.error(
+        "Logout gagal:",
+        err
+      )
     }
   }
 
-  // handleCardClick
+  // =========================
+  // OPEN RECIPE
+  // =========================
   function handleCardClick(card) {
     const params = new URLSearchParams({
       id: card.id,
@@ -94,21 +133,30 @@ export default function Page() {
       deskripsi: card.description,
     })
 
-    router.push(`/receipt?${params.toString()}`)
+    router.push(
+      `/receipt?${params.toString()}`
+    )
   }
 
-  // openRecipe
   function openRecipe(item) {
     const params = new URLSearchParams({
       id: item.id,
-      nama: item.nama || item.title,
-      deskripsi: item.deskripsi || item.description || "",
+      nama:
+        item.nama || item.title,
+      deskripsi:
+        item.deskripsi ||
+        item.description ||
+        "",
     })
 
-    router.push(`/receipt?${params.toString()}`)
+    router.push(
+      `/receipt?${params.toString()}`
+    )
   }
 
-  // search resep
+  // =========================
+  // SEARCH RESEP
+  // =========================
   useEffect(() => {
     const keyword = search.trim()
 
@@ -118,31 +166,83 @@ export default function Page() {
       return
     }
 
-    const delay = setTimeout(async () => {
-      try {
-        setLoading(true)
+    const delay = setTimeout(
+      async () => {
+        try {
+          setLoading(true)
 
-        const res = await fetch(
-          `/api/resep/search?q=${encodeURIComponent(keyword)}`
-        )
+          const res =
+            await fetch(
+              `/api/resep/search?q=${encodeURIComponent(
+                keyword
+              )}`
+            )
 
-        const data = await res.json()
+          const data =
+            await res.json()
 
-        const list = Array.isArray(data)
-          ? data
-          : data.data || data.results || data.resep || []
+          const list =
+            Array.isArray(data)
+              ? data
+              : data.data ||
+                data.results ||
+                data.resep ||
+                []
 
-        setResults(list)
-      } catch (err) {
-        console.error(err)
-        setResults([])
-      } finally {
-        setLoading(false)
-      }
-    }, 350)
+          setResults(list)
+        } catch (err) {
+          console.error(err)
+          setResults([])
+        } finally {
+          setLoading(false)
+        }
+      },
+      350
+    )
 
-    return () => clearTimeout(delay)
+    return () =>
+      clearTimeout(delay)
   }, [search])
+
+  // =========================
+  // SWIPE FUNCTION
+  // =========================
+  function triggerSwipe(direction) {
+    if (direction === "left") {
+      swipeRef.current?.swipeLeft()
+    } else {
+      swipeRef.current?.swipeRight()
+    }
+  }
+
+  // =========================
+  // KEYBOARD NAVIGATION
+  // =========================
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowLeft") {
+        triggerSwipe("left")
+      }
+
+      if (
+        e.key === "ArrowRight"
+      ) {
+        triggerSwipe("right")
+      }
+    }
+
+    window.addEventListener(
+      "keydown",
+      handleKeyDown
+    )
+
+    return () => {
+      window.removeEventListener(
+        "keydown",
+        handleKeyDown
+      )
+    }
+  }, [])
 
   return (
     <main className="relative flex h-[100dvh] items-center justify-center overflow-hidden touch-none">
@@ -154,7 +254,8 @@ export default function Page() {
             inset: 0,
             backgroundImage: `url(${bg})`,
             backgroundSize: "cover",
-            backgroundPosition: "center",
+            backgroundPosition:
+              "center",
             filter: "blur(40px)",
             transform: "scale(1.2)",
             zIndex: 1,
@@ -170,11 +271,13 @@ export default function Page() {
             inset: 0,
             backgroundImage: `url(${oldBg})`,
             backgroundSize: "cover",
-            backgroundPosition: "center",
+            backgroundPosition:
+              "center",
             filter: "blur(40px)",
             transform: "scale(1.2)",
             opacity: 0,
-            transition: "opacity 0.4s ease",
+            transition:
+              "opacity 0.4s ease",
             zIndex: 2,
             pointerEvents: "none",
           }}
@@ -187,14 +290,17 @@ export default function Page() {
       {/* kiri atas */}
       <div
         className="absolute top-5 left-8 z-20 flex items-center gap-3 cursor-pointer transition-transform hover:scale-105"
-        onClick={() => router.push("/")}
+        onClick={() =>
+          router.push("/")
+        }
       >
         <img
           src="/logo.png"
           alt="NyamKuy Logo"
           className="h-12 w-12 object-contain drop-shadow-lg"
           onError={(e) => {
-            e.currentTarget.style.display = "none"
+            e.currentTarget.style.display =
+              "none"
           }}
         />
 
@@ -212,7 +318,11 @@ export default function Page() {
           <div className="relative">
             {/* tombol profile */}
             <button
-              onClick={() => setOpenProfile(!openProfile)}
+              onClick={() =>
+                setOpenProfile(
+                  !openProfile
+                )
+              }
               className="
                 flex
                 h-12
@@ -243,16 +353,17 @@ export default function Page() {
                   bg-white/95
                   shadow-2xl
                   backdrop-blur
-                  animate-in
-                  fade-in
-                  slide-in-from-top-2
-                  duration-200
                 "
               >
                 <button
                   onClick={() => {
-                    setOpenProfile(false)
-                    router.push("/profile")
+                    setOpenProfile(
+                      false
+                    )
+
+                    router.push(
+                      "/profile"
+                    )
                   }}
                   className="
                     flex
@@ -264,7 +375,6 @@ export default function Page() {
                     text-left
                     text-black
                     hover:bg-black/5
-                    transition
                   "
                 >
                   <User className="h-5 w-5" />
@@ -272,7 +382,9 @@ export default function Page() {
                 </button>
 
                 <button
-                  onClick={handleLogout}
+                  onClick={
+                    handleLogout
+                  }
                   className="
                     flex
                     w-full
@@ -283,7 +395,6 @@ export default function Page() {
                     text-left
                     text-red-500
                     hover:bg-red-50
-                    transition
                   "
                 >
                   <LogOut className="h-5 w-5" />
@@ -298,58 +409,116 @@ export default function Page() {
             variant="secondary"
             className="bg-white/80 text-black hover:bg-white"
           >
-            <a href="/auth">Log In / Register</a>
+            <a href="/auth">
+              Log In /
+              Register
+            </a>
           </Button>
         )}
       </div>
 
-      {/* content */}
+      {/* CONTENT */}
       <div className="relative z-10 flex flex-col items-center gap-4">
         {/* CARD + PANAH */}
-        <div className="group relative inline-block">
+        <div className="relative inline-block">
+          {/* SWIPE CARD */}
           <SwipeCards
+            ref={swipeRef}
             setBg={setBg}
             setOldBg={setOldBg}
-            onCardClick={handleCardClick}
+            onCardClick={
+              handleCardClick
+            }
           />
 
           {/* PANAH KIRI */}
-          <div
+          <button
+            onMouseEnter={() =>
+              setHoverLeft(true)
+            }
+            onMouseLeave={() =>
+              setHoverLeft(false)
+            }
+            onClick={() =>
+              triggerSwipe(
+                "left"
+              )
+            }
             className="
-              pointer-events-none
               absolute
-              left-[-45px]
+              left-[-60px]
               top-1/2
-              -translate-y-1/2
               z-50
-              text-white/30
+              -translate-y-1/2
+              rounded-full
+              bg-white/10
+              p-2
+              backdrop-blur-md
               transition-all
               duration-300
-              group-hover:text-white
-              group-hover:scale-110
+              hover:scale-110
+              active:scale-95
             "
+            style={{
+              opacity: hoverLeft
+                ? 1
+                : 0.4,
+            }}
           >
-            <ChevronRight className="h-10 w-10 rotate-180 drop-shadow-2xl" />
-          </div>
+            <ChevronRight
+              className="
+                h-10
+                w-10
+                rotate-180
+                text-white
+                drop-shadow-2xl
+              "
+            />
+          </button>
 
           {/* PANAH KANAN */}
-          <div
+          <button
+            onMouseEnter={() =>
+              setHoverRight(true)
+            }
+            onMouseLeave={() =>
+              setHoverRight(false)
+            }
+            onClick={() =>
+              triggerSwipe(
+                "right"
+              )
+            }
             className="
-              pointer-events-none
               absolute
-              right-[-45px]
+              right-[-60px]
               top-1/2
-              -translate-y-1/2
               z-50
-              text-white/30
+              -translate-y-1/2
+              rounded-full
+              bg-white/10
+              p-2
+              backdrop-blur-md
               transition-all
               duration-300
-              group-hover:text-white
-              group-hover:scale-110
+              hover:scale-110
+              active:scale-95
             "
+            style={{
+              opacity: hoverRight
+                ? 1
+                : 0.4,
+            }}
           >
-            <ChevronRight className="h-10 w-10 drop-shadow-2xl" />
-          </div>
+            <ChevronRight
+              className="
+                h-10
+                w-10
+                text-white
+                drop-shadow-2xl
+              "
+            />
+          </button>
         </div>
 
         {/* SEARCH */}
@@ -367,7 +536,12 @@ export default function Page() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <circle cx="11" cy="11" r="8" />
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="8"
+                />
+
                 <path d="m21 21-4.3-4.3" />
               </svg>
             </div>
@@ -376,7 +550,11 @@ export default function Page() {
               type="text"
               placeholder="Cari resep..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) =>
+                setSearch(
+                  e.target.value
+                )
+              }
               className="w-full bg-transparent outline-none text-black placeholder:text-black/50"
             />
           </div>
@@ -395,10 +573,6 @@ export default function Page() {
                 bg-white/95
                 shadow-2xl
                 backdrop-blur
-                animate-in
-                fade-in
-                slide-in-from-bottom-2
-                duration-200
               "
             >
               {loading && (
@@ -407,68 +581,84 @@ export default function Page() {
                 </div>
               )}
 
-              {!loading && results.length === 0 && (
-                <div className="px-4 py-3 text-sm text-black/60">
-                  Resep tidak ditemukan
-                </div>
-              )}
+              {!loading &&
+                results.length ===
+                  0 && (
+                  <div className="px-4 py-3 text-sm text-black/60">
+                    Resep tidak
+                    ditemukan
+                  </div>
+                )}
 
               {!loading &&
-                results.map((item, index) => {
-                  const nama = item.nama || item.title || "Tanpa nama"
+                results.map(
+                  (
+                    item,
+                    index
+                  ) => {
+                    const nama =
+                      item.nama ||
+                      item.title ||
+                      "Tanpa nama"
 
-                  const deskripsi =
-                    item.deskripsi ||
-                    item.description ||
-                    "Tidak ada deskripsi"
+                    const deskripsi =
+                      item.deskripsi ||
+                      item.description ||
+                      "Tidak ada deskripsi"
 
-                  return (
-                    <button
-                      key={`${nama}-${index}`}
-                      type="button"
-                      onClick={() => openRecipe(item)}
-                      className="
-                        flex
-                        w-full
-                        items-center
-                        gap-3
-                        px-3
-                        py-3
-                        text-left
-                        hover:bg-black/5
-                        transition
-                      "
-                    >
-                      <img
-                        src={`/api/image/cropped?nama=${encodeURIComponent(
-                          nama
-                        )}`}
-                        alt={nama}
+                    return (
+                      <button
+                        key={`${nama}-${index}`}
+                        type="button"
+                        onClick={() =>
+                          openRecipe(
+                            item
+                          )
+                        }
                         className="
-                          h-14
-                          w-14
-                          shrink-0
-                          rounded-xl
-                          object-cover
-                          bg-black/10
+                          flex
+                          w-full
+                          items-center
+                          gap-3
+                          px-3
+                          py-3
+                          text-left
+                          hover:bg-black/5
+                          transition
                         "
-                        onError={(e) => {
-                          e.currentTarget.style.display = "none"
-                        }}
-                      />
+                      >
+                        <img
+                          src={`/api/image/cropped?nama=${encodeURIComponent(
+                            nama
+                          )}`}
+                          alt={nama}
+                          className="
+                            h-14
+                            w-14
+                            shrink-0
+                            rounded-xl
+                            object-cover
+                            bg-black/10
+                          "
+                        />
 
-                      <div className="min-w-0">
-                        <div className="truncate font-semibold text-black">
-                          {nama}
-                        </div>
+                        <div className="min-w-0">
+                          <div className="truncate font-semibold text-black">
+                            {
+                              nama
+                            }
+                          </div>
 
-                        <div className="line-clamp-2 text-sm text-black/60">
-                          {deskripsi}
+                          <div className="line-clamp-2 text-sm text-black/60">
+                            {
+                              deskripsi
+                            }
+                          </div>
                         </div>
-                      </div>
-                    </button>
-                  )
-                })}
+                      </button>
+                    )
+                  }
+                )}
             </div>
           )}
         </div>

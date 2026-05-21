@@ -1,4 +1,3 @@
-
 "use client"
 
 import {
@@ -6,27 +5,39 @@ import {
   useRef,
   useEffect,
   useCallback,
+  forwardRef,
+  useImperativeHandle,
 } from "react"
 
 function getFoodImage(nama) {
-  return `/api/image/base?nama=${encodeURIComponent(nama)}`
+  return `/api/image/base?nama=${encodeURIComponent(
+    nama
+  )}`
 }
 
 function mapRecipeToCard(recipe) {
-  const imageUrl = getFoodImage(recipe.nama)
+  const imageUrl = getFoodImage(
+    recipe.nama
+  )
 
   const preload = new Image()
   preload.src = imageUrl
 
   return {
-  id: recipe.id,          // ← pakai ID asli, bukan yang dicampur Math.random()
-  title: recipe.nama,
-  description: recipe.deskripsi,
-  image: imageUrl,
-}
+    id: recipe.id,
+    title: recipe.nama,
+    description:
+      recipe.deskripsi,
+    image: imageUrl,
+  }
 }
 
-function SwipeCard({ card, isTop, onSwipe, onCardClick }) {
+function SwipeCard({
+  card,
+  isTop,
+  onSwipe,
+  onCardClick,
+}) {
   const cardRef = useRef(null)
 
   const drag = useRef({
@@ -37,12 +48,16 @@ function SwipeCard({ card, isTop, onSwipe, onCardClick }) {
     moved: false,
   })
 
-  const hasAnimated = useRef(false)
+  const hasAnimated =
+    useRef(false)
 
-  // intro swipe animation
+  // =========================
+  // INTRO ANIMATION
+  // =========================
   useEffect(() => {
     if (!isTop) return
-    if (hasAnimated.current) return
+    if (hasAnimated.current)
+      return
 
     const el = cardRef.current
     if (!el) return
@@ -50,19 +65,26 @@ function SwipeCard({ card, isTop, onSwipe, onCardClick }) {
     hasAnimated.current = true
 
     async function intro() {
-      await new Promise((r) => setTimeout(r, 500))
+      await new Promise((r) =>
+        setTimeout(r, 500)
+      )
 
-      el.style.transition = "transform 0.35s ease"
+      el.style.transition =
+        "transform 0.35s ease"
 
       el.style.transform =
         "translateX(42px) rotate(5deg)"
 
-      await new Promise((r) => setTimeout(r, 350))
+      await new Promise((r) =>
+        setTimeout(r, 350)
+      )
 
       el.style.transform =
         "translateX(-36px) rotate(-5deg)"
 
-      await new Promise((r) => setTimeout(r, 350))
+      await new Promise((r) =>
+        setTimeout(r, 350)
+      )
 
       el.style.transform =
         "translateX(0px) rotate(0deg)"
@@ -71,6 +93,9 @@ function SwipeCard({ card, isTop, onSwipe, onCardClick }) {
     intro()
   }, [isTop])
 
+  // =========================
+  // DRAG
+  // =========================
   useEffect(() => {
     if (!isTop) return
 
@@ -86,22 +111,34 @@ function SwipeCard({ card, isTop, onSwipe, onCardClick }) {
         moved: false,
       }
 
-      el.style.transition = "none"
+      el.style.transition =
+        "none"
+
       el.style.animation = "none"
     }
 
     function move(px, py) {
-      if (!drag.current.on) return
+      if (!drag.current.on)
+        return
 
-      const cx = px - drag.current.ox
-      const cy = (py - drag.current.oy) * 0.25
+      const cx =
+        px - drag.current.ox
+
+      const cy =
+        (py -
+          drag.current.oy) *
+        0.25
+
       const rot = cx * 0.1
 
       drag.current.cx = cx
 
       if (
         Math.abs(cx) > 5 ||
-        Math.abs(py - drag.current.oy) > 5
+        Math.abs(
+          py -
+            drag.current.oy
+        ) > 5
       ) {
         drag.current.moved = true
       }
@@ -111,13 +148,15 @@ function SwipeCard({ card, isTop, onSwipe, onCardClick }) {
     }
 
     function end() {
-      if (!drag.current.on) return
+      if (!drag.current.on)
+        return
 
       drag.current.on = false
 
-      const { cx, moved } = drag.current
+      const { cx, moved } =
+        drag.current
 
-      // tap
+      // TAP
       if (!moved) {
         el.style.transition =
           "transform 0.12s ease"
@@ -133,9 +172,10 @@ function SwipeCard({ card, isTop, onSwipe, onCardClick }) {
         return
       }
 
-      // swipe away
+      // SWIPE
       if (Math.abs(cx) > 80) {
-        const dir = cx > 0 ? 1 : -1
+        const dir =
+          cx > 0 ? 1 : -1
 
         el.style.transition =
           "transform 0.35s ease-out, opacity 0.35s ease-out"
@@ -154,7 +194,7 @@ function SwipeCard({ card, isTop, onSwipe, onCardClick }) {
         }, 200)
       }
 
-      // reset
+      // RESET
       else {
         el.style.transition =
           "transform 0.4s cubic-bezier(.34,1.56,.64,1)"
@@ -169,6 +209,7 @@ function SwipeCard({ card, isTop, onSwipe, onCardClick }) {
 
     function onMouseDown(e) {
       e.preventDefault()
+
       start(
         e.clientX,
         e.clientY
@@ -281,39 +322,52 @@ function SwipeCard({ card, isTop, onSwipe, onCardClick }) {
       <style jsx>{`
         @keyframes cardIdleSwipe {
           0% {
-            transform: translateX(0px)
+            transform: translateX(
+                0px
+              )
               rotate(0deg);
           }
 
           20% {
-            transform: translateX(18px)
+            transform: translateX(
+                18px
+              )
               rotate(2deg);
           }
 
           40% {
-            transform: translateX(0px)
+            transform: translateX(
+                0px
+              )
               rotate(0deg);
           }
 
           60% {
-            transform: translateX(-18px)
+            transform: translateX(
+                -18px
+              )
               rotate(-2deg);
           }
 
           80% {
-            transform: translateX(0px)
+            transform: translateX(
+                0px
+              )
               rotate(0deg);
           }
 
           100% {
-            transform: translateX(0px)
+            transform: translateX(
+                0px
+              )
               rotate(0deg);
           }
         }
 
         .card-idle {
-          animation: cardIdleSwipe 3.2s
-            ease-in-out infinite;
+          animation: cardIdleSwipe
+            3.2s ease-in-out
+            infinite;
         }
       `}</style>
 
@@ -367,11 +421,10 @@ function SwipeCard({ card, isTop, onSwipe, onCardClick }) {
         >
           <div
             style={{
-              fontSize: "1.2rem",
+              fontSize:
+                "1.2rem",
               fontWeight: 700,
               marginBottom: 8,
-              textShadow:
-                "0 2px 8px rgba(0,0,0,0.6)",
             }}
           >
             {card.title}
@@ -381,10 +434,8 @@ function SwipeCard({ card, isTop, onSwipe, onCardClick }) {
             style={{
               fontSize: 13,
               lineHeight: 1.55,
-              opacity: 0.95,
-              textShadow:
-                "0 1px 4px rgba(0,0,0,0.6)",
-              display: "-webkit-box",
+              display:
+                "-webkit-box",
               WebkitLineClamp: 4,
               WebkitBoxOrient:
                 "vertical",
@@ -393,292 +444,415 @@ function SwipeCard({ card, isTop, onSwipe, onCardClick }) {
           >
             {card.description}
           </div>
-
-<div
-  style={{
-    marginTop: 14,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 10,
-  }}
->
-  <div
-    style={{
-      fontSize: 11,
-      opacity: 0.72,
-      letterSpacing: 0.4,
-      textShadow:
-        "0 1px 3px rgba(0,0,0,0.5)",
-    }}
-  >
-    ← Geser resep →
-  </div>
-
-  <button
-    onClick={(e) => {
-      e.stopPropagation()
-      onCardClick &&
-        onCardClick(card)
-    }}
-    style={{
-      border: "none",
-      outline: "none",
-      padding: "8px 14px",
-      borderRadius: 999,
-      background:
-        "rgba(255,255,255,0.16)",
-      backdropFilter: "blur(8px)",
-      color: "#fff",
-      fontSize: 12,
-      fontWeight: 600,
-      cursor: "pointer",
-      transition: "0.2s ease",
-    }}
-  >
-    Lihat Resep
-  </button>
-</div>
         </div>
       </div>
     </>
   )
 }
 
-export default function SwipeCards({
-  setBg,
-  setOldBg,
-  onCardClick,
-}) {
-  const totalPages = useRef(1)
-  const usedPages = useRef([])
-  const cardsRef = useRef([])
+const SwipeCards = forwardRef(
+  (
+    {
+      setBg,
+      setOldBg,
+      onCardClick,
+    },
+    ref
+  ) => {
+    const totalPages =
+      useRef(1)
 
-  const [cards, setCards] = useState([])
-  const [mounted, setMounted] =
-    useState(false)
+    const usedPages =
+      useRef([])
 
-  useEffect(() => {
-    cardsRef.current = cards
-  }, [cards])
+    const cardsRef = useRef([])
 
-  function shuffleArray(arr) {
-    return [...arr].sort(
-      () => Math.random() - 0.5
-    )
-  }
+    const [cards, setCards] =
+      useState([])
 
-  function getRandomPage() {
-    const total =
-      totalPages.current
+    const [mounted, setMounted] =
+      useState(false)
 
-    if (
-      usedPages.current.length >=
-      total
-    ) {
-      usedPages.current = []
+    useEffect(() => {
+      cardsRef.current = cards
+    }, [cards])
+
+    function shuffleArray(arr) {
+      return [...arr].sort(
+        () =>
+          Math.random() - 0.5
+      )
     }
 
-    const available =
-      Array.from(
-        { length: total },
-        (_, i) => i + 1
-      ).filter(
-        (i) =>
-          !usedPages.current.includes(i)
-      )
-
-    const random =
-      available[
-        Math.floor(
-          Math.random() *
-            available.length
-        )
-      ]
-
-    usedPages.current.push(random)
-
-    return random
-  }
-
-  const fetchRandomRecipes =
-    useCallback(async () => {
-      const page =
-        getRandomPage()
-
-      const safePage = Math.min(
-        page,
+    function getRandomPage() {
+      const total =
         totalPages.current
-      )
 
-      const res = await fetch(
-        `/api/resep?page=${safePage}`
-      )
+      if (
+        usedPages.current
+          .length >= total
+      ) {
+        usedPages.current = []
+      }
 
-      const json =
-        await res.json()
-
-      totalPages.current =
-        json.meta.total_pages
-
-      const mapped =
-        shuffleArray(json.data).map(
-          mapRecipeToCard
+      const available =
+        Array.from(
+          { length: total },
+          (_, i) => i + 1
+        ).filter(
+          (i) =>
+            !usedPages.current.includes(
+              i
+            )
         )
 
-      return mapped
-    }, [])
-
-  useEffect(() => {
-    async function loadRecipes() {
-      try {
-        const recipes =
-          await fetchRandomRecipes()
-
-        setCards(recipes)
-
-        if (recipes.length > 0) {
-          setBg(
-            recipes[
-              recipes.length - 1
-            ].image
+      const random =
+        available[
+          Math.floor(
+            Math.random() *
+              available.length
           )
-        }
+        ]
 
-        setMounted(true)
-      } catch (err) {
-        console.error(err)
-      }
+      usedPages.current.push(
+        random
+      )
+
+      return random
     }
 
-    loadRecipes()
-  }, [setBg])
+    const fetchRandomRecipes =
+      useCallback(async () => {
+        const page =
+          getRandomPage()
 
-  const isFetching = useRef(false)
-
-  const handleSwipe =
-    useCallback(
-      (dir, id) => {
-        const prev =
-          cardsRef.current
-
-        const currentTop =
-          prev[prev.length - 1]
-
-        const nextCard =
-          prev[prev.length - 2]
-
-        if (currentTop)
-          setOldBg(
-            currentTop.image
+        const safePage =
+          Math.min(
+            page,
+            totalPages.current
           )
 
-        if (nextCard)
-          setBg(nextCard.image)
-
-        const filtered =
-          prev.filter(
-            (c) => c.id !== id
+        const res =
+          await fetch(
+            `/api/resep?page=${safePage}`
           )
 
-        setCards(filtered)
+        const json =
+          await res.json()
 
-        if (
-          filtered.length <= 3 &&
-          !isFetching.current
-        ) {
-          isFetching.current = true
+        totalPages.current =
+          json.meta.total_pages
 
-          fetchRandomRecipes()
-            .then((newRecipes) => {
-              setCards(
-                (current) => [
-                  ...newRecipes,
-                  ...current,
-                ]
-              )
-            })
-            .catch(console.error)
-            .finally(() => {
-              isFetching.current = false
-            })
+        const mapped =
+          shuffleArray(
+            json.data
+          ).map(
+            mapRecipeToCard
+          )
+
+        return mapped
+      }, [])
+
+    useEffect(() => {
+      async function loadRecipes() {
+        try {
+          const recipes =
+            await fetchRandomRecipes()
+
+          setCards(recipes)
+
+          if (
+            recipes.length > 0
+          ) {
+            setBg(
+              recipes[
+                recipes.length -
+                  1
+              ].image
+            )
+          }
+
+          setMounted(true)
+        } catch (err) {
+          console.error(err)
         }
+      }
 
-        setTimeout(() => {
-          setOldBg(null)
-        }, 400)
-      },
-      [
-        setBg,
-        setOldBg,
-        fetchRandomRecipes,
-      ]
-    )
+      loadRecipes()
+    }, [setBg])
 
-  if (!mounted) return null
+    const isFetching =
+      useRef(false)
 
-  return (
-    <div className="flex flex-col items-center gap-4 py-6">
-      <div
-        style={{
-          position: "relative",
-          width: 300,
-          height: 500,
-        }}
-      >
-        {cards
-          .slice(-5)
-          .map(
-            (
-              card,
-              i,
-              arr
-            ) => {
-              const depth =
-                arr.length -
-                1 -
-                i
+    const handleSwipe =
+      useCallback(
+        (dir, id) => {
+          const prev =
+            cardsRef.current
 
-              const isTop =
-                depth === 0
+          const currentTop =
+            prev[
+              prev.length - 1
+            ]
 
-              return (
-                <div
-                  key={card.id}
-                  style={{
-                    position:
-                      "absolute",
-                    inset: 0,
-                    zIndex:
-                      10 - depth,
-                    transform:
-                      `scale(${1 - depth * 0.05}) translateY(${depth * 10}px)`,
-                    pointerEvents:
-                      isTop
-                        ? "auto"
-                        : "none",
-                  }}
-                >
-                  <SwipeCard
-                    card={card}
-                    isTop={isTop}
-                    onSwipe={(
-                      dir
-                    ) =>
-                      handleSwipe(
-                        dir,
-                        card.id
-                      )
-                    }
-                    onCardClick={
-                      onCardClick
-                    }
-                  />
-                </div>
+          const nextCard =
+            prev[
+              prev.length - 2
+            ]
+
+          if (currentTop)
+            setOldBg(
+              currentTop.image
+            )
+
+          if (nextCard)
+            setBg(
+              nextCard.image
+            )
+
+          const filtered =
+            prev.filter(
+              (c) =>
+                c.id !== id
+            )
+
+          setCards(filtered)
+
+          if (
+            filtered.length <=
+              3 &&
+            !isFetching.current
+          ) {
+            isFetching.current = true
+
+            fetchRandomRecipes()
+              .then(
+                (
+                  newRecipes
+                ) => {
+                  setCards(
+                    (
+                      current
+                    ) => [
+                      ...newRecipes,
+                      ...current,
+                    ]
+                  )
+                }
+              )
+              .finally(() => {
+                isFetching.current = false
+              })
+          }
+
+          setTimeout(() => {
+            setOldBg(null)
+          }, 400)
+        },
+        [
+          setBg,
+          setOldBg,
+          fetchRandomRecipes,
+        ]
+      )
+
+    // =========================
+    // PROGRAMMATIC SWIPE
+    // =========================
+    const swipeTopCard =
+      useCallback(
+        (direction) => {
+          const topCard =
+            document.querySelector(
+              "[data-top-card='true']"
+            )
+
+          if (!topCard)
+            return
+
+          topCard.style.transition =
+            "transform 0.35s ease-out, opacity 0.35s ease-out"
+
+          const dir =
+            direction ===
+            "right"
+              ? 1
+              : -1
+
+          topCard.style.transform =
+            `translateX(${dir * 600}px) rotate(${dir * 25}deg)`
+
+          topCard.style.opacity =
+            "0"
+
+          const topData =
+            cardsRef.current[
+              cardsRef.current
+                .length - 1
+            ]
+
+          setTimeout(() => {
+            if (topData) {
+              handleSwipe(
+                direction,
+                topData.id
               )
             }
-          )}
+          }, 200)
+        },
+        [handleSwipe]
+      )
+
+    // =========================
+    // EXPOSE REF
+    // =========================
+    useImperativeHandle(
+      ref,
+      () => ({
+        swipeLeft() {
+          swipeTopCard("left")
+        },
+
+        swipeRight() {
+          swipeTopCard("right")
+        },
+      })
+    )
+
+    // =========================
+    // TOUCHPAD SWIPE
+    // =========================
+    useEffect(() => {
+      let locked = false
+
+      function handleWheel(
+        e
+      ) {
+        if (locked) return
+
+        if (
+          Math.abs(
+            e.deltaX
+          ) > 40
+        ) {
+          locked = true
+
+          if (
+            e.deltaX > 0
+          ) {
+            swipeTopCard(
+              "right"
+            )
+          } else {
+            swipeTopCard(
+              "left"
+            )
+          }
+
+          setTimeout(() => {
+            locked = false
+          }, 450)
+        }
+      }
+
+      window.addEventListener(
+        "wheel",
+        handleWheel,
+        {
+          passive: true,
+        }
+      )
+
+      return () => {
+        window.removeEventListener(
+          "wheel",
+          handleWheel
+        )
+      }
+    }, [swipeTopCard])
+
+    if (!mounted) return null
+
+    return (
+      <div className="flex flex-col items-center gap-4 py-6">
+        <div
+          style={{
+            position:
+              "relative",
+            width: 300,
+            height: 500,
+          }}
+        >
+          {cards
+            .slice(-5)
+            .map(
+              (
+                card,
+                i,
+                arr
+              ) => {
+                const depth =
+                  arr.length -
+                  1 -
+                  i
+
+                const isTop =
+                  depth === 0
+
+                return (
+                  <div
+                    key={card.id}
+                    data-top-card={
+                      isTop
+                    }
+                    style={{
+                      position:
+                        "absolute",
+                      inset: 0,
+                      zIndex:
+                        10 -
+                        depth,
+                      transform: `scale(${
+                        1 -
+                        depth *
+                          0.05
+                      }) translateY(${
+                        depth * 10
+                      }px)`,
+                      pointerEvents:
+                        isTop
+                          ? "auto"
+                          : "none",
+                    }}
+                  >
+                    <SwipeCard
+                      card={card}
+                      isTop={
+                        isTop
+                      }
+                      onSwipe={(
+                        dir
+                      ) =>
+                        handleSwipe(
+                          dir,
+                          card.id
+                        )
+                      }
+                      onCardClick={
+                        onCardClick
+                      }
+                    />
+                  </div>
+                )
+              }
+            )}
+        </div>
       </div>
-    </div>
-  )
-}
+    )
+  }
+)
+
+SwipeCards.displayName =
+  "SwipeCards"
+
+export default SwipeCards

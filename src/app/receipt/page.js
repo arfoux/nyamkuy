@@ -119,9 +119,10 @@ function ReceiptContent() {
       </button>
 
       <h1
-        className="relative z-10 text-center text-white font-black tracking-widest uppercase mb-8 drop-shadow-lg
+        className="relative z-10 text-center font-black tracking-widest uppercase mb-8 drop-shadow-lg
           text-4xl md:text-6xl lg:text-7xl"
         style={{
+          color: "#ffffff",
           textShadow: "0 4px 24px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.12)",
           letterSpacing: "0.18em",
         }}
@@ -180,7 +181,7 @@ function ReceiptContent() {
 
         {/* Kartu Resep */}
         <div
-          className="w-full rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row text-white"
+          className="w-full rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row"
           style={{
             background: "rgba(255,255,255,0.07)",
             backdropFilter: "blur(28px) saturate(1.4)",
@@ -230,10 +231,10 @@ function ReceiptContent() {
             </div>
 
             <p
-              className="text-center text-sm md:text-[14.5px] leading-relaxed text-white"
-              style={{ maxWidth: 240 }}
+              className="text-center text-sm md:text-[14.5px] leading-relaxed"
+              style={{ color: "#ffffff", maxWidth: 240 }}
             >
-              <span className="font-semibold text-white">
+              <span className="font-bold" style={{ color: "#ffffff" }}>
                 {nama}
               </span>
               {" — "}
@@ -241,10 +242,11 @@ function ReceiptContent() {
             </p>
 
             <div
-              className="px-4 py-1 rounded-full text-xs font-semibold tracking-widest uppercase text-white"
+              className="px-4 py-1 rounded-full text-xs font-semibold tracking-widest uppercase"
               style={{
                 background: "rgba(255,255,255,0.08)",
                 border: "1px solid rgba(255,255,255,0.15)",
+                color: "#ffffff",
                 letterSpacing: "0.15em",
               }}
             >
@@ -288,22 +290,29 @@ function ReceiptContent() {
                   {langkah.map((step, i) => (
                     <li key={i} className="flex gap-3">
                       <span
-                        className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 text-white"
+                        className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mt-0.5"
                         style={{
-                          background: "rgba(220,160,100,0.4)",
-                          border: "1px solid rgba(220,160,100,0.6)",
+                          background: "rgba(255,255,255,0.2)",
+                          border: "1px solid rgba(255,255,255,0.4)",
+                          color: "#ffffff",
                         }}
                       >
                         {i + 1}
                       </span>
-                      <p className="text-sm leading-relaxed text-white">
+                      <p
+                        className="text-sm leading-relaxed"
+                        style={{ color: "#ffffff" }}
+                      >
                         {step}
                       </p>
                     </li>
                   ))}
                 </ol>
               ) : (
-                <p className="text-sm leading-relaxed text-white">
+                <p
+                  className="text-sm leading-relaxed"
+                  style={{ color: "rgba(255,255,255,0.7)" }}
+                >
                   Langkah membuat belum tersedia.
                 </p>
               )}
@@ -320,8 +329,8 @@ function ReceiptContent() {
 function SectionTitle({ children }) {
   return (
     <h2
-      className="text-sm font-bold uppercase tracking-[0.2em] mb-3 pb-2 text-white"
-      style={{ borderBottom: "1px solid rgba(255,255,255,0.4)" }}
+      className="text-sm font-bold uppercase tracking-[0.2em] mb-3 pb-2"
+      style={{ color: "#ffffff", borderBottom: "1px solid rgba(255,255,255,0.3)" }}
     >
       {children}
     </h2>
@@ -331,7 +340,7 @@ function SectionTitle({ children }) {
 function IngredientList({ items, emptyText = "Belum tersedia" }) {
   if (!items || items.length === 0) {
     return (
-      <p className="text-sm leading-relaxed text-white">
+      <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.7)" }}>
         {emptyText}
       </p>
     )
@@ -341,11 +350,12 @@ function IngredientList({ items, emptyText = "Belum tersedia" }) {
       {items.map((item, i) => (
         <li
           key={i}
-          className="flex items-start gap-2 text-sm text-white"
+          className="flex items-start gap-2 text-sm"
+          style={{ color: "#ffffff" }}
         >
           <span
             className="mt-[6px] w-1.5 h-1.5 rounded-full flex-shrink-0"
-            style={{ background: "#ffffff" }}
+            style={{ background: "rgba(255,255,255,0.8)" }}
           />
           {item}
         </li>
@@ -356,7 +366,7 @@ function IngredientList({ items, emptyText = "Belum tersedia" }) {
 
 function LoadingText() {
   return (
-    <p className="text-sm animate-pulse text-white">
+    <p className="text-sm animate-pulse" style={{ color: "rgba(255,255,255,0.7)" }}>
       Memuat...
     </p>
   )

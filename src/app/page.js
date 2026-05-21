@@ -305,8 +305,8 @@ export default function Page() {
 
       {/* content */}
       <div className="relative z-10 flex flex-col items-center gap-4">
-        {/* cards */}
-        <div className="group relative flex items-center justify-center">
+        {/* CARD + PANAH */}
+        <div className="group relative inline-block">
           <SwipeCards
             setBg={setBg}
             setOldBg={setOldBg}
@@ -318,9 +318,10 @@ export default function Page() {
             className="
               pointer-events-none
               absolute
-              -left-16
+              left-[-70px]
               top-1/2
               -translate-y-1/2
+              z-50
               flex
               h-12
               w-12
@@ -346,9 +347,10 @@ export default function Page() {
             className="
               pointer-events-none
               absolute
-              -right-16
+              right-[-70px]
               top-1/2
               -translate-y-1/2
+              z-50
               flex
               h-12
               w-12

@@ -23,9 +23,6 @@ export default function Page() {
   // dropdown profile
   const [openProfile, setOpenProfile] = useState(false)
 
-  // hover recipe
-  const [hoveredRecipe, setHoveredRecipe] = useState(null)
-
   const profileRef = useRef(null)
 
   const router = useRouter()
@@ -309,20 +306,21 @@ export default function Page() {
       {/* content */}
       <div className="relative z-10 flex flex-col items-center gap-4">
         {/* cards */}
-        <div className="group relative">
+        <div className="group relative flex items-center justify-center">
           <SwipeCards
             setBg={setBg}
             setOldBg={setOldBg}
             onCardClick={handleCardClick}
           />
 
-          {/* PANAH CARD */}
+          {/* PANAH KIRI */}
           <div
             className="
               pointer-events-none
               absolute
-              bottom-5
-              right-5
+              -left-16
+              top-1/2
+              -translate-y-1/2
               flex
               h-12
               w-12
@@ -333,11 +331,39 @@ export default function Page() {
               shadow-2xl
               backdrop-blur
               opacity-0
-              translate-x-4
+              scale-75
               transition-all
               duration-300
               group-hover:opacity-100
-              group-hover:translate-x-0
+              group-hover:scale-100
+            "
+          >
+            <ChevronRight className="h-6 w-6 rotate-180 text-black" />
+          </div>
+
+          {/* PANAH KANAN */}
+          <div
+            className="
+              pointer-events-none
+              absolute
+              -right-16
+              top-1/2
+              -translate-y-1/2
+              flex
+              h-12
+              w-12
+              items-center
+              justify-center
+              rounded-full
+              bg-white/90
+              shadow-2xl
+              backdrop-blur
+              opacity-0
+              scale-75
+              transition-all
+              duration-300
+              group-hover:opacity-100
+              group-hover:scale-100
             "
           >
             <ChevronRight className="h-6 w-6 text-black" />
@@ -414,21 +440,12 @@ export default function Page() {
                     item.description ||
                     "Tidak ada deskripsi"
 
-                  const isHovered = hoveredRecipe === index
-
                   return (
                     <button
                       key={`${nama}-${index}`}
                       type="button"
                       onClick={() => openRecipe(item)}
-                      onMouseEnter={() =>
-                        setHoveredRecipe(index)
-                      }
-                      onMouseLeave={() =>
-                        setHoveredRecipe(null)
-                      }
                       className="
-                        relative
                         flex
                         w-full
                         items-center
@@ -458,7 +475,7 @@ export default function Page() {
                         }}
                       />
 
-                      <div className="min-w-0 flex-1">
+                      <div className="min-w-0">
                         <div className="truncate font-semibold text-black">
                           {nama}
                         </div>
@@ -466,29 +483,6 @@ export default function Page() {
                         <div className="line-clamp-2 text-sm text-black/60">
                           {deskripsi}
                         </div>
-                      </div>
-
-                      {/* PANAH SEARCH */}
-                      <div
-                        className={`
-                          flex
-                          h-9
-                          w-9
-                          items-center
-                          justify-center
-                          rounded-full
-                          bg-black
-                          text-white
-                          transition-all
-                          duration-300
-                          ${
-                            isHovered
-                              ? "opacity-100 translate-x-0"
-                              : "opacity-0 translate-x-3"
-                          }
-                        `}
-                      >
-                        <ChevronRight className="h-4 w-4" />
                       </div>
                     </button>
                   )

@@ -4,8 +4,11 @@ import SwipeCards from "@/components/SwipeCards"
 import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
-import { User, LogOut } from "lucide-react"
-import Image from "next/image";
+import {
+  User,
+  LogOut,
+  ChevronRight,
+} from "lucide-react"
 
 export default function Page() {
   const [bg, setBg] = useState(null)
@@ -19,6 +22,9 @@ export default function Page() {
 
   // dropdown profile
   const [openProfile, setOpenProfile] = useState(false)
+
+  // hover recipe
+  const [hoveredRecipe, setHoveredRecipe] = useState(null)
 
   const profileRef = useRef(null)
 
@@ -186,15 +192,14 @@ export default function Page() {
         className="absolute top-5 left-8 z-20 flex items-center gap-3 cursor-pointer transition-transform hover:scale-105"
         onClick={() => router.push("/")}
       >
-
-<Image
-  src="/android-chrome-512x512.png"
-  alt="Logo NyamKuy, tempat cari ide masakan dan resep harian"
-  width={48}
-  height={48}
-  className="h-12 w-12 object-contain drop-shadow-lg"
-  priority
-/>
+        <img
+          src="/logo.png"
+          alt="NyamKuy Logo"
+          className="h-12 w-12 object-contain drop-shadow-lg"
+          onError={(e) => {
+            e.currentTarget.style.display = "none"
+          }}
+        />
 
         <span className="text-3xl font-extrabold text-white drop-shadow-lg tracking-wide">
           NyamKuy
@@ -304,11 +309,40 @@ export default function Page() {
       {/* content */}
       <div className="relative z-10 flex flex-col items-center gap-4">
         {/* cards */}
-        <SwipeCards
-          setBg={setBg}
-          setOldBg={setOldBg}
-          onCardClick={handleCardClick}
-        />
+        <div className="group relative">
+          <SwipeCards
+            setBg={setBg}
+            setOldBg={setOldBg}
+            onCardClick={handleCardClick}
+          />
+
+          {/* PANAH CARD */}
+          <div
+            className="
+              pointer-events-none
+              absolute
+              bottom-5
+              right-5
+              flex
+              h-12
+              w-12
+              items-center
+              justify-center
+              rounded-full
+              bg-white/90
+              shadow-2xl
+              backdrop-blur
+              opacity-0
+              translate-x-4
+              transition-all
+              duration-300
+              group-hover:opacity-100
+              group-hover:translate-x-0
+            "
+          >
+            <ChevronRight className="h-6 w-6 text-black" />
+          </div>
+        </div>
 
         {/* SEARCH */}
         <div className="relative w-[340px]">
@@ -380,12 +414,21 @@ export default function Page() {
                     item.description ||
                     "Tidak ada deskripsi"
 
+                  const isHovered = hoveredRecipe === index
+
                   return (
                     <button
                       key={`${nama}-${index}`}
                       type="button"
                       onClick={() => openRecipe(item)}
+                      onMouseEnter={() =>
+                        setHoveredRecipe(index)
+                      }
+                      onMouseLeave={() =>
+                        setHoveredRecipe(null)
+                      }
                       className="
+                        relative
                         flex
                         w-full
                         items-center
@@ -415,7 +458,7 @@ export default function Page() {
                         }}
                       />
 
-                      <div className="min-w-0">
+                      <div className="min-w-0 flex-1">
                         <div className="truncate font-semibold text-black">
                           {nama}
                         </div>
@@ -423,6 +466,29 @@ export default function Page() {
                         <div className="line-clamp-2 text-sm text-black/60">
                           {deskripsi}
                         </div>
+                      </div>
+
+                      {/* PANAH SEARCH */}
+                      <div
+                        className={`
+                          flex
+                          h-9
+                          w-9
+                          items-center
+                          justify-center
+                          rounded-full
+                          bg-black
+                          text-white
+                          transition-all
+                          duration-300
+                          ${
+                            isHovered
+                              ? "opacity-100 translate-x-0"
+                              : "opacity-0 translate-x-3"
+                          }
+                        `}
+                      >
+                        <ChevronRight className="h-4 w-4" />
                       </div>
                     </button>
                   )

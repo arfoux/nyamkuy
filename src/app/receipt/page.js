@@ -2,7 +2,7 @@
 
 import { useSearchParams, useRouter } from "next/navigation"
 import { useEffect, useMemo, useState, useCallback, Suspense } from "react"
-import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react"
+import { ArrowLeft, Bookmark, ChevronLeft, ChevronRight, Star } from "lucide-react"
 
 const FALLBACK = {
   nama: "Nasi Pecel",
@@ -22,19 +22,30 @@ function ReceiptContent() {
   const [loading, setLoading] = useState(true)
   const [imgLoaded, setImgLoaded] = useState(false)
   const [imgError, setImgError] = useState(false)
+  const [saved, setSaved] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [saveError, setSaveError] = useState("")
 
   useEffect(() => {
     async function loadRecipe() {
+      setSaveError("")
+      setSaved(false)
+
       if (!id) {
         setLoading(false)
         return
       }
+
       try {
         setLoading(true)
+        setImgLoaded(false)
+        setImgError(false)
+
         const res = await fetch(`/api/resep/${id}`)
         if (!res.ok) throw new Error("Gagal mengambil detail resep")
         const json = await res.json()
         setRecipe(json.data)
+        setSaved(Boolean(json.data?.is_saved))
       } catch (err) {
         console.error(err)
         setRecipe(null)
@@ -56,6 +67,37 @@ function ReceiptContent() {
     },
     [id, router]
   )
+
+  const handleToggleSave = useCallback(async () => {
+    if (!id || saving) return
+
+    setSaving(true)
+    setSaveError("")
+
+    try {
+      const res = await fetch(`/api/resep/${id}/simpan`, {
+        method: saved ? "DELETE" : "POST",
+        credentials: "include",
+      })
+
+      const data = await res.json().catch(() => ({}))
+
+      if (res.status === 401) {
+        router.push(`/auth?next=${encodeURIComponent(`/receipt?id=${id}`)}`)
+        return
+      }
+
+      if (!res.ok) {
+        throw new Error(data.error || "Gagal memperbarui simpan")
+      }
+
+      setSaved(Boolean(data.saved))
+    } catch (err) {
+      setSaveError(err.message || "Gagal memperbarui simpan")
+    } finally {
+      setSaving(false)
+    }
+  }, [id, router, saved, saving])
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -98,6 +140,7 @@ function ReceiptContent() {
   const currentId = id ? parseInt(id, 10) : null
   const canGoPrev = currentId !== null && !isNaN(currentId) && currentId > 1
   const canGoNext = currentId !== null && !isNaN(currentId)
+  const poin = Number(recipe?.poin ?? 0) || 0
 
   return (
     <div className="min-h-screen relative flex flex-col items-center justify-center p-4 md:p-10 overflow-hidden font-sans">
@@ -118,8 +161,49 @@ function ReceiptContent() {
         Kembali
       </button>
 
+      <div className="absolute top-5 right-5 z-30 flex items-center gap-2">
+        <div
+          className="flex h-11 items-center gap-2 rounded-full px-4 text-sm font-bold text-white shadow-lg backdrop-blur-sm"
+          style={{
+            background: "rgba(255,255,255,0.12)",
+            border: "1px solid rgba(255,255,255,0.22)",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.35)",
+          }}
+        >
+          <Star size={16} fill="#facc15" color="#facc15" />
+          <span>{poin} poin</span>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleToggleSave}
+          disabled={!id || saving}
+          aria-label={saved ? "Batal simpan resep" : "Simpan resep"}
+          title={saved ? "Batal simpan" : "Simpan"}
+          className="flex h-11 w-11 items-center justify-center rounded-full text-white shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
+          style={{
+            background: saved
+              ? "rgba(250,204,21,0.24)"
+              : "rgba(255,255,255,0.12)",
+            border: saved
+              ? "1px solid rgba(250,204,21,0.55)"
+              : "1px solid rgba(255,255,255,0.22)",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.35)",
+            color: saved ? "#facc15" : "#ffffff",
+          }}
+        >
+          <Bookmark size={20} fill={saved ? "currentColor" : "none"} />
+        </button>
+      </div>
+
+      {saveError && (
+        <div className="absolute top-[74px] right-5 z-30 max-w-[260px] rounded-lg bg-red-500/90 px-3 py-2 text-xs font-medium text-white shadow-lg">
+          {saveError}
+        </div>
+      )}
+
       <h1
-        className="relative z-10 text-center font-black tracking-widest uppercase mb-8 drop-shadow-lg
+        className="relative z-10 mt-20 text-center font-black tracking-widest uppercase mb-8 drop-shadow-lg md:mt-0
           text-4xl md:text-6xl lg:text-7xl"
         style={{
           color: "#ffffff",
@@ -136,8 +220,8 @@ function ReceiptContent() {
           onClick={() => navigateTo("prev")}
           disabled={!canGoPrev}
           aria-label="Resep sebelumnya"
-          className="absolute -left-14 top-1/2 -translate-y-1/2 z-20
-            w-11 h-11 rounded-full flex items-center justify-center
+          className="absolute -left-14 top-1/2 -translate-y-1/2 z-20 hidden md:flex
+            w-11 h-11 rounded-full items-center justify-center
             transition-all duration-200 hover:scale-110 active:scale-95
             focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
           style={{
@@ -160,8 +244,8 @@ function ReceiptContent() {
           onClick={() => navigateTo("next")}
           disabled={!canGoNext}
           aria-label="Resep berikutnya"
-          className="absolute -right-14 top-1/2 -translate-y-1/2 z-20
-            w-11 h-11 rounded-full flex items-center justify-center
+          className="absolute -right-14 top-1/2 -translate-y-1/2 z-20 hidden md:flex
+            w-11 h-11 rounded-full items-center justify-center
             transition-all duration-200 hover:scale-110 active:scale-95
             focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
           style={{

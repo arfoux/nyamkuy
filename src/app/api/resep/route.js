@@ -1,11 +1,80 @@
 import { getRequestContext } from "@cloudflare/next-on-pages"
+import { getSession } from "@/lib/session"
 
 export const runtime = "edge"
+
+async function getRecipes(db, limit, offset) {
+  try {
+    const { results } = await db
+      .prepare(`
+        SELECT id, nama, deskripsi, created_at, poin
+        FROM resep
+        ORDER BY id
+        LIMIT ? OFFSET ?
+      `)
+      .bind(limit, offset)
+      .all()
+
+    return results
+  } catch {
+    const { results } = await db
+      .prepare(`
+        SELECT id, nama, deskripsi, created_at
+        FROM resep
+        ORDER BY id
+        LIMIT ? OFFSET ?
+      `)
+      .bind(limit, offset)
+      .all()
+
+    return results.map((recipe) => ({
+      ...recipe,
+      poin: 0,
+    }))
+  }
+}
+
+async function withSavedStatus(db, recipes, userId) {
+  const baseRecipes = recipes.map((recipe) => ({
+    ...recipe,
+    poin: Number(recipe.poin ?? 0) || 0,
+    is_saved: false,
+  }))
+
+  if (!userId || baseRecipes.length === 0) {
+    return baseRecipes
+  }
+
+  try {
+    const ids = baseRecipes.map((recipe) => recipe.id)
+    const placeholders = ids.map(() => "?").join(", ")
+
+    const { results } = await db
+      .prepare(`
+        SELECT resep_id
+        FROM saved_recipes
+        WHERE user_id = ?
+          AND resep_id IN (${placeholders})
+      `)
+      .bind(userId, ...ids)
+      .all()
+
+    const savedIds = new Set(results.map((row) => row.resep_id))
+
+    return baseRecipes.map((recipe) => ({
+      ...recipe,
+      is_saved: savedIds.has(recipe.id),
+    }))
+  } catch {
+    return baseRecipes
+  }
+}
 
 export async function GET(request) {
   try {
     const { env } = getRequestContext()
     const db = env.DB
+    const session = await getSession()
 
     const { searchParams } = new URL(request.url)
 
@@ -23,15 +92,8 @@ export async function GET(request) {
         .all()
     ).results
 
-    const { results } = await db
-      .prepare(`
-        SELECT id, nama, deskripsi, created_at
-        FROM resep
-        ORDER BY id
-        LIMIT ? OFFSET ?
-      `)
-      .bind(limit, offset)
-      .all()
+    const recipes = await getRecipes(db, limit, offset)
+    const results = await withSavedStatus(db, recipes, session?.userId)
 
     return Response.json({
       data: results,

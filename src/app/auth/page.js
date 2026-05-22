@@ -52,6 +52,18 @@ const EyeIcon = ({ show }) => (
   </svg>
 );
 
+function getSafeNextPath() {
+  if (typeof window === "undefined") return "/";
+
+  const next = new URLSearchParams(window.location.search).get("next");
+
+  if (!next || !next.startsWith("/") || next.startsWith("//")) {
+    return "/";
+  }
+
+  return next;
+}
+
 const PwField = ({
   label,
   placeholder,
@@ -168,12 +180,14 @@ export default function AuthPage() {
           type: "error",
         });
       } else {
+        const nextPath = getSafeNextPath();
+
         setLoginMsg({
           text: "Berhasil masuk! Mengalihkan...",
           type: "success",
         });
 
-        setTimeout(() => router.push("/"), 800);
+        setTimeout(() => router.push(nextPath), 800);
       }
     } catch {
       setLoginMsg({

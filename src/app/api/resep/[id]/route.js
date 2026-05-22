@@ -2,13 +2,18 @@
 // GET /api/resep/1 → detail resep + bahan, bumbu, sambal, komponen, lalapan, langkah, tips
 
 import { getRequestContext } from "@cloudflare/next-on-pages"
+import { getSession } from "@/lib/session"
 
 export const runtime = "edge"
 
-export async function GET(request, { params }) {
+export async function GET(_request, { params }) {
+  void _request
+
   const { env } = getRequestContext()
   const db = env.DB
-  const id = parseInt(params.id)
+  const resolvedParams = await params
+  const id = parseInt(resolvedParams.id, 10)
+  const session = await getSession()
 
   if (isNaN(id)) {
     return Response.json({ error: "ID tidak valid" }, { status: 400 })
@@ -41,9 +46,27 @@ export async function GET(request, { params }) {
       return Response.json({ error: "Resep tidak ditemukan" }, { status: 404 })
     }
 
+    let isSaved = false
+
+    if (session?.userId) {
+      try {
+        const saved = await db
+          .prepare(
+            "SELECT 1 FROM saved_recipes WHERE user_id = ? AND resep_id = ? LIMIT 1"
+          )
+          .bind(session.userId, id)
+          .first()
+
+        isSaved = Boolean(saved)
+      } catch {
+        isSaved = false
+      }
+    }
+
     return Response.json({
       data: {
         ...resep,
+        is_saved: isSaved,
         bahan:    bahanResult.results,
         bumbu:    bumbuResult.results,
         sambal:   sambalResult.results,

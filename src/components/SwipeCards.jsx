@@ -8,6 +8,8 @@ import {
   forwardRef,
   useImperativeHandle,
 } from "react"
+import { useRouter } from "next/navigation"
+import { Bookmark, Star } from "lucide-react"
 
 function getFoodImage(nama) {
   return `/api/image/base?nama=${encodeURIComponent(
@@ -29,6 +31,11 @@ function mapRecipeToCard(recipe) {
     description:
       recipe.deskripsi,
     image: imageUrl,
+    poin:
+      Number(recipe.poin ?? 0) || 0,
+    saved: Boolean(
+      recipe.is_saved
+    ),
   }
 }
 
@@ -37,6 +44,8 @@ function SwipeCard({
   isTop,
   onSwipe,
   onCardClick,
+  onToggleSave,
+  saving,
 }) {
   const cardRef = useRef(null)
 
@@ -115,6 +124,12 @@ function SwipeCard({
         "none"
 
       el.style.animation = "none"
+    }
+
+    function isCardControl(target) {
+      return target.closest(
+        "[data-card-control='true']"
+      )
     }
 
     function move(px, py) {
@@ -208,6 +223,9 @@ function SwipeCard({
     }
 
     function onMouseDown(e) {
+      if (isCardControl(e.target))
+        return
+
       e.preventDefault()
 
       start(
@@ -228,6 +246,9 @@ function SwipeCard({
     }
 
     function onTouchStart(e) {
+      if (isCardControl(e.target))
+        return
+
       const t = e.touches[0]
 
       start(
@@ -407,6 +428,123 @@ function SwipeCard({
           }}
         />
 
+        {isTop && (
+          <div
+            data-card-control="true"
+            style={{
+              position: "absolute",
+              top: 12,
+              left: 12,
+              right: 12,
+              display: "flex",
+              alignItems:
+                "center",
+              justifyContent:
+                "space-between",
+              gap: 8,
+              pointerEvents:
+                "auto",
+            }}
+          >
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems:
+                  "center",
+                gap: 5,
+                minHeight: 34,
+                padding:
+                  "0 10px",
+                borderRadius:
+                  999,
+                background:
+                  "rgba(0,0,0,0.34)",
+                border:
+                  "1px solid rgba(255,255,255,0.22)",
+                color: "#fff",
+                fontSize: 12,
+                fontWeight: 700,
+                boxShadow:
+                  "0 8px 18px rgba(0,0,0,0.22)",
+                backdropFilter:
+                  "blur(10px)",
+              }}
+            >
+              <Star
+                size={13}
+                fill="#facc15"
+                color="#facc15"
+              />
+              <span>
+                {card.poin} poin
+              </span>
+            </div>
+
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                onToggleSave?.(card)
+              }}
+              disabled={saving}
+              aria-label={
+                card.saved
+                  ? "Batal simpan resep"
+                  : "Simpan resep"
+              }
+              title={
+                card.saved
+                  ? "Batal simpan"
+                  : "Simpan"
+              }
+              style={{
+                display:
+                  "inline-flex",
+                alignItems:
+                  "center",
+                justifyContent:
+                  "center",
+                width: 36,
+                height: 36,
+                borderRadius:
+                  999,
+                background:
+                  card.saved
+                    ? "rgba(250,204,21,0.24)"
+                    : "rgba(0,0,0,0.34)",
+                border:
+                  card.saved
+                    ? "1px solid rgba(250,204,21,0.55)"
+                    : "1px solid rgba(255,255,255,0.22)",
+                color:
+                  card.saved
+                    ? "#facc15"
+                    : "#fff",
+                boxShadow:
+                  "0 8px 18px rgba(0,0,0,0.22)",
+                backdropFilter:
+                  "blur(10px)",
+                cursor: saving
+                  ? "not-allowed"
+                  : "pointer",
+                opacity: saving
+                  ? 0.65
+                  : 1,
+              }}
+            >
+              <Bookmark
+                size={18}
+                fill={
+                  card.saved
+                    ? "currentColor"
+                    : "none"
+                }
+              />
+            </button>
+          </div>
+        )}
+
         <div
           style={{
             position: "absolute",
@@ -459,6 +597,8 @@ const SwipeCards = forwardRef(
     },
     ref
   ) => {
+    const router = useRouter()
+
     const totalPages =
       useRef(1)
 
@@ -472,6 +612,9 @@ const SwipeCards = forwardRef(
 
     const [mounted, setMounted] =
       useState(false)
+
+    const [savingIds, setSavingIds] =
+      useState([])
 
     useEffect(() => {
       cardsRef.current = cards
@@ -583,6 +726,93 @@ const SwipeCards = forwardRef(
 
     const isFetching =
       useRef(false)
+
+    const updateCardSaved =
+      useCallback(
+        (id, saved) => {
+          setCards((current) =>
+            current.map((card) =>
+              card.id === id
+                ? {
+                    ...card,
+                    saved,
+                  }
+                : card
+            )
+          )
+        },
+        []
+      )
+
+    const handleToggleSave =
+      useCallback(
+        async (card) => {
+          if (
+            !card?.id ||
+            savingIds.includes(card.id)
+          ) {
+            return
+          }
+
+          setSavingIds((current) => [
+            ...current,
+            card.id,
+          ])
+
+          try {
+            const res = await fetch(
+              `/api/resep/${card.id}/simpan`,
+              {
+                method: card.saved
+                  ? "DELETE"
+                  : "POST",
+                credentials:
+                  "include",
+              }
+            )
+
+            const data =
+              await res
+                .json()
+                .catch(() => ({}))
+
+            if (res.status === 401) {
+              router.push(
+                `/auth?next=${encodeURIComponent(
+                  "/"
+                )}`
+              )
+              return
+            }
+
+            if (!res.ok) {
+              throw new Error(
+                data.error ||
+                  "Gagal memperbarui simpan"
+              )
+            }
+
+            updateCardSaved(
+              card.id,
+              Boolean(data.saved)
+            )
+          } catch (err) {
+            console.error(err)
+          } finally {
+            setSavingIds((current) =>
+              current.filter(
+                (id) =>
+                  id !== card.id
+              )
+            )
+          }
+        },
+        [
+          router,
+          savingIds,
+          updateCardSaved,
+        ]
+      )
 
     const handleSwipe =
       useCallback(
@@ -829,6 +1059,12 @@ const SwipeCards = forwardRef(
                       card={card}
                       isTop={
                         isTop
+                      }
+                      saving={savingIds.includes(
+                        card.id
+                      )}
+                      onToggleSave={
+                        handleToggleSave
                       }
                       onSwipe={(
                         dir

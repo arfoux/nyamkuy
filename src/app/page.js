@@ -37,6 +37,7 @@ export default function Page() {
     useState(false)
 
   const profileRef = useRef(null)
+  const searchInputRef = useRef(null)
 
   // swipe ref
   const swipeRef = useRef(null)
@@ -457,7 +458,7 @@ export default function Page() {
       </button>
 
       {/* CONTENT */}
-      <div className="relative z-10 flex flex-col items-center gap-4">
+      <div className="relative z-10 flex -translate-y-5 flex-col items-center gap-3 md:translate-y-0 md:gap-4">
         {/* CARD + PANAH */}
         <div className="relative inline-block">
           {/* SWIPE CARD */}
@@ -561,8 +562,22 @@ export default function Page() {
         </div>
 
         {/* SEARCH */}
-        <div className="relative w-[340px]">
-          <div className="flex items-center gap-2 rounded-full bg-white/85 px-3 py-2 shadow-lg backdrop-blur">
+        <div className="relative w-[340px] max-w-[calc(100vw-32px)]">
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={() => searchInputRef.current?.focus()}
+            onKeyDown={(event) => {
+              if (
+                event.key === "Enter" ||
+                event.key === " "
+              ) {
+                event.preventDefault()
+                searchInputRef.current?.focus()
+              }
+            }}
+            className="flex cursor-text items-center gap-2 rounded-full bg-white/85 px-3 py-2 shadow-lg backdrop-blur transition hover:bg-white"
+          >
             <div className="flex h-9 w-9 items-center justify-center rounded-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -586,6 +601,7 @@ export default function Page() {
             </div>
 
             <input
+              ref={searchInputRef}
               type="text"
               placeholder="Cari resep..."
               value={search}

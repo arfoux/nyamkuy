@@ -9,7 +9,16 @@ import {
   useImperativeHandle,
 } from "react"
 import { useRouter } from "next/navigation"
-import { Bookmark, ChefHat, Clock3, MapPin, Sparkles, Star } from "lucide-react"
+import {
+  Bookmark,
+  ChefHat,
+  Clock3,
+  Hand,
+  MapPin,
+  MousePointerClick,
+  Sparkles,
+  X,
+} from "lucide-react"
 
 function getFoodImage(nama) {
   return `/api/image/base?nama=${encodeURIComponent(
@@ -467,198 +476,13 @@ function SwipeCard({
           }}
         />
 
-        {isTop && (
-          <div
-            data-card-control="true"
-            style={{
-              position: "absolute",
-              top: 12,
-              left: 12,
-              right: 12,
-              display: "flex",
-              alignItems:
-                "center",
-              justifyContent:
-                "space-between",
-              gap: 8,
-              pointerEvents:
-                "auto",
-            }}
-          >
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems:
-                  "center",
-                gap: 5,
-                minHeight: 34,
-                padding:
-                  "0 10px",
-                borderRadius:
-                  999,
-                background:
-                  "rgba(0,0,0,0.34)",
-                border:
-                  "1px solid rgba(255,255,255,0.22)",
-                color: "#fff",
-                fontSize: 12,
-                fontWeight: 700,
-                boxShadow:
-                  "0 8px 18px rgba(0,0,0,0.22)",
-                backdropFilter:
-                  "blur(10px)",
-              }}
-            >
-              <Star
-                size={13}
-                fill="#facc15"
-                color="#facc15"
-              />
-              <span>
-                +{card.cookPoints} poin
-              </span>
-            </div>
-
-            <div
-              style={{
-                display:
-                  "inline-flex",
-                alignItems:
-                  "center",
-                gap: 8,
-              }}
-            >
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  onCook?.(card)
-                }}
-                disabled={cooking}
-                aria-label="Masak resep"
-                title="Masak"
-                style={{
-                  display:
-                    "inline-flex",
-                  alignItems:
-                    "center",
-                  justifyContent:
-                    "center",
-                  gap: 5,
-                  minWidth: 76,
-                  height: 36,
-                  padding:
-                    "0 11px",
-                  borderRadius:
-                    999,
-                  background:
-                    cookFeedback?.type ===
-                    "success"
-                      ? "rgba(22,163,74,0.82)"
-                      : "rgba(250,204,21,0.9)",
-                  border:
-                    "1px solid rgba(255,255,255,0.28)",
-                  color:
-                    cookFeedback?.type ===
-                    "success"
-                      ? "#fff"
-                      : "#241306",
-                  fontSize: 12,
-                  fontWeight: 800,
-                  boxShadow:
-                    "0 8px 18px rgba(0,0,0,0.22)",
-                  backdropFilter:
-                    "blur(10px)",
-                  cursor: cooking
-                    ? "not-allowed"
-                    : "pointer",
-                  opacity: cooking
-                    ? 0.72
-                    : 1,
-                }}
-              >
-                <ChefHat size={15} />
-                <span>
-                  {cooking
-                    ? "..."
-                    : "Masak"}
-                </span>
-              </button>
-
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  onToggleSave?.(card)
-                }}
-                disabled={saving}
-                aria-label={
-                  card.saved
-                    ? "Batal simpan resep"
-                    : "Simpan resep"
-                }
-                title={
-                  card.saved
-                    ? "Batal simpan"
-                    : "Simpan"
-                }
-                style={{
-                  display:
-                    "inline-flex",
-                  alignItems:
-                    "center",
-                  justifyContent:
-                    "center",
-                  width: 36,
-                  height: 36,
-                  borderRadius:
-                    999,
-                  background:
-                    card.saved
-                      ? "rgba(250,204,21,0.24)"
-                      : "rgba(0,0,0,0.34)",
-                  border:
-                    card.saved
-                      ? "1px solid rgba(250,204,21,0.55)"
-                      : "1px solid rgba(255,255,255,0.22)",
-                  color:
-                    card.saved
-                      ? "#facc15"
-                      : "#fff",
-                  boxShadow:
-                    "0 8px 18px rgba(0,0,0,0.22)",
-                  backdropFilter:
-                    "blur(10px)",
-                  cursor: saving
-                    ? "not-allowed"
-                    : "pointer",
-                  opacity: saving
-                    ? 0.65
-                    : 1,
-                }}
-              >
-                <Bookmark
-                  size={18}
-                  fill={
-                    card.saved
-                      ? "currentColor"
-                      : "none"
-                  }
-                />
-              </button>
-            </div>
-          </div>
-        )}
-
         {isTop && cookFeedback && (
           <div
             data-card-control="true"
             className="cook-feedback"
             style={{
               position: "absolute",
-              top: 58,
+              top: 12,
               left: 12,
               right: 12,
               display: "flex",
@@ -828,6 +652,171 @@ function SwipeCard({
           >
             {card.description}
           </div>
+
+          {isTop && (
+            <div
+              data-card-control="true"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                marginTop: 12,
+                pointerEvents: "auto",
+              }}
+            >
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  onCook?.(card)
+                }}
+                disabled={cooking}
+                aria-label="Masak resep"
+                title="Masak"
+                style={{
+                  display: "inline-flex",
+                  flex: 1,
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: 8,
+                  height: 38,
+                  minWidth: 0,
+                  padding: "0 12px",
+                  borderRadius: 999,
+                  background:
+                    cookFeedback?.type ===
+                    "success"
+                      ? "rgba(22,163,74,0.9)"
+                      : "rgba(250,204,21,0.94)",
+                  border:
+                    "1px solid rgba(255,255,255,0.28)",
+                  color:
+                    cookFeedback?.type ===
+                    "success"
+                      ? "#fff"
+                      : "#241306",
+                  fontSize: 12,
+                  fontWeight: 900,
+                  boxShadow:
+                    "0 8px 18px rgba(0,0,0,0.22)",
+                  backdropFilter:
+                    "blur(10px)",
+                  cursor: cooking
+                    ? "not-allowed"
+                    : "pointer",
+                  opacity: cooking
+                    ? 0.72
+                    : 1,
+                }}
+              >
+                <span
+                  style={{
+                    display:
+                      "inline-flex",
+                    alignItems:
+                      "center",
+                    gap: 6,
+                    minWidth: 0,
+                  }}
+                >
+                  <ChefHat size={15} />
+                  <span
+                    style={{
+                      overflow:
+                        "hidden",
+                      textOverflow:
+                        "ellipsis",
+                      whiteSpace:
+                        "nowrap",
+                    }}
+                  >
+                    {cooking
+                      ? "Mencatat..."
+                      : "Masak"}
+                  </span>
+                </span>
+
+                <span
+                  style={{
+                    flexShrink: 0,
+                    borderRadius: 999,
+                    background:
+                      "rgba(0,0,0,0.16)",
+                    padding:
+                      "3px 8px",
+                    fontSize: 11,
+                  }}
+                >
+                  +{card.cookPoints}
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  onToggleSave?.(card)
+                }}
+                disabled={saving}
+                aria-label={
+                  card.saved
+                    ? "Batal simpan resep"
+                    : "Simpan resep"
+                }
+                title={
+                  card.saved
+                    ? "Batal simpan"
+                    : "Simpan"
+                }
+                style={{
+                  display:
+                    "inline-flex",
+                  alignItems:
+                    "center",
+                  justifyContent:
+                    "center",
+                  width: 38,
+                  height: 38,
+                  flexShrink: 0,
+                  borderRadius:
+                    999,
+                  background:
+                    card.saved
+                      ? "rgba(250,204,21,0.24)"
+                      : "rgba(255,255,255,0.14)",
+                  border:
+                    card.saved
+                      ? "1px solid rgba(250,204,21,0.55)"
+                      : "1px solid rgba(255,255,255,0.22)",
+                  color:
+                    card.saved
+                      ? "#facc15"
+                      : "#fff",
+                  boxShadow:
+                    "0 8px 18px rgba(0,0,0,0.22)",
+                  backdropFilter:
+                    "blur(10px)",
+                  cursor: saving
+                    ? "not-allowed"
+                    : "pointer",
+                  opacity: saving
+                    ? 0.65
+                    : 1,
+                }}
+              >
+                <Bookmark
+                  size={18}
+                  fill={
+                    card.saved
+                      ? "currentColor"
+                      : "none"
+                  }
+                />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>
@@ -868,9 +857,26 @@ const SwipeCards = forwardRef(
     const [cookFeedbacks, setCookFeedbacks] =
       useState({})
 
+    const [cookConfirmCard, setCookConfirmCard] =
+      useState(null)
+
+    const [showGestureHint, setShowGestureHint] =
+      useState(false)
+
     useEffect(() => {
       cardsRef.current = cards
     }, [cards])
+
+    useEffect(() => {
+      if (!mounted) return
+
+      setShowGestureHint(true)
+      const timer = setTimeout(() => {
+        setShowGestureHint(false)
+      }, 3200)
+
+      return () => clearTimeout(timer)
+    }, [mounted])
 
     function shuffleArray(arr) {
       return [...arr].sort(
@@ -1176,6 +1182,20 @@ const SwipeCards = forwardRef(
         ]
       )
 
+    const requestCook =
+      useCallback((card) => {
+        if (!card?.id) return
+        setCookConfirmCard(card)
+      }, [])
+
+    const confirmCook =
+      useCallback(() => {
+        if (!cookConfirmCard) return
+        const card = cookConfirmCard
+        setCookConfirmCard(null)
+        handleCook(card)
+      }, [cookConfirmCard, handleCook])
+
     const handleSwipe =
       useCallback(
         (dir, id) => {
@@ -1367,6 +1387,67 @@ const SwipeCards = forwardRef(
 
     return (
       <div className="flex flex-col items-center gap-4 py-6">
+        <style jsx>{`
+          @keyframes gestureSwipe {
+            0% {
+              opacity: 0;
+              transform: translate(-54px, 20px)
+                rotate(-10deg)
+                scale(0.92);
+            }
+
+            14% {
+              opacity: 0.82;
+            }
+
+            42% {
+              opacity: 0.9;
+              transform: translate(42px, 2px)
+                rotate(8deg)
+                scale(1);
+            }
+
+            66% {
+              opacity: 0.88;
+              transform: translate(-30px, 16px)
+                rotate(-8deg)
+                scale(0.98);
+            }
+
+            100% {
+              opacity: 0;
+              transform: translate(30px, 8px)
+                rotate(4deg)
+                scale(0.94);
+            }
+          }
+
+          @keyframes tapPulse {
+            0%,
+            58% {
+              opacity: 0;
+              transform: scale(0.72);
+            }
+
+            72% {
+              opacity: 0.55;
+            }
+
+            100% {
+              opacity: 0;
+              transform: scale(1.8);
+            }
+          }
+
+          .gesture-hand {
+            animation: gestureSwipe 3.1s ease-in-out both;
+          }
+
+          .tap-pulse {
+            animation: tapPulse 3.1s ease-in-out both;
+          }
+        `}</style>
+
         <div
           style={{
             position:
@@ -1375,6 +1456,76 @@ const SwipeCards = forwardRef(
             height: 500,
           }}
         >
+          {showGestureHint && (
+            <div
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                inset: 0,
+                zIndex: 60,
+                pointerEvents: "none",
+              }}
+            >
+              <div
+                className="gesture-hand"
+                style={{
+                  position: "absolute",
+                  left: "50%",
+                  top: "39%",
+                  width: 74,
+                  height: 74,
+                  marginLeft: -37,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 999,
+                  background:
+                    "rgba(255,255,255,0.14)",
+                  border:
+                    "1px solid rgba(255,255,255,0.32)",
+                  color: "rgba(255,255,255,0.9)",
+                  boxShadow:
+                    "0 0 34px rgba(255,255,255,0.38)",
+                  backdropFilter:
+                    "blur(8px)",
+                }}
+              >
+                <Hand size={38} />
+              </div>
+
+              <div
+                className="tap-pulse"
+                style={{
+                  position: "absolute",
+                  left: "50%",
+                  bottom: 104,
+                  width: 46,
+                  height: 46,
+                  marginLeft: -23,
+                  borderRadius: 999,
+                  border:
+                    "2px solid rgba(255,255,255,0.76)",
+                  boxShadow:
+                    "0 0 24px rgba(255,255,255,0.32)",
+                }}
+              />
+
+              <MousePointerClick
+                className="tap-pulse"
+                size={24}
+                style={{
+                  position: "absolute",
+                  left: "50%",
+                  bottom: 114,
+                  marginLeft: -12,
+                  color: "rgba(255,255,255,0.88)",
+                  filter:
+                    "drop-shadow(0 0 12px rgba(255,255,255,0.45))",
+                }}
+              />
+            </div>
+          )}
+
           {cards
             .slice(-5)
             .map(
@@ -1437,7 +1588,7 @@ const SwipeCards = forwardRef(
                         ]
                       }
                       onCook={
-                        handleCook
+                        requestCook
                       }
                       onSwipe={(
                         dir
@@ -1456,6 +1607,66 @@ const SwipeCards = forwardRef(
               }
             )}
         </div>
+
+        {cookConfirmCard && (
+          <div
+            data-card-control="true"
+            className="fixed inset-0 z-[80] flex items-center justify-center bg-black/55 px-4 backdrop-blur-sm"
+          >
+            <div className="w-full max-w-sm rounded-2xl border border-white/20 bg-[#23120a]/95 p-4 text-white shadow-2xl">
+              <div className="mb-4 flex items-start justify-between gap-3">
+                <div>
+                  <div className="text-xs font-black uppercase tracking-[0.18em] text-white/50">
+                    Konfirmasi Masak
+                  </div>
+                  <div className="mt-2 text-xl font-black leading-tight">
+                    {cookConfirmCard.title}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setCookConfirmCard(null)}
+                  aria-label="Tutup konfirmasi"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              <div className="rounded-xl bg-white/10 p-3 text-sm font-semibold leading-relaxed text-white/75">
+                Catat resep ini sebagai sudah dimasak hari ini. Kuota harian
+                tetap maksimal 3 masakan.
+              </div>
+
+              <div className="mt-4 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setCookConfirmCard(null)}
+                  className="h-11 flex-1 rounded-full bg-white/10 px-4 text-sm font-extrabold text-white transition hover:bg-white/20"
+                >
+                  Batal
+                </button>
+
+                <button
+                  type="button"
+                  onClick={confirmCook}
+                  disabled={cookingIds.includes(cookConfirmCard.id)}
+                  className="flex h-11 flex-1 items-center justify-center gap-2 rounded-full px-4 text-sm font-extrabold text-[#241306] transition hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, rgba(250,204,21,0.98), rgba(234,88,12,0.94))",
+                  }}
+                >
+                  <ChefHat size={18} />
+                  {cookingIds.includes(cookConfirmCard.id)
+                    ? "Mencatat..."
+                    : `Masak +${cookConfirmCard.cookPoints}`}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     )
   }

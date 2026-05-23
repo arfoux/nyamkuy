@@ -11,11 +11,12 @@ import {
   ChevronLeft,
   ChevronRight,
   Gauge,
+  Home,
   MapPin,
   Sparkles,
-  Star,
   Tag,
   Users,
+  X,
 } from "lucide-react"
 
 const FALLBACK = {
@@ -41,6 +42,7 @@ function ReceiptContent() {
   const [saveError, setSaveError] = useState("")
   const [cooking, setCooking] = useState(false)
   const [cookNotice, setCookNotice] = useState(null)
+  const [confirmCookOpen, setConfirmCookOpen] = useState(false)
 
   useEffect(() => {
     async function loadRecipe() {
@@ -121,6 +123,7 @@ function ReceiptContent() {
 
     setCooking(true)
     setCookNotice(null)
+    setConfirmCookOpen(false)
 
     try {
       const res = await fetch(`/api/resep/${id}/masak`, {
@@ -284,6 +287,25 @@ function ReceiptContent() {
           background: rgba(255,255,255,0.28);
           border-radius: 999px;
         }
+
+        .recipe-card-scroll {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255,255,255,0.3) rgba(255,255,255,0.08);
+        }
+
+        .recipe-card-scroll::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        .recipe-card-scroll::-webkit-scrollbar-track {
+          background: rgba(255,255,255,0.08);
+          border-radius: 999px;
+        }
+
+        .recipe-card-scroll::-webkit-scrollbar-thumb {
+          background: rgba(255,255,255,0.3);
+          border-radius: 999px;
+        }
       `}</style>
 
       <div
@@ -293,15 +315,24 @@ function ReceiptContent() {
       <div className="absolute inset-0 z-0 backdrop-blur-3xl bg-[#6b4a36]/50" />
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,rgba(220,185,155,0.25)_0%,rgba(30,15,8,0.72)_100%)]" />
 
-      <button
-        onClick={() => router.back()}
-        className="absolute top-5 left-5 z-30 flex items-center gap-2 px-4 py-2 rounded-full
-          bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20
-          text-white text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95"
-      >
-        <ArrowLeft size={15} />
-        Kembali
-      </button>
+      <div className="absolute left-5 top-5 z-30 flex items-center gap-2">
+        <button
+          onClick={() => router.push("/")}
+          aria-label="Beranda"
+          title="Beranda"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:bg-white/20 active:scale-95"
+        >
+          <Home size={16} />
+        </button>
+
+        <button
+          onClick={() => router.back()}
+          className="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:bg-white/20 active:scale-95"
+        >
+          <ArrowLeft size={15} />
+          Kembali
+        </button>
+      </div>
 
       {cookNotice && (
         <div
@@ -328,6 +359,67 @@ function ReceiptContent() {
             </div>
             <div className="text-xs font-medium text-white/85">
               {cookNotice.text}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {confirmCookOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 px-4 backdrop-blur-sm">
+          <div
+            className="w-full max-w-sm rounded-2xl p-4 text-white shadow-2xl"
+            style={{
+              background: "rgba(35,18,10,0.94)",
+              border: "1px solid rgba(255,255,255,0.18)",
+            }}
+          >
+            <div className="mb-4 flex items-start justify-between gap-3">
+              <div>
+                <div className="text-xs font-black uppercase tracking-[0.18em] text-white/50">
+                  Konfirmasi Masak
+                </div>
+                <div className="mt-2 text-xl font-black leading-tight">
+                  {nama}
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setConfirmCookOpen(false)}
+                aria-label="Tutup konfirmasi"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="rounded-xl bg-white/10 p-3 text-sm font-semibold leading-relaxed text-white/75">
+              Catat resep ini sebagai sudah dimasak hari ini. Kuota harian tetap
+              maksimal 3 masakan.
+            </div>
+
+            <div className="mt-4 flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setConfirmCookOpen(false)}
+                className="h-11 flex-1 rounded-full bg-white/10 px-4 text-sm font-extrabold text-white transition hover:bg-white/20"
+              >
+                Batal
+              </button>
+
+              <button
+                type="button"
+                onClick={handleCook}
+                disabled={cooking}
+                className="flex h-11 flex-1 items-center justify-center gap-2 rounded-full px-4 text-sm font-extrabold text-[#241306] transition hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(250,204,21,0.98), rgba(234,88,12,0.94))",
+                }}
+              >
+                <ChefHat size={18} />
+                {cooking ? "Mencatat..." : `Masak +${cookPoints}`}
+              </button>
             </div>
           </div>
         </div>
@@ -395,7 +487,7 @@ function ReceiptContent() {
 
         {/* Kartu Resep */}
         <div
-          className="flex h-full min-h-0 w-full flex-col overflow-hidden rounded-3xl shadow-2xl md:flex-row"
+          className="recipe-card-scroll flex h-full min-h-0 w-full flex-col overflow-y-auto rounded-3xl shadow-2xl md:flex-row md:overflow-hidden"
           style={{
             background: "rgba(255,255,255,0.07)",
             backdropFilter: "blur(28px) saturate(1.4)",
@@ -406,46 +498,13 @@ function ReceiptContent() {
         >
           {/* Panel Kiri (Keterangan dengan warna asli) */}
           <div
-            className="relative flex w-full shrink-0 flex-col items-center gap-3 overflow-hidden p-4 md:h-full md:w-[30%] md:justify-between md:p-5"
+            className="relative flex w-full shrink-0 flex-col items-center justify-center gap-3 overflow-hidden p-4 md:h-full md:w-[30%] md:p-5"
             style={{
               background: "rgba(40,20,10,0.45)",
               backdropFilter: "blur(10px)",
               borderRight: "1px solid rgba(255,255,255,0.08)",
             }}
           >
-            <div className="flex w-full items-center justify-between gap-2">
-              <div
-                className="flex h-9 items-center gap-1.5 rounded-full px-3 text-xs font-black text-white shadow-lg backdrop-blur-sm"
-                style={{
-                  background: "rgba(255,255,255,0.12)",
-                  border: "1px solid rgba(255,255,255,0.2)",
-                }}
-              >
-                <Star size={14} fill="#facc15" color="#facc15" />
-                <span>+{cookPoints} poin</span>
-              </div>
-
-              <button
-                type="button"
-                onClick={handleToggleSave}
-                disabled={!id || saving}
-                aria-label={saved ? "Batal simpan resep" : "Simpan resep"}
-                title={saved ? "Batal simpan" : "Simpan"}
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
-                style={{
-                  background: saved
-                    ? "rgba(250,204,21,0.24)"
-                    : "rgba(255,255,255,0.12)",
-                  border: saved
-                    ? "1px solid rgba(250,204,21,0.55)"
-                    : "1px solid rgba(255,255,255,0.2)",
-                  color: saved ? "#facc15" : "#ffffff",
-                }}
-              >
-                <Bookmark size={18} fill={saved ? "currentColor" : "none"} />
-              </button>
-            </div>
-
             {saveError && (
               <div className="w-full rounded-lg bg-red-500/90 px-3 py-2 text-xs font-semibold text-white shadow-lg">
                 {saveError}
@@ -454,7 +513,7 @@ function ReceiptContent() {
 
             <div
               className="relative flex items-center justify-center"
-              style={{ width: "100%", maxWidth: 210 }}
+              style={{ width: "100%", maxWidth: 190 }}
             >
               <div
                 className="absolute inset-0 rounded-full blur-2xl opacity-40"
@@ -467,7 +526,7 @@ function ReceiptContent() {
                 onError={() => setImgError(true)}
                 className="relative z-10 w-full object-contain"
                 style={{
-                  maxHeight: 170,
+                  maxHeight: 150,
                   filter: imgLoaded
                     ? "drop-shadow(0 12px 32px rgba(0,0,0,0.55)) drop-shadow(0 0 8px rgba(220,160,100,0.35))"
                     : "none",
@@ -513,44 +572,66 @@ function ReceiptContent() {
               </div>
             )}
 
-            <button
-              type="button"
-              onClick={handleCook}
-              disabled={!id || loading || cooking}
-              className="cook-ready relative flex h-11 w-full max-w-[245px] items-center justify-between gap-3 rounded-full px-4 text-sm font-extrabold text-white transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-70"
-              style={{
-                background:
-                  cookNotice?.type === "success"
-                    ? "linear-gradient(135deg, rgba(22,163,74,0.96), rgba(5,150,105,0.92))"
-                    : "linear-gradient(135deg, rgba(250,204,21,0.96), rgba(234,88,12,0.92))",
-                border: "1px solid rgba(255,255,255,0.28)",
-                boxShadow:
-                  "0 16px 42px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.28)",
-              }}
-            >
-              <span className="flex min-w-0 items-center gap-2">
-                {cookNotice?.type === "success" ? (
-                  <CheckCircle2 size={19} />
-                ) : (
-                  <ChefHat size={19} />
-                )}
-                <span className="truncate">
-                  {cooking
-                    ? "Mencatat..."
-                    : cookNotice?.type === "success"
-                      ? "Masakan tercatat"
-                      : "Masak sekarang"}
+            <div className="flex w-full max-w-[270px] items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setConfirmCookOpen(true)}
+                disabled={!id || loading || cooking}
+                className="cook-ready relative flex h-11 min-w-0 flex-1 items-center justify-between gap-3 rounded-full px-4 text-sm font-extrabold text-white transition-all duration-300 hover:scale-[1.02] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-70"
+                style={{
+                  background:
+                    cookNotice?.type === "success"
+                      ? "linear-gradient(135deg, rgba(22,163,74,0.96), rgba(5,150,105,0.92))"
+                      : "linear-gradient(135deg, rgba(250,204,21,0.96), rgba(234,88,12,0.92))",
+                  border: "1px solid rgba(255,255,255,0.28)",
+                  boxShadow:
+                    "0 16px 42px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.28)",
+                }}
+              >
+                <span className="flex min-w-0 items-center gap-2">
+                  {cookNotice?.type === "success" ? (
+                    <CheckCircle2 size={19} />
+                  ) : (
+                    <ChefHat size={19} />
+                  )}
+                  <span className="truncate">
+                    {cooking
+                      ? "Mencatat..."
+                      : cookNotice?.type === "success"
+                        ? "Masakan tercatat"
+                        : "Masak sekarang"}
+                  </span>
                 </span>
-              </span>
 
-              <span className="shrink-0 rounded-full bg-black/18 px-2.5 py-1 text-xs">
-                +{cookPoints}
-              </span>
-            </button>
+                <span className="shrink-0 rounded-full bg-black/20 px-2.5 py-1 text-xs">
+                  +{cookPoints}
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleToggleSave}
+                disabled={!id || saving}
+                aria-label={saved ? "Batal simpan resep" : "Simpan resep"}
+                title={saved ? "Batal simpan" : "Simpan"}
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
+                style={{
+                  background: saved
+                    ? "rgba(250,204,21,0.24)"
+                    : "rgba(255,255,255,0.12)",
+                  border: saved
+                    ? "1px solid rgba(250,204,21,0.55)"
+                    : "1px solid rgba(255,255,255,0.2)",
+                  color: saved ? "#facc15" : "#ffffff",
+                }}
+              >
+                <Bookmark size={19} fill={saved ? "currentColor" : "none"} />
+              </button>
+            </div>
           </div>
 
           {/* Panel Kanan (Menu resep dengan warna putih terang) */}
-          <div className="recipe-scroll grid min-h-0 w-full flex-1 grid-cols-1 gap-5 overflow-y-auto p-4 md:w-[70%] md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-7 md:p-6">
+          <div className="recipe-scroll grid min-h-0 w-full flex-1 grid-cols-1 gap-5 overflow-visible p-4 md:w-[70%] md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-7 md:overflow-y-auto md:p-6">
             <div>
               <SectionTitle>Bahan Utama</SectionTitle>
               {loading ? (

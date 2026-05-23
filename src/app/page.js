@@ -9,6 +9,8 @@ import {
   User,
   LogOut,
   ChevronRight,
+  Trophy,
+  Star,
 } from "lucide-react"
 
 export default function Page() {
@@ -382,6 +384,32 @@ export default function Page() {
                 </button>
 
                 <button
+                  onClick={() => {
+                    setOpenProfile(
+                      false
+                    )
+
+                    router.push(
+                      "/leaderboard"
+                    )
+                  }}
+                  className="
+                    flex
+                    w-full
+                    items-center
+                    gap-3
+                    px-4
+                    py-3
+                    text-left
+                    text-black
+                    hover:bg-black/5
+                  "
+                >
+                  <Trophy className="h-5 w-5" />
+                  Leaderboard
+                </button>
+
+                <button
                   onClick={
                     handleLogout
                   }
@@ -416,6 +444,35 @@ export default function Page() {
           </Button>
         )}
       </div>
+
+      <button
+        type="button"
+        onClick={() => router.push("/leaderboard")}
+        className="
+          absolute
+          bottom-5
+          right-5
+          z-20
+          flex
+          h-11
+          items-center
+          gap-2
+          rounded-full
+          bg-white/85
+          px-4
+          text-sm
+          font-extrabold
+          text-black
+          shadow-lg
+          backdrop-blur
+          transition
+          hover:scale-105
+          active:scale-95
+        "
+      >
+        <Trophy className="h-4 w-4" />
+        Ranking
+      </button>
 
       {/* CONTENT */}
       <div className="relative z-10 flex flex-col items-center gap-4">
@@ -653,6 +710,31 @@ export default function Page() {
                             {
                               deskripsi
                             }
+                          </div>
+
+                          <div className="mt-2 flex flex-wrap gap-1.5">
+                            {[
+                              item.category,
+                              item.region,
+                              item.difficulty,
+                            ]
+                              .filter(Boolean)
+                              .slice(0, 3)
+                              .map((chip) => (
+                                <span
+                                  key={chip}
+                                  className="rounded-full bg-black/6 px-2 py-0.5 text-[11px] font-bold text-black/55"
+                                >
+                                  {chip}
+                                </span>
+                              ))}
+
+                            {item.cook_points && (
+                              <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-black text-amber-700">
+                                <Star size={11} fill="currentColor" />
+                                +{item.cook_points}
+                              </span>
+                            )}
                           </div>
                         </div>
                       </button>

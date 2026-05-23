@@ -7,10 +7,15 @@ import {
   Bookmark,
   CheckCircle2,
   ChefHat,
+  Clock3,
   ChevronLeft,
   ChevronRight,
+  Gauge,
+  MapPin,
   Sparkles,
   Star,
+  Tag,
+  Users,
 } from "lucide-react"
 
 const FALLBACK = {
@@ -212,6 +217,15 @@ function ReceiptContent() {
   const canGoNext = currentId !== null && !isNaN(currentId)
   const rawCookPoints = Number(recipe?.cook_points ?? recipe?.poin ?? 10)
   const cookPoints = Number.isFinite(rawCookPoints) ? rawCookPoints : 10
+  const metaItems = [
+    recipe?.category ? { icon: Tag, label: recipe.category } : null,
+    recipe?.region ? { icon: MapPin, label: recipe.region } : null,
+    recipe?.difficulty ? { icon: Gauge, label: recipe.difficulty } : null,
+    recipe?.duration_minutes
+      ? { icon: Clock3, label: `${recipe.duration_minutes} menit` }
+      : null,
+    recipe?.servings ? { icon: Users, label: `${recipe.servings} porsi` } : null,
+  ].filter(Boolean)
 
   return (
     <div className="min-h-screen relative flex flex-col items-center justify-center p-4 md:p-10 overflow-hidden font-sans">
@@ -460,21 +474,28 @@ function ReceiptContent() {
               <span className="font-semibold" style={{ color: "#f5e6d5" }}>
                 {nama}
               </span>
-              {" — "}
+              {" - "}
               {deskripsi}
             </p>
 
-            <div
-              className="px-4 py-1 rounded-full text-xs font-semibold tracking-widest uppercase"
-              style={{
-                background: "rgba(255,255,255,0.08)",
-                border: "1px solid rgba(255,255,255,0.15)",
-                color: "rgba(245,200,160,0.8)",
-                letterSpacing: "0.15em",
-              }}
-            >
-              Resep Tradisional
-            </div>
+            {metaItems.length > 0 && (
+              <div className="grid w-full max-w-[270px] grid-cols-2 gap-2">
+                {metaItems.map(({ icon: Icon, label }) => (
+                  <div
+                    key={label}
+                    className="flex min-h-10 items-center gap-2 rounded-xl px-3 text-xs font-extrabold"
+                    style={{
+                      background: "rgba(255,255,255,0.09)",
+                      border: "1px solid rgba(255,255,255,0.15)",
+                      color: "rgba(245,230,215,0.92)",
+                    }}
+                  >
+                    <Icon size={14} />
+                    <span className="truncate">{label}</span>
+                  </div>
+                ))}
+              </div>
+            )}
 
             <button
               type="button"
@@ -636,7 +657,7 @@ export default function RecipePage() {
       fallback={
         <div className="min-h-screen flex items-center justify-center bg-[#2e1a0e]">
           <div className="text-white text-lg tracking-widest animate-pulse">
-            Memuat resep…
+            Memuat resep...
           </div>
         </div>
       }

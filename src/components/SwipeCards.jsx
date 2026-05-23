@@ -9,7 +9,7 @@ import {
   useImperativeHandle,
 } from "react"
 import { useRouter } from "next/navigation"
-import { Bookmark, ChefHat, Sparkles, Star } from "lucide-react"
+import { Bookmark, ChefHat, Clock3, MapPin, Sparkles, Star } from "lucide-react"
 
 function getFoodImage(nama) {
   return `/api/image/base?nama=${encodeURIComponent(
@@ -45,6 +45,11 @@ function mapRecipeToCard(recipe) {
     image: imageUrl,
     cookPoints:
       getCookPoints(recipe),
+    category: recipe.category,
+    region: recipe.region,
+    difficulty: recipe.difficulty,
+    durationMinutes: recipe.duration_minutes,
+    servings: recipe.servings,
     saved: Boolean(
       recipe.is_saved
     ),
@@ -728,6 +733,85 @@ function SwipeCard({
             }}
           >
             {card.title}
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 6,
+              marginBottom: 8,
+            }}
+          >
+            {[card.category, card.difficulty]
+              .filter(Boolean)
+              .map((label) => (
+                <span
+                  key={label}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    minHeight: 24,
+                    padding: "0 8px",
+                    borderRadius: 999,
+                    background:
+                      "rgba(255,255,255,0.14)",
+                    border:
+                      "1px solid rgba(255,255,255,0.18)",
+                    color: "rgba(255,255,255,0.9)",
+                    fontSize: 11,
+                    fontWeight: 800,
+                  }}
+                >
+                  {label}
+                </span>
+              ))}
+
+            {card.durationMinutes && (
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 4,
+                  minHeight: 24,
+                  padding: "0 8px",
+                  borderRadius: 999,
+                  background:
+                    "rgba(255,255,255,0.14)",
+                  border:
+                    "1px solid rgba(255,255,255,0.18)",
+                  color: "rgba(255,255,255,0.9)",
+                  fontSize: 11,
+                  fontWeight: 800,
+                }}
+              >
+                <Clock3 size={12} />
+                {card.durationMinutes}m
+              </span>
+            )}
+
+            {card.region && (
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 4,
+                  minHeight: 24,
+                  padding: "0 8px",
+                  borderRadius: 999,
+                  background:
+                    "rgba(255,255,255,0.14)",
+                  border:
+                    "1px solid rgba(255,255,255,0.18)",
+                  color: "rgba(255,255,255,0.9)",
+                  fontSize: 11,
+                  fontWeight: 800,
+                }}
+              >
+                <MapPin size={12} />
+                {card.region}
+              </span>
+            )}
           </div>
 
           <div

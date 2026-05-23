@@ -6,6 +6,7 @@ export const runtime = "edge";
 
 const DAILY_COOK_LIMIT = 3;
 const COOK_TIME_ZONE = "Asia/Jakarta";
+const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
 function getCookDate() {
   const parts = new Intl.DateTimeFormat("en-CA", {
@@ -31,6 +32,92 @@ function normalizeDisplayName(value) {
     .trim()
     .replace(/\s+/g, " ")
     .slice(0, 32);
+}
+
+function shiftCookDate(cookDate, offset) {
+  const [year, month, day] = cookDate.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day + offset));
+  return date.toISOString().slice(0, 10);
+}
+
+function calculateCurrentStreak(cookDates, today) {
+  const dates = new Set(cookDates);
+  let cursor = today;
+  let streak = 0;
+
+  while (dates.has(cursor)) {
+    streak += 1;
+    cursor = shiftCookDate(cursor, -1);
+  }
+
+  return streak;
+}
+
+function buildBadges({
+  cookedCount,
+  savedCount,
+  totalPoints,
+  currentStreak,
+  bestDailyCount,
+  categoryCounts,
+}) {
+  const topCategory = categoryCounts?.[0];
+
+  const badges = [
+    {
+      id: "first-cook",
+      title: "Masakan Pertama",
+      text: "Catat satu resep yang sudah kamu masak.",
+      progress: Math.min(cookedCount, 1),
+      target: 1,
+      unlocked: cookedCount >= 1,
+    },
+    {
+      id: "daily-three",
+      title: "Tiga Piring Sehari",
+      text: "Capai kuota 3 masakan dalam satu hari.",
+      progress: Math.min(bestDailyCount, DAILY_COOK_LIMIT),
+      target: DAILY_COOK_LIMIT,
+      unlocked: bestDailyCount >= DAILY_COOK_LIMIT,
+    },
+    {
+      id: "collector",
+      title: "Kolektor Resep",
+      text: "Simpan 5 resep ke Dapur Saya.",
+      progress: Math.min(savedCount, 5),
+      target: 5,
+      unlocked: savedCount >= 5,
+    },
+    {
+      id: "streak-three",
+      title: "Rajin 3 Hari",
+      text: "Masak selama 3 hari berturut-turut.",
+      progress: Math.min(currentStreak, 3),
+      target: 3,
+      unlocked: currentStreak >= 3,
+    },
+    {
+      id: "point-hunter",
+      title: "Pemburu Poin",
+      text: "Kumpulkan 3.000 poin dari aktivitas masak.",
+      progress: Math.min(totalPoints, 3000),
+      target: 3000,
+      unlocked: totalPoints >= 3000,
+    },
+  ];
+
+  if (topCategory) {
+    badges.push({
+      id: "category-master",
+      title: `Pecinta ${topCategory.category}`,
+      text: `Masak kategori ${topCategory.category} sebanyak 3 kali.`,
+      progress: Math.min(Number(topCategory.total || 0), 3),
+      target: 3,
+      unlocked: Number(topCategory.total || 0) >= 3,
+    });
+  }
+
+  return badges;
 }
 
 async function requireSession() {
@@ -116,6 +203,11 @@ async function readSavedRecipes(db, userId) {
           r.nama,
           r.deskripsi,
           r.cook_points,
+          r.category,
+          r.region,
+          r.duration_minutes,
+          r.difficulty,
+          r.servings,
           sr.created_at AS saved_at
          FROM saved_recipes sr
          JOIN resep r ON r.id = sr.resep_id
@@ -166,12 +258,60 @@ async function readCookedRecipes(db, userId) {
           cr.cook_date,
           cr.cooked_at,
           r.nama,
-          r.deskripsi
+          r.deskripsi,
+          r.category,
+          r.region,
+          r.duration_minutes,
+          r.difficulty,
+          r.servings
          FROM cooked_recipes cr
          JOIN resep r ON r.id = cr.resep_id
          WHERE cr.user_id = ?
          ORDER BY cr.cooked_at DESC
          LIMIT 12`
+      )
+      .bind(userId)
+      .all();
+
+    return results;
+  } catch {
+    return [];
+  }
+}
+
+async function readCookDates(db, userId) {
+  try {
+    const { results } = await db
+      .prepare(
+        `SELECT DISTINCT cook_date
+         FROM cooked_recipes
+         WHERE user_id = ?
+         ORDER BY cook_date DESC
+         LIMIT 60`
+      )
+      .bind(userId)
+      .all();
+
+    return results.map((row) => row.cook_date).filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
+async function readCategoryCounts(db, userId) {
+  try {
+    const { results } = await db
+      .prepare(
+        `SELECT
+          COALESCE(NULLIF(trim(r.category), ''), 'Lainnya') AS category,
+          COUNT(cr.id) AS total,
+          COALESCE(SUM(cr.points_awarded), 0) AS points
+         FROM cooked_recipes cr
+         JOIN resep r ON r.id = cr.resep_id
+         WHERE cr.user_id = ?
+         GROUP BY category
+         ORDER BY total DESC, points DESC, category ASC
+         LIMIT 6`
       )
       .bind(userId)
       .all();
@@ -189,15 +329,20 @@ export async function GET() {
   const { env } = getRequestContext();
   const db = env.DB;
   const cookDate = getCookDate();
+  const weekSince = Date.now() - WEEK_MS;
 
   const [
     user,
     savedCount,
     cookedCount,
     totalPoints,
+    weeklyPoints,
     cookedToday,
+    bestDailyCount,
     savedRecipes,
     cookedRecipes,
+    cookDates,
+    categoryCounts,
   ] = await Promise.all([
     readUser(db, session),
     firstNumber(
@@ -222,6 +367,15 @@ export async function GET() {
     ),
     firstNumber(
       db,
+      `SELECT COALESCE(SUM(points_awarded), 0) AS total
+       FROM cooked_recipes
+       WHERE user_id = ?
+         AND cooked_at >= ?`,
+      [session.userId, weekSince],
+      "total"
+    ),
+    firstNumber(
+      db,
       `SELECT COUNT(*) AS total
        FROM cooked_recipes
        WHERE user_id = ?
@@ -229,9 +383,33 @@ export async function GET() {
       [session.userId, cookDate],
       "total"
     ),
+    firstNumber(
+      db,
+      `SELECT COALESCE(MAX(total), 0) AS total
+       FROM (
+         SELECT COUNT(*) AS total
+         FROM cooked_recipes
+         WHERE user_id = ?
+         GROUP BY cook_date
+       )`,
+      [session.userId],
+      "total"
+    ),
     readSavedRecipes(db, session.userId),
     readCookedRecipes(db, session.userId),
+    readCookDates(db, session.userId),
+    readCategoryCounts(db, session.userId),
   ]);
+
+  const currentStreak = calculateCurrentStreak(cookDates, cookDate);
+  const badges = buildBadges({
+    cookedCount,
+    savedCount,
+    totalPoints,
+    currentStreak,
+    bestDailyCount,
+    categoryCounts,
+  });
 
   return NextResponse.json({
     user: {
@@ -246,10 +424,15 @@ export async function GET() {
       saved_count: savedCount,
       cooked_count: cookedCount,
       total_points: totalPoints,
+      weekly_points: weeklyPoints,
       cooked_today: cookedToday,
+      best_daily_count: bestDailyCount,
       daily_limit: DAILY_COOK_LIMIT,
       cook_date: cookDate,
+      current_streak: currentStreak,
     },
+    badges,
+    category_counts: categoryCounts,
     saved_recipes: savedRecipes,
     cooked_recipes: cookedRecipes,
   });

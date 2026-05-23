@@ -5,13 +5,16 @@ import { useRouter } from "next/navigation"
 import {
   ArrowLeft,
   Bookmark,
+  CalendarDays,
   ChefHat,
   Clock3,
   Flame,
+  Medal,
   Pencil,
   Save,
   Sparkles,
   Star,
+  Trophy,
   User,
   X,
 } from "lucide-react"
@@ -51,6 +54,11 @@ function StatCard({ icon: Icon, label, value, tone = "dark" }) {
     },
     amber: {
       bg: "#b45309",
+      fg: "#ffffff",
+      soft: "rgba(255,255,255,0.14)",
+    },
+    blue: {
+      bg: "#1d4ed8",
       fg: "#ffffff",
       soft: "rgba(255,255,255,0.14)",
     },
@@ -94,6 +102,31 @@ function EmptyState({ icon: Icon, title, text }) {
   )
 }
 
+function MetaChips({ recipe }) {
+  const chips = [
+    recipe.category,
+    recipe.region,
+    recipe.difficulty,
+    recipe.duration_minutes ? `${recipe.duration_minutes} menit` : null,
+    recipe.servings ? `${recipe.servings} porsi` : null,
+  ].filter(Boolean)
+
+  if (chips.length === 0) return null
+
+  return (
+    <div className="mt-3 flex flex-wrap gap-1.5">
+      {chips.slice(0, 4).map((chip) => (
+        <span
+          key={chip}
+          className="rounded-full bg-black/6 px-2 py-1 text-[11px] font-bold text-black/55"
+        >
+          {chip}
+        </span>
+      ))}
+    </div>
+  )
+}
+
 function RecipeCard({ recipe, action, onOpen }) {
   const points = Number(recipe.cook_points ?? recipe.points_awarded ?? 10)
 
@@ -124,6 +157,7 @@ function RecipeCard({ recipe, action, onOpen }) {
           <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-black/58">
             {recipe.deskripsi || "Resep tersimpan di dapur kamu."}
           </p>
+          <MetaChips recipe={recipe} />
         </div>
       </button>
 
@@ -154,6 +188,7 @@ function CookHistoryItem({ item, onOpen }) {
         <div className="mt-1 flex items-center gap-2 text-xs font-semibold text-black/55">
           <Clock3 size={13} />
           {formatDate(item.cooked_at)}
+          {item.category ? ` / ${item.category}` : ""}
         </div>
       </div>
 
@@ -161,6 +196,46 @@ function CookHistoryItem({ item, onOpen }) {
         +{item.points_awarded}
       </div>
     </button>
+  )
+}
+
+function BadgeItem({ badge }) {
+  const percent = badge.target
+    ? Math.min(100, Math.round((Number(badge.progress || 0) / badge.target) * 100))
+    : 0
+
+  return (
+    <div
+      className={`rounded-xl border p-4 ${
+        badge.unlocked
+          ? "border-emerald-200 bg-emerald-50"
+          : "border-black/8 bg-[#f6f7fb]"
+      }`}
+    >
+      <div className="flex items-start gap-3">
+        <div
+          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
+            badge.unlocked ? "bg-emerald-600 text-white" : "bg-black/8 text-black/45"
+          }`}
+        >
+          <Medal size={18} />
+        </div>
+
+        <div className="min-w-0 flex-1">
+          <div className="text-sm font-black text-black">{badge.title}</div>
+          <div className="mt-1 text-xs font-semibold leading-relaxed text-black/52">
+            {badge.text}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-3 h-2 overflow-hidden rounded-full bg-black/8">
+        <div
+          className={badge.unlocked ? "h-full bg-emerald-600" : "h-full bg-black/30"}
+          style={{ width: `${percent}%` }}
+        />
+      </div>
+    </div>
   )
 }
 
@@ -216,6 +291,8 @@ export default function ProfilePage() {
   const user = profile?.user || {}
   const savedRecipes = profile?.saved_recipes || []
   const cookedRecipes = profile?.cooked_recipes || []
+  const badges = profile?.badges || []
+  const categoryCounts = profile?.category_counts || []
 
   const todayPercent = useMemo(() => {
     const dailyLimit = Number(stats.daily_limit || 3)
@@ -345,8 +422,19 @@ export default function ProfilePage() {
             Beranda
           </button>
 
-          <div className="rounded-full bg-black px-4 py-2 text-xs font-black uppercase tracking-wider text-white shadow-sm">
-            Dapur Saya
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => router.push("/leaderboard")}
+              className="flex h-10 items-center gap-2 rounded-full bg-white px-4 text-sm font-bold text-black shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            >
+              <Trophy size={16} />
+              Ranking
+            </button>
+
+            <div className="rounded-full bg-black px-4 py-2 text-xs font-black uppercase tracking-wider text-white shadow-sm">
+              Dapur Saya
+            </div>
           </div>
         </div>
 
@@ -481,12 +569,18 @@ export default function ProfilePage() {
           </div>
         </section>
 
-        <section className="mb-6 grid gap-4 md:grid-cols-3">
+        <section className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <StatCard
             icon={Sparkles}
             label="Total Poin"
             value={stats.total_points || 0}
             tone="dark"
+          />
+          <StatCard
+            icon={CalendarDays}
+            label="Streak"
+            value={`${stats.current_streak || 0} hari`}
+            tone="blue"
           />
           <StatCard
             icon={ChefHat}
@@ -502,13 +596,14 @@ export default function ProfilePage() {
           />
         </section>
 
-        <section className="grid gap-6 lg:grid-cols-[1fr_360px]">
+        <section className="grid gap-6 lg:grid-cols-[1fr_380px]">
           <div>
             <div className="mb-4 flex items-center justify-between gap-3">
               <div className="flex rounded-xl bg-white p-1 shadow-sm">
                 {[
                   ["saved", "Disimpan"],
                   ["cooked", "Riwayat Masak"],
+                  ["badges", "Badge"],
                 ].map(([key, label]) => (
                   <button
                     key={key}
@@ -588,9 +683,51 @@ export default function ProfilePage() {
                 )}
               </>
             )}
+
+            {activeTab === "badges" && (
+              <div className="grid gap-3 sm:grid-cols-2">
+                {badges.length > 0 ? (
+                  badges.map((badge) => (
+                    <BadgeItem key={badge.id} badge={badge} />
+                  ))
+                ) : (
+                  <EmptyState
+                    icon={Medal}
+                    title="Badge belum tersedia"
+                    text="Badge akan muncul setelah aktivitas masak dan simpan mulai tercatat."
+                  />
+                )}
+              </div>
+            )}
           </div>
 
           <aside className="space-y-4">
+            <div className="rounded-2xl bg-white p-5 shadow-sm">
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <div className="text-sm font-black text-black">
+                    Poin Mingguan
+                  </div>
+                  <div className="mt-1 text-xs font-semibold text-black/50">
+                    Rolling 7 hari terakhir
+                  </div>
+                </div>
+
+                <div className="rounded-full bg-blue-50 px-3 py-1 text-sm font-black text-blue-700">
+                  {stats.weekly_points || 0}
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => router.push("/leaderboard")}
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-black px-4 py-3 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <Trophy size={16} />
+                Lihat Leaderboard
+              </button>
+            </div>
+
             <div className="rounded-2xl bg-white p-5 shadow-sm">
               <div className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-wider text-black/55">
                 <Flame size={16} />
@@ -614,6 +751,41 @@ export default function ProfilePage() {
               )}
             </div>
 
+            <div className="rounded-2xl bg-white p-5 shadow-sm">
+              <div className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-wider text-black/55">
+                <Star size={16} />
+                Kategori Favorit
+              </div>
+
+              {categoryCounts.length > 0 ? (
+                <div className="space-y-3">
+                  {categoryCounts.map((item) => (
+                    <div key={item.category}>
+                      <div className="mb-1 flex items-center justify-between text-sm font-extrabold">
+                        <span>{item.category}</span>
+                        <span className="text-black/45">{item.total}x</span>
+                      </div>
+                      <div className="h-2 overflow-hidden rounded-full bg-black/8">
+                        <div
+                          className="h-full rounded-full bg-emerald-600"
+                          style={{
+                            width: `${Math.min(
+                              100,
+                              Math.max(12, Number(item.total || 0) * 20)
+                            )}%`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="rounded-xl bg-[#f6f7fb] p-4 text-sm font-semibold leading-relaxed text-black/55">
+                  Kategori favorit akan terbaca setelah kamu mulai memasak beberapa resep.
+                </div>
+              )}
+            </div>
+
             <div className="rounded-2xl bg-black p-5 text-white shadow-sm">
               <div className="flex items-center gap-2 text-sm font-black uppercase tracking-wider text-white/65">
                 <User size={16} />
@@ -623,8 +795,8 @@ export default function ProfilePage() {
                 {user.display_name || "Pengguna"}
               </div>
               <div className="mt-2 text-sm leading-relaxed text-white/62">
-                Nama ini bisa dipakai di leaderboard saat fitur ranking global
-                sudah aktif.
+                Nama ini tampil di leaderboard global saat kamu mulai mencatat
+                masakan.
               </div>
             </div>
           </aside>

@@ -22,22 +22,71 @@ export async function GET(request) {
 
   const pattern = `%${q}%`
 
+  async function searchRecipes() {
+    try {
+      const { results } = await db
+        .prepare(`
+          SELECT
+            id,
+            nama,
+            deskripsi,
+            cook_points,
+            slug,
+            difficulty,
+            duration_minutes,
+            servings,
+            region,
+            category
+          FROM resep
+          WHERE nama LIKE ?
+          ORDER BY nama
+          LIMIT ? OFFSET ?
+        `)
+        .bind(pattern, limit, offset)
+        .all()
+
+      return results
+    } catch {
+      try {
+        const { results } = await db
+          .prepare(`
+            SELECT id, nama, deskripsi, poin AS cook_points
+            FROM resep
+            WHERE nama LIKE ?
+            ORDER BY nama
+            LIMIT ? OFFSET ?
+          `)
+          .bind(pattern, limit, offset)
+          .all()
+
+        return results
+      } catch {
+        const { results } = await db
+          .prepare(`
+            SELECT id, nama, deskripsi
+            FROM resep
+            WHERE nama LIKE ?
+            ORDER BY nama
+            LIMIT ? OFFSET ?
+          `)
+          .bind(pattern, limit, offset)
+          .all()
+
+        return results.map((recipe) => ({
+          ...recipe,
+          cook_points: 10,
+        }))
+      }
+    }
+  }
+
   try {
     const [{ total }] = (await db
       .prepare("SELECT COUNT(*) as total FROM resep WHERE nama LIKE ?")
       .bind(pattern)
       .all()).results
 
-    const { results } = await db
-      .prepare(`
-        SELECT id, nama, deskripsi
-        FROM resep
-        WHERE nama LIKE ?
-        ORDER BY nama
-        LIMIT ? OFFSET ?
-      `)
-      .bind(pattern, limit, offset)
-      .all()
+    const results = await searchRecipes()
 
     return Response.json({
       data: results,

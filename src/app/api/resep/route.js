@@ -7,7 +7,18 @@ async function getRecipes(db, limit, offset) {
   try {
     const { results } = await db
       .prepare(`
-        SELECT id, nama, deskripsi, created_at, cook_points
+        SELECT
+          id,
+          nama,
+          deskripsi,
+          created_at,
+          cook_points,
+          slug,
+          difficulty,
+          duration_minutes,
+          servings,
+          region,
+          category
         FROM resep
         ORDER BY id
         LIMIT ? OFFSET ?

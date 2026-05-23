@@ -13,5 +13,9 @@ export async function GET() {
     userId: session.userId,
     email: session.email,
     role: session.role,
+    displayName:
+      session.displayName ||
+      session.email?.split("@")[0] ||
+      "Pengguna",
   });
 }

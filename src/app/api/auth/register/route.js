@@ -23,15 +23,23 @@ export async function POST(req) {
   const verify_token  = crypto.randomUUID();
   const verify_exp    = Date.now() + 24 * 60 * 60 * 1000;
   const password_hash = await hashPassword(password);
+  const normalizedEmail = email.toLowerCase().trim();
+  const displayName = normalizedEmail.split("@")[0];
 
   await UserQuery.create(db, {
     id,
-    email: email.toLowerCase().trim(),
+    email: normalizedEmail,
     password_hash,
     role: "user",
     verify_token,
     verify_exp,
   });
+
+  try {
+    await UserQuery.updateDisplayName(db, id, displayName);
+  } catch {
+    // display_name is optional until the D1 migration is applied.
+  }
 
   await sendVerificationEmail(email, verify_token);
 

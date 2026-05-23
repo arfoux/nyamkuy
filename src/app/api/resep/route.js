@@ -7,7 +7,7 @@ async function getRecipes(db, limit, offset) {
   try {
     const { results } = await db
       .prepare(`
-        SELECT id, nama, deskripsi, created_at, poin
+        SELECT id, nama, deskripsi, created_at, cook_points
         FROM resep
         ORDER BY id
         LIMIT ? OFFSET ?
@@ -17,27 +17,43 @@ async function getRecipes(db, limit, offset) {
 
     return results
   } catch {
-    const { results } = await db
-      .prepare(`
-        SELECT id, nama, deskripsi, created_at
-        FROM resep
-        ORDER BY id
-        LIMIT ? OFFSET ?
-      `)
-      .bind(limit, offset)
-      .all()
+    try {
+      const { results } = await db
+        .prepare(`
+          SELECT id, nama, deskripsi, created_at, poin AS cook_points
+          FROM resep
+          ORDER BY id
+          LIMIT ? OFFSET ?
+        `)
+        .bind(limit, offset)
+        .all()
 
-    return results.map((recipe) => ({
-      ...recipe,
-      poin: 0,
-    }))
+      return results
+    } catch {
+      const { results } = await db
+        .prepare(`
+          SELECT id, nama, deskripsi, created_at
+          FROM resep
+          ORDER BY id
+          LIMIT ? OFFSET ?
+        `)
+        .bind(limit, offset)
+        .all()
+
+      return results.map((recipe) => ({
+        ...recipe,
+        cook_points: 10,
+      }))
+    }
   }
 }
 
 async function withSavedStatus(db, recipes, userId) {
   const baseRecipes = recipes.map((recipe) => ({
     ...recipe,
-    poin: Number(recipe.poin ?? 0) || 0,
+    cook_points: Number.isFinite(Number(recipe.cook_points))
+      ? Number(recipe.cook_points)
+      : 10,
     is_saved: false,
   }))
 

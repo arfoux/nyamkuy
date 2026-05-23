@@ -5,6 +5,10 @@ import { createSession } from "@/lib/session";
 
 export const runtime = "edge";
 
+function getDisplayName(user) {
+  return user.display_name || user.email.split("@")[0];
+}
+
 export async function POST(req) {
   let email, password;
 
@@ -54,10 +58,12 @@ export async function POST(req) {
     userId: user.id,
     email: user.email,
     role: user.role,
+    displayName: getDisplayName(user),
   });
 
   return NextResponse.json({
     ok: true,
     role: user.role,
+    displayName: getDisplayName(user),
   });
 }

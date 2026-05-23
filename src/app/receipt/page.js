@@ -2,7 +2,16 @@
 
 import { useSearchParams, useRouter } from "next/navigation"
 import { useEffect, useMemo, useState, useCallback, Suspense } from "react"
-import { ArrowLeft, Bookmark, ChevronLeft, ChevronRight, Star } from "lucide-react"
+import {
+  ArrowLeft,
+  Bookmark,
+  CheckCircle2,
+  ChefHat,
+  ChevronLeft,
+  ChevronRight,
+  Sparkles,
+  Star,
+} from "lucide-react"
 
 const FALLBACK = {
   nama: "Nasi Pecel",
@@ -25,10 +34,13 @@ function ReceiptContent() {
   const [saved, setSaved] = useState(false)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState("")
+  const [cooking, setCooking] = useState(false)
+  const [cookNotice, setCookNotice] = useState(null)
 
   useEffect(() => {
     async function loadRecipe() {
       setSaveError("")
+      setCookNotice(null)
       setSaved(false)
 
       if (!id) {
@@ -99,6 +111,64 @@ function ReceiptContent() {
     }
   }, [id, router, saved, saving])
 
+  const handleCook = useCallback(async () => {
+    if (!id || cooking) return
+
+    setCooking(true)
+    setCookNotice(null)
+
+    try {
+      const res = await fetch(`/api/resep/${id}/masak`, {
+        method: "POST",
+        credentials: "include",
+      })
+
+      const data = await res.json().catch(() => ({}))
+
+      if (res.status === 401) {
+        router.push(`/auth?next=${encodeURIComponent(`/receipt?id=${id}`)}`)
+        return
+      }
+
+      if (res.status === 429) {
+        setCookNotice({
+          type: "limit",
+          title: "Jatah masak hari ini penuh",
+          text: `${data.cooked_today || 3}/${data.daily_limit || 3} masakan sudah tercatat hari ini.`,
+        })
+        return
+      }
+
+      if (!res.ok) {
+        throw new Error(data.error || "Gagal mencatat masakan")
+      }
+
+      setCookNotice({
+        type: "success",
+        title: `+${data.points_awarded} poin`,
+        text: `${data.cooked_today}/${data.daily_limit} masakan hari ini tercatat.`,
+      })
+    } catch (err) {
+      setCookNotice({
+        type: "error",
+        title: "Belum bisa dicatat",
+        text: err.message || "Gagal mencatat masakan",
+      })
+    } finally {
+      setCooking(false)
+    }
+  }, [cooking, id, router])
+
+  useEffect(() => {
+    if (!cookNotice) return
+
+    const timer = setTimeout(() => {
+      setCookNotice(null)
+    }, 3200)
+
+    return () => clearTimeout(timer)
+  }, [cookNotice])
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "ArrowRight") navigateTo("next")
@@ -140,10 +210,49 @@ function ReceiptContent() {
   const currentId = id ? parseInt(id, 10) : null
   const canGoPrev = currentId !== null && !isNaN(currentId) && currentId > 1
   const canGoNext = currentId !== null && !isNaN(currentId)
-  const poin = Number(recipe?.poin ?? 0) || 0
+  const rawCookPoints = Number(recipe?.cook_points ?? recipe?.poin ?? 10)
+  const cookPoints = Number.isFinite(rawCookPoints) ? rawCookPoints : 10
 
   return (
     <div className="min-h-screen relative flex flex-col items-center justify-center p-4 md:p-10 overflow-hidden font-sans">
+      <style>{`
+        @keyframes cookToastIn {
+          0% {
+            opacity: 0;
+            transform: translate(-50%, 16px) scale(0.94);
+          }
+
+          16% {
+            opacity: 1;
+            transform: translate(-50%, 0) scale(1.02);
+          }
+
+          100% {
+            opacity: 1;
+            transform: translate(-50%, 0) scale(1);
+          }
+        }
+
+        @keyframes cookButtonGlow {
+          0%,
+          100% {
+            box-shadow: 0 14px 34px rgba(22, 163, 74, 0.22);
+          }
+
+          50% {
+            box-shadow: 0 18px 44px rgba(22, 163, 74, 0.36);
+          }
+        }
+
+        .cook-toast {
+          animation: cookToastIn 0.42s ease both;
+        }
+
+        .cook-ready {
+          animation: cookButtonGlow 1.8s ease-in-out infinite;
+        }
+      `}</style>
+
       <div
         className="absolute inset-0 z-0 bg-cover bg-center"
         style={{ backgroundImage: `url('${bgUrl}')` }}
@@ -171,7 +280,7 @@ function ReceiptContent() {
           }}
         >
           <Star size={16} fill="#facc15" color="#facc15" />
-          <span>{poin} poin</span>
+          <span>+{cookPoints} poin</span>
         </div>
 
         <button
@@ -199,6 +308,36 @@ function ReceiptContent() {
       {saveError && (
         <div className="absolute top-[74px] right-5 z-30 max-w-[260px] rounded-lg bg-red-500/90 px-3 py-2 text-xs font-medium text-white shadow-lg">
           {saveError}
+        </div>
+      )}
+
+      {cookNotice && (
+        <div
+          className="cook-toast fixed bottom-6 left-1/2 z-50 flex max-w-[calc(100vw-32px)] items-center gap-3 rounded-2xl px-4 py-3 text-white shadow-2xl backdrop-blur-md"
+          style={{
+            background:
+              cookNotice.type === "success"
+                ? "linear-gradient(135deg, rgba(22,163,74,0.94), rgba(5,150,105,0.92))"
+                : cookNotice.type === "limit"
+                  ? "linear-gradient(135deg, rgba(217,119,6,0.94), rgba(180,83,9,0.92))"
+                  : "linear-gradient(135deg, rgba(220,38,38,0.94), rgba(185,28,28,0.92))",
+            border: "1px solid rgba(255,255,255,0.24)",
+          }}
+        >
+          {cookNotice.type === "success" ? (
+            <Sparkles size={22} />
+          ) : (
+            <ChefHat size={22} />
+          )}
+
+          <div>
+            <div className="text-sm font-extrabold leading-tight">
+              {cookNotice.title}
+            </div>
+            <div className="text-xs font-medium text-white/85">
+              {cookNotice.text}
+            </div>
+          </div>
         </div>
       )}
 
@@ -336,6 +475,41 @@ function ReceiptContent() {
             >
               Resep Tradisional
             </div>
+
+            <button
+              type="button"
+              onClick={handleCook}
+              disabled={!id || loading || cooking}
+              className="cook-ready relative flex h-12 w-full max-w-[245px] items-center justify-between gap-3 rounded-full px-4 text-sm font-extrabold text-white transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-70"
+              style={{
+                background:
+                  cookNotice?.type === "success"
+                    ? "linear-gradient(135deg, rgba(22,163,74,0.96), rgba(5,150,105,0.92))"
+                    : "linear-gradient(135deg, rgba(250,204,21,0.96), rgba(234,88,12,0.92))",
+                border: "1px solid rgba(255,255,255,0.28)",
+                boxShadow:
+                  "0 16px 42px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.28)",
+              }}
+            >
+              <span className="flex min-w-0 items-center gap-2">
+                {cookNotice?.type === "success" ? (
+                  <CheckCircle2 size={19} />
+                ) : (
+                  <ChefHat size={19} />
+                )}
+                <span className="truncate">
+                  {cooking
+                    ? "Mencatat..."
+                    : cookNotice?.type === "success"
+                      ? "Masakan tercatat"
+                      : "Masak sekarang"}
+                </span>
+              </span>
+
+              <span className="shrink-0 rounded-full bg-black/18 px-2.5 py-1 text-xs">
+                +{cookPoints}
+              </span>
+            </button>
           </div>
 
           {/* Panel Kanan (Menu resep dengan warna putih terang) */}

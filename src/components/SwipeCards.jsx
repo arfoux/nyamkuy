@@ -9,12 +9,24 @@ import {
   useImperativeHandle,
 } from "react"
 import { useRouter } from "next/navigation"
-import { Bookmark, Star } from "lucide-react"
+import { Bookmark, ChefHat, Sparkles, Star } from "lucide-react"
 
 function getFoodImage(nama) {
   return `/api/image/base?nama=${encodeURIComponent(
     nama
   )}`
+}
+
+function getCookPoints(recipe) {
+  const points = Number(
+    recipe.cook_points ??
+      recipe.poin ??
+      10
+  )
+
+  return Number.isFinite(points)
+    ? points
+    : 10
 }
 
 function mapRecipeToCard(recipe) {
@@ -31,8 +43,8 @@ function mapRecipeToCard(recipe) {
     description:
       recipe.deskripsi,
     image: imageUrl,
-    poin:
-      Number(recipe.poin ?? 0) || 0,
+    cookPoints:
+      getCookPoints(recipe),
     saved: Boolean(
       recipe.is_saved
     ),
@@ -45,7 +57,10 @@ function SwipeCard({
   onSwipe,
   onCardClick,
   onToggleSave,
+  onCook,
   saving,
+  cooking,
+  cookFeedback,
 }) {
   const cardRef = useRef(null)
 
@@ -390,6 +405,25 @@ function SwipeCard({
             3.2s ease-in-out
             infinite;
         }
+
+        @keyframes cookFeedbackIn {
+          0% {
+            opacity: 0;
+            transform: translateY(-8px)
+              scale(0.96);
+          }
+
+          100% {
+            opacity: 1;
+            transform: translateY(0)
+              scale(1);
+          }
+        }
+
+        .cook-feedback {
+          animation: cookFeedbackIn
+            0.28s ease both;
+        }
       `}</style>
 
       <div
@@ -476,72 +510,200 @@ function SwipeCard({
                 color="#facc15"
               />
               <span>
-                {card.poin} poin
+                +{card.cookPoints} poin
               </span>
             </div>
 
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                onToggleSave?.(card)
-              }}
-              disabled={saving}
-              aria-label={
-                card.saved
-                  ? "Batal simpan resep"
-                  : "Simpan resep"
-              }
-              title={
-                card.saved
-                  ? "Batal simpan"
-                  : "Simpan"
-              }
+            <div
               style={{
                 display:
                   "inline-flex",
                 alignItems:
                   "center",
-                justifyContent:
-                  "center",
-                width: 36,
-                height: 36,
-                borderRadius:
-                  999,
-                background:
-                  card.saved
-                    ? "rgba(250,204,21,0.24)"
-                    : "rgba(0,0,0,0.34)",
-                border:
-                  card.saved
-                    ? "1px solid rgba(250,204,21,0.55)"
-                    : "1px solid rgba(255,255,255,0.22)",
-                color:
-                  card.saved
-                    ? "#facc15"
-                    : "#fff",
-                boxShadow:
-                  "0 8px 18px rgba(0,0,0,0.22)",
-                backdropFilter:
-                  "blur(10px)",
-                cursor: saving
-                  ? "not-allowed"
-                  : "pointer",
-                opacity: saving
-                  ? 0.65
-                  : 1,
+                gap: 8,
               }}
             >
-              <Bookmark
-                size={18}
-                fill={
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  onCook?.(card)
+                }}
+                disabled={cooking}
+                aria-label="Masak resep"
+                title="Masak"
+                style={{
+                  display:
+                    "inline-flex",
+                  alignItems:
+                    "center",
+                  justifyContent:
+                    "center",
+                  gap: 5,
+                  minWidth: 76,
+                  height: 36,
+                  padding:
+                    "0 11px",
+                  borderRadius:
+                    999,
+                  background:
+                    cookFeedback?.type ===
+                    "success"
+                      ? "rgba(22,163,74,0.82)"
+                      : "rgba(250,204,21,0.9)",
+                  border:
+                    "1px solid rgba(255,255,255,0.28)",
+                  color:
+                    cookFeedback?.type ===
+                    "success"
+                      ? "#fff"
+                      : "#241306",
+                  fontSize: 12,
+                  fontWeight: 800,
+                  boxShadow:
+                    "0 8px 18px rgba(0,0,0,0.22)",
+                  backdropFilter:
+                    "blur(10px)",
+                  cursor: cooking
+                    ? "not-allowed"
+                    : "pointer",
+                  opacity: cooking
+                    ? 0.72
+                    : 1,
+                }}
+              >
+                <ChefHat size={15} />
+                <span>
+                  {cooking
+                    ? "..."
+                    : "Masak"}
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  onToggleSave?.(card)
+                }}
+                disabled={saving}
+                aria-label={
                   card.saved
-                    ? "currentColor"
-                    : "none"
+                    ? "Batal simpan resep"
+                    : "Simpan resep"
                 }
+                title={
+                  card.saved
+                    ? "Batal simpan"
+                    : "Simpan"
+                }
+                style={{
+                  display:
+                    "inline-flex",
+                  alignItems:
+                    "center",
+                  justifyContent:
+                    "center",
+                  width: 36,
+                  height: 36,
+                  borderRadius:
+                    999,
+                  background:
+                    card.saved
+                      ? "rgba(250,204,21,0.24)"
+                      : "rgba(0,0,0,0.34)",
+                  border:
+                    card.saved
+                      ? "1px solid rgba(250,204,21,0.55)"
+                      : "1px solid rgba(255,255,255,0.22)",
+                  color:
+                    card.saved
+                      ? "#facc15"
+                      : "#fff",
+                  boxShadow:
+                    "0 8px 18px rgba(0,0,0,0.22)",
+                  backdropFilter:
+                    "blur(10px)",
+                  cursor: saving
+                    ? "not-allowed"
+                    : "pointer",
+                  opacity: saving
+                    ? 0.65
+                    : 1,
+                }}
+              >
+                <Bookmark
+                  size={18}
+                  fill={
+                    card.saved
+                      ? "currentColor"
+                      : "none"
+                  }
+                />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {isTop && cookFeedback && (
+          <div
+            data-card-control="true"
+            className="cook-feedback"
+            style={{
+              position: "absolute",
+              top: 58,
+              left: 12,
+              right: 12,
+              display: "flex",
+              alignItems:
+                "center",
+              gap: 8,
+              minHeight: 38,
+              padding:
+                "8px 11px",
+              borderRadius: 14,
+              background:
+                cookFeedback.type ===
+                "success"
+                  ? "rgba(22,163,74,0.86)"
+                  : cookFeedback.type ===
+                    "limit"
+                    ? "rgba(217,119,6,0.88)"
+                    : "rgba(220,38,38,0.86)",
+              border:
+                "1px solid rgba(255,255,255,0.24)",
+              color: "#fff",
+              fontSize: 12,
+              fontWeight: 800,
+              boxShadow:
+                "0 10px 24px rgba(0,0,0,0.24)",
+              backdropFilter:
+                "blur(10px)",
+              pointerEvents:
+                "auto",
+            }}
+          >
+            {cookFeedback.type ===
+            "success" ? (
+              <Sparkles
+                size={16}
+                style={{
+                  flexShrink: 0,
+                }}
               />
-            </button>
+            ) : (
+              <ChefHat
+                size={16}
+                style={{
+                  flexShrink: 0,
+                }}
+              />
+            )}
+            <span>
+              {cookFeedback.text}
+            </span>
           </div>
         )}
 
@@ -615,6 +777,12 @@ const SwipeCards = forwardRef(
 
     const [savingIds, setSavingIds] =
       useState([])
+
+    const [cookingIds, setCookingIds] =
+      useState([])
+
+    const [cookFeedbacks, setCookFeedbacks] =
+      useState({})
 
     useEffect(() => {
       cardsRef.current = cards
@@ -811,6 +979,116 @@ const SwipeCards = forwardRef(
           router,
           savingIds,
           updateCardSaved,
+        ]
+      )
+
+    const showCookFeedback =
+      useCallback((cardId, feedback) => {
+        setCookFeedbacks((current) => ({
+          ...current,
+          [cardId]: feedback,
+        }))
+
+        setTimeout(() => {
+          setCookFeedbacks(
+            (current) => {
+              const next = {
+                ...current,
+              }
+
+              delete next[cardId]
+              return next
+            }
+          )
+        }, 2200)
+      }, [])
+
+    const handleCook =
+      useCallback(
+        async (card) => {
+          if (
+            !card?.id ||
+            cookingIds.includes(card.id)
+          ) {
+            return
+          }
+
+          setCookingIds((current) => [
+            ...current,
+            card.id,
+          ])
+
+          try {
+            const res = await fetch(
+              `/api/resep/${card.id}/masak`,
+              {
+                method: "POST",
+                credentials:
+                  "include",
+              }
+            )
+
+            const data =
+              await res
+                .json()
+                .catch(() => ({}))
+
+            if (res.status === 401) {
+              router.push(
+                `/auth?next=${encodeURIComponent(
+                  "/"
+                )}`
+              )
+              return
+            }
+
+            if (res.status === 429) {
+              showCookFeedback(
+                card.id,
+                {
+                  type: "limit",
+                  text: "Jatah masak hari ini penuh",
+                }
+              )
+              return
+            }
+
+            if (!res.ok) {
+              throw new Error(
+                data.error ||
+                  "Gagal mencatat masakan"
+              )
+            }
+
+            showCookFeedback(
+              card.id,
+              {
+                type: "success",
+                text: `Matang! +${data.points_awarded} poin`,
+              }
+            )
+          } catch (err) {
+            console.error(err)
+            showCookFeedback(
+              card.id,
+              {
+                type: "error",
+                text: "Belum bisa dicatat",
+              }
+            )
+          } finally {
+            setCookingIds((current) =>
+              current.filter(
+                (id) =>
+                  id !== card.id
+              )
+            )
+          }
+        },
+        [
+          cookingIds,
+          router,
+          showCookFeedback,
         ]
       )
 
@@ -1065,6 +1343,17 @@ const SwipeCards = forwardRef(
                       )}
                       onToggleSave={
                         handleToggleSave
+                      }
+                      cooking={cookingIds.includes(
+                        card.id
+                      )}
+                      cookFeedback={
+                        cookFeedbacks[
+                          card.id
+                        ]
+                      }
+                      onCook={
+                        handleCook
                       }
                       onSwipe={(
                         dir

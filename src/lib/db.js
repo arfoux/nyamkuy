@@ -49,4 +49,8 @@ export const UserQuery = {
   updateLastLogin: (db, id) =>
     db.prepare("UPDATE users SET last_login_at = ? WHERE id = ?")
       .bind(Date.now(), id).run(),
+
+  updateDisplayName: (db, id, displayName) =>
+    db.prepare("UPDATE users SET display_name = ? WHERE id = ?")
+      .bind(displayName, id).run(),
 };

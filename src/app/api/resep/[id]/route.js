@@ -6,6 +6,11 @@ import { getSession } from "@/lib/session"
 
 export const runtime = "edge"
 
+function normalizeCookPoints(recipe) {
+  const points = Number(recipe.cook_points ?? recipe.poin ?? 10)
+  return Number.isFinite(points) ? points : 10
+}
+
 export async function GET(_request, { params }) {
   void _request
 
@@ -66,6 +71,7 @@ export async function GET(_request, { params }) {
     return Response.json({
       data: {
         ...resep,
+        cook_points: normalizeCookPoints(resep),
         is_saved: isSaved,
         bahan:    bahanResult.results,
         bumbu:    bumbuResult.results,

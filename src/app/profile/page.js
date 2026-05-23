@@ -303,13 +303,9 @@ export default function ProfilePage() {
   }, [stats.cooked_today, stats.daily_limit])
 
   function openRecipe(recipe) {
-    const params = new URLSearchParams({
-      id: recipe.id || recipe.resep_id,
-      nama: recipe.nama || "",
-      deskripsi: recipe.deskripsi || "",
-    })
-
-    router.push(`/receipt?${params.toString()}`)
+    const recipeId = recipe.id || recipe.resep_id
+    if (!recipeId) return
+    router.push(`/receipt?id=${recipeId}`)
   }
 
   async function handleSaveName() {

@@ -224,13 +224,8 @@ export default function LeaderboardPage() {
   }, [activeTab, data])
 
   function openRecipe(recipe) {
-    const params = new URLSearchParams({
-      id: recipe.id,
-      nama: recipe.nama || "",
-      deskripsi: recipe.deskripsi || "",
-    })
-
-    router.push(`/receipt?${params.toString()}`)
+    if (!recipe?.id) return
+    router.push(`/receipt?id=${recipe.id}`)
   }
 
   return (

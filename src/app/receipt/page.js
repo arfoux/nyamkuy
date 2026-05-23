@@ -228,7 +228,7 @@ function ReceiptContent() {
   ].filter(Boolean)
 
   return (
-    <div className="min-h-screen relative flex flex-col items-center justify-center p-4 md:p-10 overflow-hidden font-sans">
+    <div className="relative flex h-[100dvh] flex-col items-center justify-center overflow-hidden p-3 font-sans md:p-5">
       <style>{`
         @keyframes cookToastIn {
           0% {
@@ -265,6 +265,25 @@ function ReceiptContent() {
         .cook-ready {
           animation: cookButtonGlow 1.8s ease-in-out infinite;
         }
+
+        .recipe-scroll {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255,255,255,0.32) rgba(255,255,255,0.08);
+        }
+
+        .recipe-scroll::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        .recipe-scroll::-webkit-scrollbar-track {
+          background: rgba(255,255,255,0.08);
+          border-radius: 999px;
+        }
+
+        .recipe-scroll::-webkit-scrollbar-thumb {
+          background: rgba(255,255,255,0.28);
+          border-radius: 999px;
+        }
       `}</style>
 
       <div
@@ -283,47 +302,6 @@ function ReceiptContent() {
         <ArrowLeft size={15} />
         Kembali
       </button>
-
-      <div className="absolute top-5 right-5 z-30 flex items-center gap-2">
-        <div
-          className="flex h-11 items-center gap-2 rounded-full px-4 text-sm font-bold text-white shadow-lg backdrop-blur-sm"
-          style={{
-            background: "rgba(255,255,255,0.12)",
-            border: "1px solid rgba(255,255,255,0.22)",
-            boxShadow: "0 4px 20px rgba(0,0,0,0.35)",
-          }}
-        >
-          <Star size={16} fill="#facc15" color="#facc15" />
-          <span>+{cookPoints} poin</span>
-        </div>
-
-        <button
-          type="button"
-          onClick={handleToggleSave}
-          disabled={!id || saving}
-          aria-label={saved ? "Batal simpan resep" : "Simpan resep"}
-          title={saved ? "Batal simpan" : "Simpan"}
-          className="flex h-11 w-11 items-center justify-center rounded-full text-white shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
-          style={{
-            background: saved
-              ? "rgba(250,204,21,0.24)"
-              : "rgba(255,255,255,0.12)",
-            border: saved
-              ? "1px solid rgba(250,204,21,0.55)"
-              : "1px solid rgba(255,255,255,0.22)",
-            boxShadow: "0 4px 20px rgba(0,0,0,0.35)",
-            color: saved ? "#facc15" : "#ffffff",
-          }}
-        >
-          <Bookmark size={20} fill={saved ? "currentColor" : "none"} />
-        </button>
-      </div>
-
-      {saveError && (
-        <div className="absolute top-[74px] right-5 z-30 max-w-[260px] rounded-lg bg-red-500/90 px-3 py-2 text-xs font-medium text-white shadow-lg">
-          {saveError}
-        </div>
-      )}
 
       {cookNotice && (
         <div
@@ -356,18 +334,17 @@ function ReceiptContent() {
       )}
 
       <h1
-        className="relative z-10 mt-20 text-center font-black tracking-widest uppercase mb-8 drop-shadow-lg md:mt-0
-          text-4xl md:text-6xl lg:text-7xl"
+        className="relative z-10 mt-12 mb-3 max-w-[calc(100vw-132px)] truncate text-center text-3xl font-black uppercase drop-shadow-lg md:mt-4 md:mb-4 md:max-w-5xl md:text-5xl lg:text-6xl"
         style={{
           color: "#ffffff",
           textShadow: "0 4px 24px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.12)",
-          letterSpacing: "0.18em",
+          letterSpacing: "0.12em",
         }}
       >
         {nama}
       </h1>
 
-      <div className="relative z-10 w-full max-w-5xl">
+      <div className="relative z-10 min-h-0 w-full max-w-6xl flex-1">
         {/* Tombol Kiri */}
         <button
           onClick={() => navigateTo("prev")}
@@ -418,7 +395,7 @@ function ReceiptContent() {
 
         {/* Kartu Resep */}
         <div
-          className="w-full rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row"
+          className="flex h-full min-h-0 w-full flex-col overflow-hidden rounded-3xl shadow-2xl md:flex-row"
           style={{
             background: "rgba(255,255,255,0.07)",
             backdropFilter: "blur(28px) saturate(1.4)",
@@ -429,16 +406,55 @@ function ReceiptContent() {
         >
           {/* Panel Kiri (Keterangan dengan warna asli) */}
           <div
-            className="w-full md:w-[38%] flex flex-col items-center justify-start py-10 px-6 md:px-8 gap-6 relative"
+            className="relative flex w-full shrink-0 flex-col items-center gap-3 overflow-hidden p-4 md:h-full md:w-[30%] md:justify-between md:p-5"
             style={{
               background: "rgba(40,20,10,0.45)",
               backdropFilter: "blur(10px)",
               borderRight: "1px solid rgba(255,255,255,0.08)",
             }}
           >
+            <div className="flex w-full items-center justify-between gap-2">
+              <div
+                className="flex h-9 items-center gap-1.5 rounded-full px-3 text-xs font-black text-white shadow-lg backdrop-blur-sm"
+                style={{
+                  background: "rgba(255,255,255,0.12)",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                }}
+              >
+                <Star size={14} fill="#facc15" color="#facc15" />
+                <span>+{cookPoints} poin</span>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleToggleSave}
+                disabled={!id || saving}
+                aria-label={saved ? "Batal simpan resep" : "Simpan resep"}
+                title={saved ? "Batal simpan" : "Simpan"}
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
+                style={{
+                  background: saved
+                    ? "rgba(250,204,21,0.24)"
+                    : "rgba(255,255,255,0.12)",
+                  border: saved
+                    ? "1px solid rgba(250,204,21,0.55)"
+                    : "1px solid rgba(255,255,255,0.2)",
+                  color: saved ? "#facc15" : "#ffffff",
+                }}
+              >
+                <Bookmark size={18} fill={saved ? "currentColor" : "none"} />
+              </button>
+            </div>
+
+            {saveError && (
+              <div className="w-full rounded-lg bg-red-500/90 px-3 py-2 text-xs font-semibold text-white shadow-lg">
+                {saveError}
+              </div>
+            )}
+
             <div
               className="relative flex items-center justify-center"
-              style={{ width: "100%", maxWidth: 260 }}
+              style={{ width: "100%", maxWidth: 210 }}
             >
               <div
                 className="absolute inset-0 rounded-full blur-2xl opacity-40"
@@ -451,7 +467,7 @@ function ReceiptContent() {
                 onError={() => setImgError(true)}
                 className="relative z-10 w-full object-contain"
                 style={{
-                  maxHeight: 280,
+                  maxHeight: 170,
                   filter: imgLoaded
                     ? "drop-shadow(0 12px 32px rgba(0,0,0,0.55)) drop-shadow(0 0 8px rgba(220,160,100,0.35))"
                     : "none",
@@ -468,8 +484,8 @@ function ReceiptContent() {
             </div>
 
             <p
-              className="text-center text-sm md:text-[14.5px] leading-relaxed"
-              style={{ color: "rgba(245,225,200,0.88)", maxWidth: 240 }}
+              className="line-clamp-3 text-center text-xs leading-relaxed md:text-sm"
+              style={{ color: "rgba(245,225,200,0.88)", maxWidth: 260 }}
             >
               <span className="font-semibold" style={{ color: "#f5e6d5" }}>
                 {nama}
@@ -479,11 +495,11 @@ function ReceiptContent() {
             </p>
 
             {metaItems.length > 0 && (
-              <div className="grid w-full max-w-[270px] grid-cols-2 gap-2">
-                {metaItems.map(({ icon: Icon, label }) => (
+              <div className="grid w-full max-w-[270px] grid-cols-2 gap-1.5">
+                {metaItems.slice(0, 4).map(({ icon: Icon, label }) => (
                   <div
                     key={label}
-                    className="flex min-h-10 items-center gap-2 rounded-xl px-3 text-xs font-extrabold"
+                    className="flex min-h-8 items-center gap-1.5 rounded-lg px-2.5 text-[11px] font-extrabold md:min-h-9 md:text-xs"
                     style={{
                       background: "rgba(255,255,255,0.09)",
                       border: "1px solid rgba(255,255,255,0.15)",
@@ -501,7 +517,7 @@ function ReceiptContent() {
               type="button"
               onClick={handleCook}
               disabled={!id || loading || cooking}
-              className="cook-ready relative flex h-12 w-full max-w-[245px] items-center justify-between gap-3 rounded-full px-4 text-sm font-extrabold text-white transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-70"
+              className="cook-ready relative flex h-11 w-full max-w-[245px] items-center justify-between gap-3 rounded-full px-4 text-sm font-extrabold text-white transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-70"
               style={{
                 background:
                   cookNotice?.type === "success"
@@ -534,7 +550,7 @@ function ReceiptContent() {
           </div>
 
           {/* Panel Kanan (Menu resep dengan warna putih terang) */}
-          <div className="w-full md:w-[62%] p-8 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+          <div className="recipe-scroll grid min-h-0 w-full flex-1 grid-cols-1 gap-5 overflow-y-auto p-4 md:w-[70%] md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-7 md:p-6">
             <div>
               <SectionTitle>Bahan Utama</SectionTitle>
               {loading ? (
@@ -543,17 +559,19 @@ function ReceiptContent() {
                 <IngredientList items={bahanUtama} emptyText="Bahan belum tersedia" />
               )}
 
-              <div className="mt-8">
-                <SectionTitle>Sambal / Pelengkap</SectionTitle>
-                {loading ? (
-                  <LoadingText />
-                ) : (
-                  <IngredientList items={sambal} emptyText="Sambal belum tersedia" />
-                )}
-              </div>
+              {(loading || sambal.length > 0) && (
+                <div className="mt-6">
+                  <SectionTitle>Sambal / Pelengkap</SectionTitle>
+                  {loading ? (
+                    <LoadingText />
+                  ) : (
+                    <IngredientList items={sambal} />
+                  )}
+                </div>
+              )}
 
               {tips.length > 0 && (
-                <div className="mt-8">
+                <div className="mt-6">
                   <SectionTitle>Tips</SectionTitle>
                   <IngredientList items={tips} />
                 </div>
@@ -565,7 +583,7 @@ function ReceiptContent() {
               {loading ? (
                 <LoadingText />
               ) : langkah.length > 0 ? (
-                <ol className="space-y-5 mt-1">
+                <ol className="mt-1 space-y-4">
                   {langkah.map((step, i) => (
                     <li key={i} className="flex gap-3">
                       <span
@@ -600,7 +618,6 @@ function ReceiptContent() {
         </div>
       </div>
 
-      <div className="h-8" />
     </div>
   )
 }

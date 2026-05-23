@@ -129,31 +129,13 @@ export default function Page() {
   // OPEN RECIPE
   // =========================
   function handleCardClick(card) {
-    const params = new URLSearchParams({
-      id: card.id,
-      nama: card.title,
-      deskripsi: card.description,
-    })
-
-    router.push(
-      `/receipt?${params.toString()}`
-    )
+    if (!card?.id) return
+    router.push(`/receipt?id=${card.id}`)
   }
 
   function openRecipe(item) {
-    const params = new URLSearchParams({
-      id: item.id,
-      nama:
-        item.nama || item.title,
-      deskripsi:
-        item.deskripsi ||
-        item.description ||
-        "",
-    })
-
-    router.push(
-      `/receipt?${params.toString()}`
-    )
+    if (!item?.id) return
+    router.push(`/receipt?id=${item.id}`)
   }
 
   // =========================

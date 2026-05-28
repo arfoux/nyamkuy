@@ -24,8 +24,8 @@ NyamKuy adalah web aplikasi yang menampilkan **resep masakan random** untuk memb
 Clone repository:
 
 ```bash
-git clone https://github.com/username/smtdua-frontend.git
-cd smtdua-frontend
+git clone https://github.com/username/nyamkuy.git
+cd nyamkuy
 ```
 
 Install dependencies:

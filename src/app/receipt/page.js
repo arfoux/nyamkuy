@@ -545,7 +545,7 @@ function ReceiptContent() {
 
             <div
               className="relative flex items-center justify-center"
-              style={{ width: "100%", maxWidth: 190 }}
+              style={{ width: "100%", maxWidth: 280 }}
             >
               <div
                 className="absolute inset-0 rounded-full blur-2xl opacity-40"
@@ -558,7 +558,7 @@ function ReceiptContent() {
                 onError={() => setImgError(true)}
                 className="relative z-10 w-full object-contain"
                 style={{
-                  maxHeight: 150,
+                  maxHeight: 250,
                   filter: imgLoaded
                     ? "drop-shadow(0 12px 32px rgba(0,0,0,0.55)) drop-shadow(0 0 8px rgba(220,160,100,0.35))"
                     : "none",
@@ -575,7 +575,7 @@ function ReceiptContent() {
             </div>
 
             <p
-              className="line-clamp-3 text-center text-xs leading-relaxed md:text-sm"
+              className="text-center text-xs leading-relaxed md:text-sm"
               style={{ color: "rgba(245,225,200,0.88)", maxWidth: 260 }}
             >
               <span className="font-semibold" style={{ color: "#f5e6d5" }}>

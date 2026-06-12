@@ -280,13 +280,9 @@ export default function Page() {
         }
       >
         <img
-          src="/logo.png"
+          src="/android-chrome-512x512.png"
           alt="NyamKuy Logo"
           className="h-12 w-12 object-contain drop-shadow-lg"
-          onError={(e) => {
-            e.currentTarget.style.display =
-              "none"
-          }}
         />
 
         <span className="text-3xl font-extrabold text-white drop-shadow-lg tracking-wide">

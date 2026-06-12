@@ -21,19 +21,19 @@ function getFoodImage(nama) {
 
 function rankTone(index) {
   if (index === 0) return "bg-amber-500 text-white"
-  if (index === 1) return "bg-zinc-400 text-white"
+  if (index === 1) return "bg-[#a39a95] text-white"
   if (index === 2) return "bg-orange-700 text-white"
-  return "bg-black/6 text-black/65"
+  return "bg-[#856b5c]/10 text-[#856b5c]"
 }
 
 function EmptyState({ title, text }) {
   return (
-    <div className="flex min-h-[260px] flex-col items-center justify-center rounded-xl border border-dashed border-black/15 bg-white px-6 py-10 text-center">
-      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-black text-white">
+    <div className="flex min-h-[260px] flex-col items-center justify-center rounded-xl border border-dashed border-[#856b5c]/30 bg-white px-6 py-10 text-center">
+      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#6b4e41] text-white">
         <Trophy size={22} />
       </div>
-      <div className="text-base font-black text-black">{title}</div>
-      <p className="mt-2 max-w-sm text-sm leading-relaxed text-black/55">
+      <div className="text-base font-black text-[#6b4e41]">{title}</div>
+      <p className="mt-2 max-w-sm text-sm leading-relaxed text-[#856b5c]/90">
         {text}
       </p>
     </div>
@@ -45,20 +45,20 @@ function UserRow({ item, index }) {
   const initial = name.charAt(0).toUpperCase()
 
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-black/8 bg-white p-3 shadow-sm">
+    <div className="flex items-center gap-3 rounded-xl border border-[#856b5c]/20 bg-white p-3 shadow-sm">
       <div
         className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-sm font-black ${rankTone(index)}`}
       >
         {index + 1}
       </div>
 
-      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-black text-lg font-black text-white">
+      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#6b4e41] text-lg font-black text-white">
         {initial}
       </div>
 
       <div className="min-w-0 flex-1">
-        <div className="truncate text-sm font-black text-black">{name}</div>
-        <div className="mt-1 flex items-center gap-2 text-xs font-semibold text-black/50">
+        <div className="truncate text-sm font-black text-[#6b4e41]">{name}</div>
+        <div className="mt-1 flex items-center gap-2 text-xs font-semibold text-[#856b5c]/90">
           <ChefHat size={13} />
           {item.cooked_count || 0} masakan tercatat
         </div>
@@ -81,7 +81,7 @@ function RecipeRow({ item, index, type, onOpen }) {
     <button
       type="button"
       onClick={() => onOpen(item)}
-      className="flex w-full items-center gap-3 rounded-xl border border-black/8 bg-white p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+      className="flex w-full items-center gap-3 rounded-xl border border-[#856b5c]/20 bg-white p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
     >
       <div
         className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-sm font-black ${rankTone(index)}`}
@@ -92,19 +92,19 @@ function RecipeRow({ item, index, type, onOpen }) {
       <img
         src={getFoodImage(item.nama)}
         alt={item.nama}
-        className="h-14 w-14 shrink-0 rounded-xl bg-black/5 object-cover"
+        className="h-14 w-14 shrink-0 rounded-xl bg-[#856b5c]/10 object-cover"
       />
 
       <div className="min-w-0 flex-1">
-        <div className="truncate text-sm font-black text-black">{item.nama}</div>
-        <div className="mt-1 line-clamp-1 text-xs font-semibold text-black/50">
+        <div className="truncate text-sm font-black text-[#6b4e41]">{item.nama}</div>
+        <div className="mt-1 line-clamp-1 text-xs font-semibold text-[#856b5c]/90">
           {[item.category, item.region, item.difficulty]
             .filter(Boolean)
             .join(" / ") || item.deskripsi || "Resep NyamKuy"}
         </div>
       </div>
 
-      <div className="flex shrink-0 items-center gap-1 rounded-full bg-black px-3 py-1 text-xs font-black text-white">
+      <div className="flex shrink-0 items-center gap-1 rounded-full bg-[#6b4e41] px-3 py-1 text-xs font-black text-white">
         {type === "saved" ? <Bookmark size={13} /> : <ChefHat size={13} />}
         {count}
       </div>
@@ -119,7 +119,7 @@ function Spotlight({ data, onOpen }) {
 
   return (
     <section className="grid gap-4 lg:grid-cols-3">
-      <div className="rounded-2xl bg-black p-5 text-white shadow-sm">
+      <div className="rounded-2xl bg-[#6b4e41] p-5 text-white shadow-sm">
         <div className="mb-6 flex items-center justify-between">
           <div className="text-sm font-black uppercase tracking-wider text-white/60">
             Top Koki
@@ -140,15 +140,15 @@ function Spotlight({ data, onOpen }) {
         className="rounded-2xl bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
       >
         <div className="mb-4 flex items-center justify-between">
-          <div className="text-sm font-black uppercase tracking-wider text-black/50">
+          <div className="text-sm font-black uppercase tracking-wider text-[#856b5c]">
             Paling Dimasak
           </div>
           <Flame size={22} />
         </div>
-        <div className="text-2xl font-black text-black">
+        <div className="text-2xl font-black text-[#6b4e41]">
           {topCooked?.nama || "Belum ada"}
         </div>
-        <div className="mt-3 text-sm font-semibold text-black/55">
+        <div className="mt-3 text-sm font-semibold text-[#856b5c]">
           {topCooked
             ? `${topCooked.cooked_count} kali dimasak`
             : "Data akan muncul setelah user mulai memasak."}
@@ -161,15 +161,15 @@ function Spotlight({ data, onOpen }) {
         className="rounded-2xl bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
       >
         <div className="mb-4 flex items-center justify-between">
-          <div className="text-sm font-black uppercase tracking-wider text-black/50">
+          <div className="text-sm font-black uppercase tracking-wider text-[#856b5c]">
             Paling Disimpan
           </div>
           <Bookmark size={22} />
         </div>
-        <div className="text-2xl font-black text-black">
+        <div className="text-2xl font-black text-[#6b4e41]">
           {topSaved?.nama || "Belum ada"}
         </div>
-        <div className="mt-3 text-sm font-semibold text-black/55">
+        <div className="mt-3 text-sm font-semibold text-[#856b5c]">
           {topSaved
             ? `${topSaved.saved_count} simpanan`
             : "Data akan muncul setelah user menyimpan resep."}
@@ -229,13 +229,13 @@ export default function LeaderboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f6f7fb] px-4 py-5 text-black md:px-8 md:py-8">
+    <main className="min-h-screen bg-[#f6f7fb] px-4 py-5 text-[#856b5c] md:px-8 md:py-8">
       <div className="mx-auto max-w-6xl">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <button
             type="button"
             onClick={() => router.push("/")}
-            className="flex h-10 items-center gap-2 rounded-full bg-white px-4 text-sm font-bold text-black shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            className="flex h-10 items-center gap-2 rounded-full bg-white px-4 text-sm font-bold text-[#6b4e41] shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
           >
             <ArrowLeft size={16} />
             Beranda
@@ -244,7 +244,7 @@ export default function LeaderboardPage() {
           <button
             type="button"
             onClick={loadLeaderboard}
-            className="flex h-10 items-center gap-2 rounded-full bg-black px-4 text-sm font-black text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            className="flex h-10 items-center gap-2 rounded-full bg-[#6b4e41] px-4 text-sm font-black text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
           >
             <RefreshCcw size={15} />
             Refresh
@@ -252,14 +252,14 @@ export default function LeaderboardPage() {
         </div>
 
         <section className="mb-10 flex flex-col items-center text-center">
-          <div className="mb-3 flex items-center justify-center gap-2 text-sm font-black uppercase tracking-[0.24em] text-black/45">
+          <div className="mb-3 flex items-center justify-center gap-2 text-sm font-black uppercase tracking-[0.24em] text-[#856b5c]/70">
             <Trophy size={18} />
             Leaderboard Global
           </div>
-          <h1 className="max-w-3xl text-4xl font-black tracking-tight md:text-6xl">
+          <h1 className="max-w-3xl text-4xl font-black tracking-tight text-[#6b4e41] md:text-6xl">
             Papan ranking dapur NyamKuy.
           </h1>
-          <p className="mt-4 max-w-2xl text-sm font-medium leading-relaxed text-black/55 md:text-base">
+          <p className="mt-4 max-w-2xl text-sm font-medium leading-relaxed text-[#856b5c]/80 md:text-base">
             Lihat koki paling aktif, resep yang paling sering dimasak, dan
             resep yang paling banyak disimpan. Mode mingguan memberi ruang
             untuk user baru ikut naik.
@@ -278,8 +278,8 @@ export default function LeaderboardPage() {
                 onClick={() => setPeriod(key)}
                 className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-black transition md:flex-none ${
                   period === key
-                    ? "bg-black text-white"
-                    : "text-black/55 hover:text-black"
+                    ? "bg-[#6b4e41] text-white"
+                    : "text-[#856b5c]/70 hover:text-[#6b4e41]"
                 }`}
               >
                 <Icon size={16} />
@@ -307,8 +307,8 @@ export default function LeaderboardPage() {
                   onClick={() => setActiveTab(key)}
                   className={`flex shrink-0 items-center gap-2 rounded-lg px-4 py-2 text-sm font-extrabold transition ${
                     activeTab === key
-                      ? "bg-black text-white"
-                      : "text-black/55 hover:text-black"
+                      ? "bg-[#6b4e41] text-white"
+                      : "text-[#856b5c]/70 hover:text-[#6b4e41]"
                   }`}
                 >
                   <Icon size={15} />
@@ -317,7 +317,7 @@ export default function LeaderboardPage() {
               ))}
             </div>
 
-            <div className="flex items-center gap-2 text-xs font-semibold text-black/45">
+            <div className="flex items-center gap-2 text-xs font-semibold text-[#856b5c]/70">
               <Clock3 size={14} />
               {generatedAt
                 ? `${period === "week" ? "Mingguan" : "Semua waktu"} / ${new Date(generatedAt).toLocaleTimeString("id-ID")}`
@@ -332,7 +332,7 @@ export default function LeaderboardPage() {
           )}
 
           {loading ? (
-            <div className="flex min-h-[260px] items-center justify-center text-sm font-black uppercase tracking-[0.24em] text-black/40">
+            <div className="flex min-h-[260px] items-center justify-center text-sm font-black uppercase tracking-[0.24em] text-[#856b5c]/50">
               Memuat leaderboard...
             </div>
           ) : currentItems.length === 0 ? (

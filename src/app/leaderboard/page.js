@@ -251,8 +251,8 @@ export default function LeaderboardPage() {
           </button>
         </div>
 
-        <section className="mb-6">
-          <div className="mb-3 flex items-center gap-2 text-sm font-black uppercase tracking-[0.24em] text-black/45">
+        <section className="mb-10 flex flex-col items-center text-center">
+          <div className="mb-3 flex items-center justify-center gap-2 text-sm font-black uppercase tracking-[0.24em] text-black/45">
             <Trophy size={18} />
             Leaderboard Global
           </div>
@@ -266,25 +266,27 @@ export default function LeaderboardPage() {
           </p>
         </section>
 
-        <div className="mb-6 flex w-full rounded-2xl bg-white p-1 shadow-sm md:w-fit">
-          {[
-            ["week", "Mingguan", CalendarDays],
-            ["all", "Sepanjang Masa", Trophy],
-          ].map(([key, label, Icon]) => (
-            <button
-              key={key}
-              type="button"
-              onClick={() => setPeriod(key)}
-              className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-black transition md:flex-none ${
-                period === key
-                  ? "bg-black text-white"
-                  : "text-black/55 hover:text-black"
-              }`}
-            >
-              <Icon size={16} />
-              {label}
-            </button>
-          ))}
+        <div className="mb-8 flex w-full justify-center">
+          <div className="flex w-full rounded-2xl bg-white p-1 shadow-sm md:w-fit">
+            {[
+              ["week", "Mingguan", CalendarDays],
+              ["all", "Sepanjang Masa", Trophy],
+            ].map(([key, label, Icon]) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => setPeriod(key)}
+                className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-black transition md:flex-none ${
+                  period === key
+                    ? "bg-black text-white"
+                    : "text-black/55 hover:text-black"
+                }`}
+              >
+                <Icon size={16} />
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="mb-6">

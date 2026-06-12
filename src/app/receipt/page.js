@@ -44,38 +44,6 @@ function ReceiptContent() {
   const [cookNotice, setCookNotice] = useState(null)
   const [confirmCookOpen, setConfirmCookOpen] = useState(false)
 
-  // ── Swipe touch navigation ──────────────────────────────────────────
-  const touchStartX = useRef(null)
-  const touchStartY = useRef(null)
-  const SWIPE_THRESHOLD = 60   // px minimum horizontal untuk dianggap swipe
-  const SWIPE_RATIO     = 1.5  // horizontal harus lebih dominan dari vertikal
-
-  const handleTouchStart = useCallback((e) => {
-    touchStartX.current = e.touches[0].clientX
-    touchStartY.current = e.touches[0].clientY
-  }, [])
-
-  const handleTouchEnd = useCallback((e) => {
-    if (touchStartX.current === null) return
-
-    const dx    = e.changedTouches[0].clientX - touchStartX.current
-    const dy    = e.changedTouches[0].clientY - touchStartY.current
-    const absDx = Math.abs(dx)
-    const absDy = Math.abs(dy)
-
-    touchStartX.current = null
-    touchStartY.current = null
-
-    // Abaikan jika gerakan terlalu pendek atau lebih vertikal
-    if (absDx < SWIPE_THRESHOLD || absDy * SWIPE_RATIO > absDx) return
-
-    // Nonaktifkan swipe jika tidak ada resep lain (single resep / tanpa id)
-    if (!canGoPrev && !canGoNext) return
-
-    if (dx < 0 && canGoNext) navigateTo("next")  // swipe kiri  → berikutnya
-    if (dx > 0 && canGoPrev) navigateTo("prev")  // swipe kanan → sebelumnya
-  }, [canGoPrev, canGoNext, navigateTo])
-
   useEffect(() => {
     async function loadRecipe() {
       setSaveError("")
@@ -250,6 +218,36 @@ function ReceiptContent() {
   const currentId = id ? parseInt(id, 10) : null
   const canGoPrev = currentId !== null && !isNaN(currentId) && currentId > 1
   const canGoNext = currentId !== null && !isNaN(currentId)
+
+  // ── Swipe touch navigation (ditempatkan setelah canGoPrev/canGoNext) ─────
+  const touchStartX = useRef(null)
+  const touchStartY = useRef(null)
+  const SWIPE_THRESHOLD = 60
+  const SWIPE_RATIO     = 1.5
+
+  const handleTouchStart = useCallback((e) => {
+    touchStartX.current = e.touches[0].clientX
+    touchStartY.current = e.touches[0].clientY
+  }, [])
+
+  const handleTouchEnd = useCallback((e) => {
+    if (touchStartX.current === null) return
+
+    const dx    = e.changedTouches[0].clientX - touchStartX.current
+    const dy    = e.changedTouches[0].clientY - touchStartY.current
+    const absDx = Math.abs(dx)
+    const absDy = Math.abs(dy)
+
+    touchStartX.current = null
+    touchStartY.current = null
+
+    if (absDx < SWIPE_THRESHOLD || absDy * SWIPE_RATIO > absDx) return
+    if (!canGoPrev && !canGoNext) return
+
+    if (dx < 0 && canGoNext) navigateTo("next")
+    if (dx > 0 && canGoPrev) navigateTo("prev")
+  }, [canGoPrev, canGoNext, navigateTo])
+
   const rawCookPoints = Number(recipe?.cook_points ?? recipe?.poin ?? 10)
   const cookPoints = Number.isFinite(rawCookPoints) ? rawCookPoints : 10
   const metaItems = [
@@ -299,7 +297,7 @@ function ReceiptContent() {
 
         .cook-ready {
           animation: cookButtonGlow 1.8s ease-in-out infinite;
-        }
+        }g
 
         .recipe-scroll {
           scrollbar-width: thin;

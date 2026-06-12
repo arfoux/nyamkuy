@@ -230,7 +230,7 @@ export default function Page() {
   }, [])
 
   return (
-    <main className="relative flex h-[100dvh] items-center justify-center overflow-hidden touch-none">
+    <main className="relative flex h-[100dvh] items-center justify-center overflow-hidden touch-none bg-gradient-to-br from-zinc-900 to-black">
       {/* BG BARU */}
       {bg && (
         <div

@@ -297,7 +297,7 @@ function ReceiptContent() {
 
         .cook-ready {
           animation: cookButtonGlow 1.8s ease-in-out infinite;
-        }g
+        }
 
         .recipe-scroll {
           scrollbar-width: thin;
@@ -517,7 +517,7 @@ function ReceiptContent() {
 
         {/* Kartu Resep */}
         <div
-          className="recipe-card-scroll flex h-full min-h-0 w-full flex-col overflow-y-auto rounded-3xl shadow-2xl md:flex-row md:overflow-hidden"
+          className="recipe-card-scroll flex h-full min-h-0 w-full flex-col overflow-y-auto rounded-3xl shadow-2xl md:flex-row"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
           style={{
@@ -530,7 +530,7 @@ function ReceiptContent() {
         >
           {/* Panel Kiri (Keterangan dengan warna asli) */}
           <div
-            className="relative flex w-full shrink-0 flex-col items-center justify-center gap-3 overflow-hidden p-4 md:h-full md:w-[30%] md:p-5"
+            className="relative flex w-full shrink-0 flex-col items-center justify-start gap-3 p-4 md:h-full md:w-[30%] md:p-5"
             style={{
               background: "rgba(40,20,10,0.45)",
               backdropFilter: "blur(10px)",
@@ -663,7 +663,7 @@ function ReceiptContent() {
           </div>
 
           {/* Panel Kanan (Menu resep dengan warna putih terang) */}
-          <div className="recipe-scroll grid min-h-0 w-full flex-1 grid-cols-1 gap-5 overflow-visible p-4 md:w-[70%] md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-7 md:overflow-y-auto md:p-6">
+          <div className="grid min-h-0 w-full flex-1 grid-cols-1 gap-5 p-4 md:w-[70%] md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-7 md:p-6">
             <div>
               <SectionTitle>Bahan Utama</SectionTitle>
               {loading ? (

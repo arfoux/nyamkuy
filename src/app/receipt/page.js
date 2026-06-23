@@ -530,7 +530,7 @@ function ReceiptContent() {
         >
           {/* Panel Kiri (Keterangan dengan warna asli) */}
           <div
-            className="relative flex w-full shrink-0 flex-col items-center justify-start gap-3 p-4 md:h-full md:w-[30%] md:p-5"
+            className="relative self-stretch flex w-full shrink-0 flex-col items-center justify-start gap-3 p-4 md:w-[30%] md:p-5"
             style={{
               background: "rgba(40,20,10,0.45)",
               backdropFilter: "blur(10px)",

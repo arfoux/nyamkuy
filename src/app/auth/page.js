@@ -266,6 +266,32 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
+      {/* Tombol Kembali ke Beranda */}
+      <button
+        type="button"
+        onClick={() => router.push("/")}
+        className="fixed top-4 right-4 z-50 flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium
+                   bg-background border border-border/60 rounded-lg shadow-sm
+                   text-muted-foreground hover:text-foreground hover:border-border
+                   transition-all hover:shadow-md active:scale-95"
+        aria-label="Kembali ke Beranda"
+      >
+        <svg
+          width="13"
+          height="13"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+        Beranda
+      </button>
+
       <div className="w-full max-w-[400px] bg-background border border-border/60 rounded-2xl overflow-hidden shadow-sm">
         {/* Header */}
         <div className="px-7 pt-6 pb-5 border-b border-border/50">

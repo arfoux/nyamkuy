@@ -283,9 +283,7 @@ export default function Page() {
       {/* overlay */}
       <div className="absolute inset-0 bg-black/30 z-[3]" />
 
-      {/* SCALED INTERFACE WRAPPER */}
-      <div className="absolute inset-0 z-10 flex items-center justify-center scale-[0.85] md:scale-[0.9] origin-center transition-transform duration-300">
-        {/* kiri atas */}
+      {/* kiri atas */}
       <div
         className="absolute top-5 left-8 z-20 flex items-center gap-3 cursor-pointer transition-transform hover:scale-105"
         onClick={() =>
@@ -599,7 +597,7 @@ export default function Page() {
       </button>
 
       {/* CONTENT */}
-      <div className="relative z-10 flex -translate-y-5 flex-col items-center gap-3 md:translate-y-0 md:gap-4">
+      <div className="relative z-10 flex -translate-y-5 flex-col items-center gap-3 md:translate-y-0 md:gap-4 scale-[0.85] md:scale-[0.9] origin-center transition-transform duration-300">
         {/* CARD + PANAH */}
         <div className="relative inline-block">
           {/* SWIPE CARD */}
@@ -875,7 +873,6 @@ export default function Page() {
             </div>
           )}
         </div>
-      </div>
       </div>
     </main>
   )

@@ -415,6 +415,9 @@ function ReceiptContent() {
         {/* Kartu Resep */}
         <div
           className="recipe-card-scroll flex h-full min-h-0 w-full flex-col overflow-y-auto rounded-3xl shadow-2xl md:flex-row"
+          className="recipe-card-scroll flex h-full min-h-0 w-full flex-col overflow-y-auto rounded-3xl pd-4 shadow-2xl md:flex-row"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
           style={{
             background: "rgba(255,255,255,0.07)",
             backdropFilter: "blur(28px) saturate(1.4)",
@@ -425,7 +428,7 @@ function ReceiptContent() {
         >
           {/* Panel Kiri (Keterangan dengan warna asli) */}
           <div
-            className="relative self-stretch flex w-full shrink-0 flex-col items-center justify-start gap-3 p-4 md:w-[30%] md:p-5"
+            className="relative self-stretch flex w-full shrink-0 flex-col items-center justify-between gap-3 p-4 md:w-[30%] md:p-5"
             style={{
               background: "rgba(40,20,10,0.45)",
               backdropFilter: "blur(10px)",
@@ -499,7 +502,7 @@ function ReceiptContent() {
               </div>
             )}
 
-            <div className="flex w-full max-w-[270px] items-center gap-2">
+            <div className="mt-auto mb-5 flex w-full max-w-[270px] items-center gap-2">
               <button
                 type="button"
                 onClick={() => setConfirmCookOpen(true)}

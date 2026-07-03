@@ -556,7 +556,7 @@ function ReceiptContent() {
           </div>
 
           {/* Panel Kanan (Menu resep dengan warna putih terang) */}
-          <div className="grid min-h-0 w-full flex-1 grid-cols-1 gap-5 p-4 md:w-[70%] md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-7 md:p-6">
+          <div className="grid min-h-0 h-full w-full flex-1 overflow-y-auto grid-cols-1 gap-5 p-4 md:w-[70%] md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-7 md:p-6">
             <div>
               <SectionTitle>Bahan Utama</SectionTitle>
               {loading ? (

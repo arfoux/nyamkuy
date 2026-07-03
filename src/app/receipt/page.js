@@ -205,7 +205,7 @@ function ReceiptContent() {
   ].filter(Boolean)
 
   return (
-    <div className="relative flex h-[100dvh] flex-col overflow-hidden p-3 font-sans md:p-5">
+    <div className="relative flex h-[100dvh] flex-col items-center justify-center overflow-hidden p-3 font-sans md:p-5">
       <style>{`
         @keyframes cookToastIn {
           0% {
@@ -421,7 +421,7 @@ function ReceiptContent() {
       "0 24px 80px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
   }}
 >
-  
+
           {/* Panel Kiri (Keterangan dengan warna asli) */}
           <div
             className="relative flex w-full shrink-0 flex-col items-center gap-3 p-5 md:w-[32%]"

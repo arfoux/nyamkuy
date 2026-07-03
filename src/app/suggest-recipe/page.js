@@ -33,6 +33,10 @@ const INITIAL_FORM = {
   tips_text: "",
 }
 
+const MAX_IMAGE_SIZE = 4 * 1024 * 1024
+const ACCEPTED_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"])
+const IMAGE_INPUT_ID = "recipe-suggestion-image"
+
 const STATUS_STYLE = {
   pending: {
     label: "Menunggu review",
@@ -46,6 +50,22 @@ const STATUS_STYLE = {
     label: "Ditolak",
     className: "bg-red-50 text-red-700 border-red-200",
   },
+}
+
+function isAcceptedImage(file) {
+  const type = file?.type?.toLowerCase()
+
+  if (ACCEPTED_IMAGE_TYPES.has(type)) {
+    return true
+  }
+
+  const name = file?.name?.toLowerCase() || ""
+  return (
+    name.endsWith(".jpg") ||
+    name.endsWith(".jpeg") ||
+    name.endsWith(".png") ||
+    name.endsWith(".webp")
+  )
 }
 
 function formatDate(value) {
@@ -103,6 +123,36 @@ function TextArea(props) {
       className="min-h-28 w-full resize-y rounded-xl border border-black/10 bg-white px-3 py-3 text-sm font-semibold leading-relaxed text-black outline-none ring-black/10 transition focus:ring-4"
     />
   )
+}
+
+function getFormIssues(form, image) {
+  const issues = []
+
+  if (form.nama.trim().length < 3) {
+    issues.push("Judul resep minimal 3 karakter.")
+  }
+
+  if (form.deskripsi.trim().length < 12) {
+    issues.push("Deskripsi minimal 12 karakter.")
+  }
+
+  if (form.bahan_text.trim().length < 3) {
+    issues.push("Bahan utama wajib diisi.")
+  }
+
+  if (form.langkah_text.trim().length < 10) {
+    issues.push("Cara membuat minimal 10 karakter.")
+  }
+
+  if (!image) {
+    issues.push("Gambar resep wajib dipilih.")
+  } else if (!isAcceptedImage(image)) {
+    issues.push("Format gambar harus JPG, PNG, atau WebP.")
+  } else if (image.size > MAX_IMAGE_SIZE) {
+    issues.push("Ukuran gambar maksimal 4 MB.")
+  }
+
+  return issues
 }
 
 function SuggestionRow({ item }) {
@@ -216,15 +266,13 @@ export default function SuggestRecipePage() {
     loadData()
   }, [loadData])
 
-  const canSubmit = useMemo(() => {
-    return (
-      form.nama.trim().length >= 3 &&
-      form.deskripsi.trim().length >= 12 &&
-      form.bahan_text.trim().length >= 3 &&
-      form.langkah_text.trim().length >= 10 &&
-      image
-    )
-  }, [form, image])
+  const formIssues = useMemo(() => getFormIssues(form, image), [form, image])
+  const canSubmit = formIssues.length === 0
+  const formStatusText = canSubmit
+    ? "Draft siap dikirim."
+    : formIssues.length > 1
+      ? `${formIssues[0]} +${formIssues.length - 1} lagi.`
+      : formIssues[0]
 
   function updateField(key, value) {
     setForm((current) => ({
@@ -233,9 +281,29 @@ export default function SuggestRecipePage() {
     }))
   }
 
+  function handleImageChange(event) {
+    const file = event.target.files?.[0] || null
+    setImage(file)
+    event.target.value = ""
+
+    if (file) {
+      setMessage(null)
+    }
+  }
+
   async function handleSubmit(event) {
     event.preventDefault()
     if (submitting) return
+
+    const issues = getFormIssues(form, image)
+
+    if (issues.length > 0) {
+      setMessage({
+        type: "error",
+        text: `Belum bisa dikirim: ${issues.join(" ")}`,
+      })
+      return
+    }
 
     setSubmitting(true)
     setMessage(null)
@@ -247,9 +315,7 @@ export default function SuggestRecipePage() {
         body.append(key, value)
       })
 
-      if (image) {
-        body.append("image", image)
-      }
+      body.append("image", image)
 
       const res = await fetch("/api/resep/saran", {
         method: "POST",
@@ -538,18 +604,22 @@ export default function SuggestRecipePage() {
                     Gambar resep
                   </div>
                   <div className="text-xs font-semibold text-black/50">
-                    JPG, PNG, atau WebP maksimal 4 MB.
+                    {image ? image.name : "JPG, PNG, atau WebP maksimal 4 MB."}
                   </div>
                 </div>
               </div>
 
-              <label className="inline-flex h-10 cursor-pointer items-center justify-center rounded-full bg-black px-4 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:shadow-md">
-                Pilih gambar
+              <label
+                htmlFor={IMAGE_INPUT_ID}
+                className="inline-flex h-10 cursor-pointer items-center justify-center rounded-full bg-black px-4 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:shadow-md"
+              >
+                {image ? "Ganti gambar" : "Pilih gambar"}
                 <input
+                  id={IMAGE_INPUT_ID}
                   type="file"
                   accept="image/png,image/jpeg,image/webp"
-                  onChange={(event) => setImage(event.target.files?.[0] || null)}
-                  className="hidden"
+                  onChange={handleImageChange}
+                  className="sr-only"
                 />
               </label>
             </div>
@@ -565,14 +635,13 @@ export default function SuggestRecipePage() {
             <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-2 text-sm font-semibold text-black/45">
                 {!canSubmit && <XCircle size={16} />}
-                {canSubmit
-                  ? "Draft siap dikirim."
-                  : "Lengkapi judul, deskripsi, bahan, langkah, dan gambar."}
+                {formStatusText}
               </div>
 
               <button
                 type="submit"
-                disabled={!canSubmit || submitting}
+                aria-disabled={!canSubmit}
+                disabled={submitting}
                 className="flex h-11 items-center gap-2 rounded-full bg-black px-5 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <Send size={16} />

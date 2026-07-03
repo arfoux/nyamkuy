@@ -21,6 +21,7 @@ export async function POST(req) {
   try {
     user = await UserQuery.byResetToken(db, token);
   } catch (error) {
+    console.error("DEBUG RESET ERROR:", error);
     return NextResponse.json({ error: "Terjadi kesalahan server" }, { status: 500 });
   }
 
@@ -28,7 +29,7 @@ export async function POST(req) {
     return NextResponse.json({ error: "Token tidak valid atau sudah digunakan" }, { status: 400 });
   }
 
-  if (user.reset_exp && Date.now() > user.reset_exp) {
+  if (user.verify_exp && Date.now() > user.verify_exp) {
     return NextResponse.json({ error: "Token sudah kedaluwarsa" }, { status: 400 });
   }
 
@@ -37,6 +38,7 @@ export async function POST(req) {
   try {
     await UserQuery.updatePasswordAndClearResetToken(db, user.id, passwordHash);
   } catch (error) {
+    console.error("DEBUG RESET ERROR:", error);
     return NextResponse.json({ error: "Gagal menyimpan password baru" }, { status: 500 });
   }
 

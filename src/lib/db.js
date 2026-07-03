@@ -36,7 +36,7 @@ export const UserQuery = {
       .bind(token).first(),
 
   byResetToken: (db, token) =>
-    db.prepare("SELECT * FROM users WHERE reset_token = ? LIMIT 1")
+    db.prepare("SELECT * FROM users WHERE verify_token = ? LIMIT 1")
       .bind(token).first(),
 
   create: (db, u) =>
@@ -59,10 +59,10 @@ export const UserQuery = {
       .bind(displayName, id).run(),
       
   updateResetToken: (db, id, token, exp) =>
-    db.prepare("UPDATE users SET reset_token = ?, reset_exp = ? WHERE id = ?")
+    db.prepare("UPDATE users SET verify_token = ?, verify_exp = ? WHERE id = ?")
       .bind(token, exp, id).run(),
 
   updatePasswordAndClearResetToken: (db, id, passwordHash) =>
-    db.prepare("UPDATE users SET password_hash = ?, reset_token = NULL, reset_exp = NULL WHERE id = ?")
+    db.prepare("UPDATE users SET password_hash = ?, verify_token = NULL, verify_exp = NULL WHERE id = ?")
       .bind(passwordHash, id).run(),
 };

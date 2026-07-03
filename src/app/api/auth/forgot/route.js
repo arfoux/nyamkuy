@@ -25,7 +25,7 @@ export async function POST(req) {
   try {
     await UserQuery.updateResetToken(db, user.id, reset_token, reset_exp);
   } catch (error) {
-    // Jika kolom tidak ada, ignore untuk fallback atau kembalikan error.
+    console.error("DEBUG FORGOT ERROR:", error);
     return NextResponse.json({ error: "Gagal membuat token, hubungi admin." }, { status: 500 });
   }
 

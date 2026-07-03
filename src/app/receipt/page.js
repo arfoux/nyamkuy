@@ -205,7 +205,7 @@ function ReceiptContent() {
   ].filter(Boolean)
 
   return (
-    <div className="relative flex h-[100dvh] flex-col items-center justify-center overflow-hidden p-3 font-sans md:p-5">
+    <div className="relative flex h-[100dvh] flex-col overflow-hidden p-3 font-sans md:p-5">
       <style>{`
         @keyframes cookToastIn {
           0% {
@@ -411,19 +411,20 @@ function ReceiptContent() {
       </h1>
 
       <div
-        className="flex h-full min-h-0 w-full overflow-hidden rounded-3xl shadow-2xl md:flex-row"
-        style={{
-        background: "rgba(255,255,255,0.07)",
-        backdropFilter: "blur(28px) saturate(1.4)",
-        WebkitBackdropFilter: "blur(28px) saturate(1.4)",
-        border: "1px solid rgba(255,255,255,0.18)",
-        boxShadow:
-          "0 24px 80px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
-        }}
-      >
+  className="flex flex-1 min-h-0 w-full overflow-hidden rounded-3xl shadow-2xl md:flex-row"
+  style={{
+    background: "rgba(255,255,255,0.07)",
+    backdropFilter: "blur(28px) saturate(1.4)",
+    WebkitBackdropFilter: "blur(28px) saturate(1.4)",
+    border: "1px solid rgba(255,255,255,0.18)",
+    boxShadow:
+      "0 24px 80px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
+  }}
+>
+  
           {/* Panel Kiri (Keterangan dengan warna asli) */}
           <div
-            className="relative flex h-full self-stretch w-full shrink-0 flex-col items-center gap-3 p-4 md:w-[30%] md:p-5"
+            className="relative flex w-full shrink-0 flex-col items-center gap-3 p-5 md:w-[32%]"
             style={{
               background: "rgba(40,20,10,0.45)",
               backdropFilter: "blur(10px)",

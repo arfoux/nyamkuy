@@ -678,15 +678,6 @@ export default function Page() {
             role="button"
             tabIndex={0}
             onClick={() => searchInputRef.current?.focus()}
-            onKeyDown={(event) => {
-              if (
-                event.key === "Enter" ||
-                event.key === " "
-              ) {
-                event.preventDefault()
-                searchInputRef.current?.focus()
-              }
-            }}
             className="flex cursor-text items-center gap-2 rounded-full bg-white/85 px-3 py-2 shadow-lg backdrop-blur transition hover:bg-white"
           >
             <div className="flex h-9 w-9 items-center justify-center rounded-full">
@@ -727,19 +718,20 @@ export default function Page() {
 
           {/* DROPDOWN */}
           {search.trim() && (
-            <div
-              className="
-                absolute
-                left-0
-                right-0
-                bottom-[58px]
-                z-30
-                overflow-hidden
-                rounded-2xl
-                bg-white/95
-                shadow-2xl
-                backdrop-blur
-              "
+          <div
+            className="
+              absolute
+              left-0
+              right-0
+              bottom-[58px]
+              z-30
+              max-h-80
+              overflow-y-auto
+              rounded-2xl
+              bg-white/95
+              shadow-2xl
+              backdrop-blur
+            "
             >
               {loading && (
                 <div className="px-4 py-3 text-sm text-black/60">

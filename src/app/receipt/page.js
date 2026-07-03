@@ -411,7 +411,7 @@ function ReceiptContent() {
       </h1>
 
       <div
-        className="recipe-card-scroll flex h-full min-h-0 w-full flex-col overflow-hidden rounded-3xl shadow-2xl items-stretch md:flex-row"
+        className="flex h-full min-h-0 w-full overflow-hidden rounded-3xl shadow-2xl md:flex-row"
         style={{
         background: "rgba(255,255,255,0.07)",
         backdropFilter: "blur(28px) saturate(1.4)",
@@ -556,7 +556,7 @@ function ReceiptContent() {
           </div>
 
           {/* Panel Kanan (Menu resep dengan warna putih terang) */}
-          <div className="grid min-h-0 h-full w-full flex-1 overflow-y-auto grid-cols-1 gap-5 p-4 md:w-[70%] md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-7 md:p-6">
+          <div className="grid h-full min-h-0 w-full flex-1 overflow-y-auto grid-cols-1 gap-5 p-4 md:w-[70%] md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-7 md:p-6">
             <div>
               <SectionTitle>Bahan Utama</SectionTitle>
               {loading ? (

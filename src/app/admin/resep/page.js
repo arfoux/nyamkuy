@@ -459,7 +459,7 @@ export default function AdminRecipeCrudPage() {
         {/* Workspace layout */}
         <section className="grid gap-6 lg:grid-cols-[360px_minmax(0,1fr)]">
           {/* Left panel - List of recipes */}
-          <aside className="rounded-2xl bg-white p-4 shadow-sm h-fit">
+          <aside className="rounded-2xl bg-white p-4 shadow-sm h-fit lg:sticky lg:top-6">
             <div className="mb-4 flex items-center gap-2 rounded-xl border border-black/10 bg-[#f6f7fb] px-3">
               <Search size={16} className="text-black/40" />
               <input
@@ -476,18 +476,20 @@ export default function AdminRecipeCrudPage() {
                 Memuat daftar...
               </div>
             ) : items.length > 0 ? (
-              <div className="space-y-3">
-                {items.map((item) => (
-                  <RecipeRowButton
-                    key={item.id}
-                    item={item}
-                    selected={selectedId === item.id}
-                    onClick={() => {
-                      setSelectedId(item.id)
-                      setMessage(null)
-                    }}
-                  />
-                ))}
+              <div className="flex flex-col">
+                <div className="space-y-3 max-h-[520px] overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-black/10 [&::-webkit-scrollbar-thumb]:rounded-full">
+                  {items.map((item) => (
+                    <RecipeRowButton
+                      key={item.id}
+                      item={item}
+                      selected={selectedId === item.id}
+                      onClick={() => {
+                        setSelectedId(item.id)
+                        setMessage(null)
+                      }}
+                    />
+                  ))}
+                </div>
 
                 {/* Pagination */}
                 {totalPages > 1 && (

@@ -410,22 +410,17 @@ function ReceiptContent() {
         {nama}
       </h1>
 
-      <div className="relative z-10 min-h-0 w-full max-w-6xl flex-1">
-
-        {/* Kartu Resep */}
-        <div
-          className="recipe-card-scroll flex h-full min-h-0 w-full flex-col overflow-y-auto rounded-3xl shadow-2xl md:flex-row"
-          className="recipe-card-scroll flex h-full min-h-0 w-full flex-col overflow-y-auto rounded-3xl pd-4 shadow-2xl md:flex-row"
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-          style={{
-            background: "rgba(255,255,255,0.07)",
-            backdropFilter: "blur(28px) saturate(1.4)",
-            WebkitBackdropFilter: "blur(28px) saturate(1.4)",
-            border: "1px solid rgba(255,255,255,0.18)",
-            boxShadow: "0 24px 80px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
-          }}
-        >
+      <div
+        className="recipe-card-scroll flex h-full min-h-0 w-full flex-col overflow-y-auto rounded-3xl shadow-2xl md:flex-row"
+        style={{
+        background: "rgba(255,255,255,0.07)",
+        backdropFilter: "blur(28px) saturate(1.4)",
+        WebkitBackdropFilter: "blur(28px) saturate(1.4)",
+        border: "1px solid rgba(255,255,255,0.18)",
+        boxShadow:
+          "0 24px 80px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
+        }}
+      >
           {/* Panel Kiri (Keterangan dengan warna asli) */}
           <div
             className="relative self-stretch flex w-full shrink-0 flex-col items-center justify-between gap-3 p-4 md:w-[30%] md:p-5"
@@ -628,9 +623,7 @@ function ReceiptContent() {
           </div>
         </div>
       </div>
-
-    </div>
-  )
+    )
 }
 
 function SectionTitle({ children }) {

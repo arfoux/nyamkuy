@@ -283,7 +283,9 @@ export default function Page() {
       {/* overlay */}
       <div className="absolute inset-0 bg-black/30 z-[3]" />
 
-      {/* kiri atas */}
+      {/* SCALED INTERFACE WRAPPER */}
+      <div className="absolute inset-0 z-10 flex items-center justify-center scale-[0.85] md:scale-[0.9] origin-center transition-transform duration-300">
+        {/* kiri atas */}
       <div
         className="absolute top-5 left-8 z-20 flex items-center gap-3 cursor-pointer transition-transform hover:scale-105"
         onClick={() =>
@@ -873,6 +875,7 @@ export default function Page() {
             </div>
           )}
         </div>
+      </div>
       </div>
     </main>
   )

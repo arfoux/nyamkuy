@@ -427,31 +427,59 @@ export default function Page() {
 
                 {currentUser?.role ===
                   "admin" && (
-                  <button
-                    onClick={() => {
-                      setOpenProfile(
-                        false
-                      )
+                  <>
+                    <button
+                      onClick={() => {
+                        setOpenProfile(
+                          false
+                        )
 
-                      router.push(
-                        "/admin/resep-saran"
-                      )
-                    }}
-                    className="
-                      flex
-                      w-full
-                      items-center
-                      gap-3
-                      px-4
-                      py-3
-                      text-left
-                      text-black
-                      hover:bg-black/5
-                    "
-                  >
-                    <ShieldCheck className="h-5 w-5" />
-                    Review Saran
-                  </button>
+                        router.push(
+                          "/admin/resep"
+                        )
+                      }}
+                      className="
+                        flex
+                        w-full
+                        items-center
+                        gap-3
+                        px-4
+                        py-3
+                        text-left
+                        text-black
+                        hover:bg-black/5
+                      "
+                    >
+                      <ChefHat className="h-5 w-5" />
+                      Kelola Resep
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setOpenProfile(
+                          false
+                        )
+
+                        router.push(
+                          "/admin/resep-saran"
+                        )
+                      }}
+                      className="
+                        flex
+                        w-full
+                        items-center
+                        gap-3
+                        px-4
+                        py-3
+                        text-left
+                        text-black
+                        hover:bg-black/5
+                      "
+                    >
+                      <ShieldCheck className="h-5 w-5" />
+                      Review Saran
+                    </button>
+                  </>
                 )}
 
                 <button

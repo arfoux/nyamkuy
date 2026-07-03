@@ -280,3 +280,37 @@ export async function publishRecipeImage(env, suggestion, recipeName) {
     sourceSha: source.sha,
   }
 }
+
+export async function uploadRecipeImageDirect(env, file, recipeName) {
+  if (!file || file.size === 0) return null
+
+  if (file.size > MAX_IMAGE_BYTES) {
+    throw new GithubImageError(
+      "Ukuran gambar maksimal 4 MB.",
+      400
+    )
+  }
+
+  const config = getConfig(env)
+  const contentType = normalizeContentType(file)
+  const ext = IMAGE_TYPES[contentType]
+  const slug = slugifyFoodName(recipeName)
+  const receiptPath = `public/images/receipt/${slug}.${ext}`
+  const croppedPath = `public/images/cropped/${slug}.${ext}`
+  const buffer = await file.arrayBuffer()
+  const content = arrayBufferToBase64(buffer)
+  const message = `Direct upload recipe image ${slug}`
+
+  const [receipt, cropped] = await Promise.all([
+    putBase64ToGithub(config, receiptPath, content, message, { overwrite: true }),
+    putBase64ToGithub(config, croppedPath, content, message, { overwrite: true }),
+  ])
+
+  return {
+    receipt,
+    cropped,
+    contentType,
+    url: receipt.url,
+  }
+}
+

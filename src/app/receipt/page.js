@@ -1,15 +1,13 @@
 "use client"
 
 import { useSearchParams, useRouter } from "next/navigation"
-import { useEffect, useMemo, useState, useCallback, useRef, Suspense } from "react"
+import { useEffect, useMemo, useState, useCallback, Suspense } from "react"
 import {
   ArrowLeft,
   Bookmark,
   CheckCircle2,
   ChefHat,
   Clock3,
-  ChevronLeft,
-  ChevronRight,
   Gauge,
   Home,
   MapPin,
@@ -74,18 +72,6 @@ function ReceiptContent() {
     }
     loadRecipe()
   }, [id])
-
-  const navigateTo = useCallback(
-    (direction) => {
-      if (!id) return
-      const currentId = parseInt(id, 10)
-      if (isNaN(currentId)) return
-      const nextId = direction === "next" ? currentId + 1 : currentId - 1
-      if (nextId < 1) return
-      router.push(`?id=${nextId}`)
-    },
-    [id, router]
-  )
 
   const handleToggleSave = useCallback(async () => {
     if (!id || saving) return
@@ -177,15 +163,6 @@ function ReceiptContent() {
     return () => clearTimeout(timer)
   }, [cookNotice])
 
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "ArrowRight") navigateTo("next")
-      if (e.key === "ArrowLeft") navigateTo("prev")
-    }
-    window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [navigateTo])
-
   const nama = recipe?.nama || namaParam
   const deskripsi = recipe?.deskripsi || deskripsiParam
 
@@ -214,39 +191,6 @@ function ReceiptContent() {
   }, [recipe])
 
   const tips = recipe?.tips || []
-
-  const currentId = id ? parseInt(id, 10) : null
-  const canGoPrev = currentId !== null && !isNaN(currentId) && currentId > 1
-  const canGoNext = currentId !== null && !isNaN(currentId)
-
-  // ── Swipe touch navigation (ditempatkan setelah canGoPrev/canGoNext) ─────
-  const touchStartX = useRef(null)
-  const touchStartY = useRef(null)
-  const SWIPE_THRESHOLD = 60
-  const SWIPE_RATIO     = 1.5
-
-  const handleTouchStart = useCallback((e) => {
-    touchStartX.current = e.touches[0].clientX
-    touchStartY.current = e.touches[0].clientY
-  }, [])
-
-  const handleTouchEnd = useCallback((e) => {
-    if (touchStartX.current === null) return
-
-    const dx    = e.changedTouches[0].clientX - touchStartX.current
-    const dy    = e.changedTouches[0].clientY - touchStartY.current
-    const absDx = Math.abs(dx)
-    const absDy = Math.abs(dy)
-
-    touchStartX.current = null
-    touchStartY.current = null
-
-    if (absDx < SWIPE_THRESHOLD || absDy * SWIPE_RATIO > absDx) return
-    if (!canGoPrev && !canGoNext) return
-
-    if (dx < 0 && canGoNext) navigateTo("next")
-    if (dx > 0 && canGoPrev) navigateTo("prev")
-  }, [canGoPrev, canGoNext, navigateTo])
 
   const rawCookPoints = Number(recipe?.cook_points ?? recipe?.poin ?? 10)
   const cookPoints = Number.isFinite(rawCookPoints) ? rawCookPoints : 10
@@ -467,57 +411,11 @@ function ReceiptContent() {
       </h1>
 
       <div className="relative z-10 min-h-0 w-full max-w-6xl flex-1">
-        {/* Tombol Kiri */}
-        <button
-          onClick={() => navigateTo("prev")}
-          disabled={!canGoPrev}
-          aria-label="Resep sebelumnya"
-          className="absolute -left-14 top-1/2 -translate-y-1/2 z-20 hidden md:flex
-            w-11 h-11 rounded-full items-center justify-center
-            transition-all duration-200 hover:scale-110 active:scale-95
-            focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
-          style={{
-            background: "rgba(255,255,255,0.12)",
-            border: "1px solid rgba(255,255,255,0.22)",
-            backdropFilter: "blur(8px)",
-            color: canGoPrev ? "#ffffff" : "rgba(255,255,255,0.3)",
-            opacity: 1,
-            pointerEvents: "auto",
-            cursor: canGoPrev ? "pointer" : "not-allowed",
-            transform: "translateY(-50%)",
-            boxShadow: "0 4px 20px rgba(0,0,0,0.35)",
-          }}
-        >
-          <ChevronLeft size={22} />
-        </button>
-
-        {/* Tombol Kanan */}
-        <button
-          onClick={() => navigateTo("next")}
-          disabled={!canGoNext}
-          aria-label="Resep berikutnya"
-          className="absolute -right-14 top-1/2 -translate-y-1/2 z-20 hidden md:flex
-            w-11 h-11 rounded-full items-center justify-center
-            transition-all duration-200 hover:scale-110 active:scale-95
-            focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
-          style={{
-            background: "rgba(255,255,255,0.12)",
-            border: "1px solid rgba(255,255,255,0.22)",
-            backdropFilter: "blur(8px)",
-            color: canGoNext ? "#ffffff" : "rgba(255,255,255,0.3)",
-            opacity: 1,
-            pointerEvents: "auto",
-            cursor: canGoNext ? "pointer" : "not-allowed",
-            transform: "translateY(-50%)",
-            boxShadow: "0 4px 20px rgba(0,0,0,0.35)",
-          }}
-        >
-          <ChevronRight size={22} />
-        </button>
 
         {/* Kartu Resep */}
         <div
           className="recipe-card-scroll flex h-full min-h-0 w-full flex-col overflow-y-auto rounded-3xl shadow-2xl md:flex-row"
+          className="recipe-card-scroll flex h-full min-h-0 w-full flex-col overflow-y-auto rounded-3xl pd-4 shadow-2xl md:flex-row"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
           style={{
@@ -530,7 +428,7 @@ function ReceiptContent() {
         >
           {/* Panel Kiri (Keterangan dengan warna asli) */}
           <div
-            className="relative self-stretch flex w-full shrink-0 flex-col items-center justify-start gap-3 p-4 md:w-[30%] md:p-5"
+            className="relative self-stretch flex w-full shrink-0 flex-col items-center justify-between gap-3 p-4 md:w-[30%] md:p-5"
             style={{
               background: "rgba(40,20,10,0.45)",
               backdropFilter: "blur(10px)",
@@ -604,7 +502,7 @@ function ReceiptContent() {
               </div>
             )}
 
-            <div className="flex w-full max-w-[270px] items-center gap-2">
+            <div className="mt-auto mb-5 flex w-full max-w-[270px] items-center gap-2">
               <button
                 type="button"
                 onClick={() => setConfirmCookOpen(true)}

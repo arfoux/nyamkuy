@@ -6,9 +6,11 @@ import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 
 import {
+  ChefHat,
   User,
   LogOut,
   ChevronRight,
+  ShieldCheck,
   Trophy,
   Star,
 } from "lucide-react"
@@ -24,6 +26,8 @@ export default function Page() {
   // auth state
   const [authorized, setAuthorized] =
     useState(false)
+  const [currentUser, setCurrentUser] =
+    useState(null)
 
   // dropdown profile
   const [openProfile, setOpenProfile] =
@@ -58,12 +62,18 @@ export default function Page() {
         )
 
         if (res.ok) {
+          const data =
+            await res.json()
+
           setAuthorized(true)
+          setCurrentUser(data)
         } else {
           setAuthorized(false)
+          setCurrentUser(null)
         }
       } catch (err) {
         setAuthorized(false)
+        setCurrentUser(null)
       }
     }
 
@@ -113,6 +123,7 @@ export default function Page() {
 
       if (res.ok) {
         setAuthorized(false)
+        setCurrentUser(null)
         setOpenProfile(false)
 
         router.push("/auth")
@@ -389,6 +400,61 @@ export default function Page() {
                 </button>
 
                 <button
+                  onClick={() => {
+                    setOpenProfile(
+                      false
+                    )
+
+                    router.push(
+                      "/suggest-recipe"
+                    )
+                  }}
+                  className="
+                    flex
+                    w-full
+                    items-center
+                    gap-3
+                    px-4
+                    py-3
+                    text-left
+                    text-black
+                    hover:bg-black/5
+                  "
+                >
+                  <ChefHat className="h-5 w-5" />
+                  Saran Resep
+                </button>
+
+                {currentUser?.role ===
+                  "admin" && (
+                  <button
+                    onClick={() => {
+                      setOpenProfile(
+                        false
+                      )
+
+                      router.push(
+                        "/admin/resep-saran"
+                      )
+                    }}
+                    className="
+                      flex
+                      w-full
+                      items-center
+                      gap-3
+                      px-4
+                      py-3
+                      text-left
+                      text-black
+                      hover:bg-black/5
+                    "
+                  >
+                    <ShieldCheck className="h-5 w-5" />
+                    Review Saran
+                  </button>
+                )}
+
+                <button
                   onClick={
                     handleLogout
                   }
@@ -423,6 +489,55 @@ export default function Page() {
           </Button>
         )}
       </div>
+
+      {authorized && (
+        <button
+          type="button"
+          onClick={() =>
+            router.push(
+              currentUser?.role ===
+                "admin"
+                ? "/admin/resep-saran"
+                : "/suggest-recipe"
+            )
+          }
+          className="
+            absolute
+            bottom-5
+            left-5
+            z-20
+            flex
+            h-11
+            max-w-[calc(100vw-120px)]
+            items-center
+            gap-2
+            rounded-full
+            bg-white/85
+            px-4
+            text-sm
+            font-extrabold
+            text-black
+            shadow-lg
+            backdrop-blur
+            transition
+            hover:scale-105
+            active:scale-95
+          "
+        >
+          {currentUser?.role ===
+          "admin" ? (
+            <ShieldCheck className="h-4 w-4 shrink-0" />
+          ) : (
+            <ChefHat className="h-4 w-4 shrink-0" />
+          )}
+          <span className="truncate">
+            {currentUser?.role ===
+            "admin"
+              ? "Review saran resep"
+              : "Punya resep yang ingin kamu post?"}
+          </span>
+        </button>
+      )}
 
       <button
         type="button"

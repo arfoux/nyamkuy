@@ -1,13 +1,6 @@
-import { getRequestContext } from "@cloudflare/next-on-pages"
+import { legacyFoodSlug, slugifyFoodName } from "@/lib/foodSlug"
 
 export const runtime = "edge"
-
-function slugifyFoodName(name) {
-  return name
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, "_")
-}
 
 const EXTENSIONS = ["png", "jpg", "jpeg", "webp"]
 
@@ -26,6 +19,19 @@ async function fetchFirstAvailable(slug, folder) {
   return null
 }
 
+async function fetchFoodImage(name, folder) {
+  const slugs = Array.from(
+    new Set([slugifyFoodName(name), legacyFoodSlug(name)].filter(Boolean))
+  )
+
+  for (const slug of slugs) {
+    const res = await fetchFirstAvailable(slug, folder)
+    if (res) return res
+  }
+
+  return null
+}
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url)
   const nama = searchParams.get("nama")
@@ -34,8 +40,7 @@ export async function GET(request) {
     return new Response("Missing 'nama' param", { status: 400 })
   }
 
-  const slug = slugifyFoodName(nama)
-  const res = await fetchFirstAvailable(slug, "cropped")
+  const res = await fetchFoodImage(nama, "cropped")
 
   if (!res) {
     return new Response("Image not found", { status: 404 })

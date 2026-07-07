@@ -376,134 +376,214 @@ function ReceiptContent() {
 
           {/* Panel Kiri (Keterangan dengan warna asli) */}
           <div
-            className="relative flex w-full shrink-0 flex-col items-center gap-3 p-5 md:w-[32%]"
+            className="relative flex w-full shrink-0 flex-col md:w-[32%]"
             style={{
               background: "rgba(40,20,10,0.55)",
-              borderRight: "1px solid rgba(255,255,255,0.08)",
             }}
           >
-            {saveError && (
-              <div className="w-full rounded-lg bg-red-500/90 px-3 py-2 text-xs font-semibold text-white shadow-lg">
-                {saveError}
-              </div>
-            )}
-
-            <div
-              className="relative flex items-center justify-center"
-              style={{ width: "100%", maxWidth: 280 }}
+            {/* Mobile compact bar */}
+            <div className="flex md:hidden flex-row items-center gap-2 px-2 py-1.5 w-full"
+              style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}
             >
-              <div
-                className="absolute inset-0 rounded-full blur-2xl opacity-40"
-                style={{ background: "radial-gradient(circle, #d4956a 0%, transparent 70%)" }}
-              />
               <img
                 src={croppedUrl}
                 alt={nama}
+                className="w-9 h-9 rounded-full object-cover shrink-0"
+                style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.4)" }}
                 onLoad={() => setImgLoaded(true)}
                 onError={() => setImgError(true)}
-                className="relative z-10 w-full object-contain"
-                style={{
-                  maxHeight: 250,
-                  filter: imgLoaded
-                    ? "drop-shadow(0 12px 32px rgba(0,0,0,0.55)) drop-shadow(0 0 8px rgba(220,160,100,0.35))"
-                    : "none",
-                  opacity: imgLoaded ? 1 : 0,
-                  transition: "opacity 0.5s ease",
-                }}
               />
-              {!imgLoaded && !imgError && (
-                <div
-                  className="absolute inset-0 rounded-2xl animate-pulse"
-                  style={{ background: "rgba(255,255,255,0.08)" }}
-                />
-              )}
+
+              <div className="flex-1 min-w-0">
+                <div className="text-sm font-bold truncate" style={{ color: "#f5e6d5" }}>
+                  {nama}
+                </div>
+                {metaItems.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-0.5">
+                    {metaItems.slice(0, 3).map(({ label }) => (
+                      <span
+                        key={label}
+                        className="text-[10px] leading-tight px-1.5 py-0.5 rounded"
+                        style={{
+                          background: "rgba(255,255,255,0.1)",
+                          color: "rgba(245,230,215,0.85)",
+                        }}
+                      >
+                        {label.replace(" menit", "m").replace(" porsi", "p")}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex items-center gap-1 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setConfirmCookOpen(true)}
+                  disabled={!id || loading || cooking}
+                  className="flex h-7 items-center gap-1 rounded-full px-2 text-[11px] font-extrabold text-white transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-60"
+                  style={{
+                    background:
+                      cookNotice?.type === "success"
+                        ? "linear-gradient(135deg, rgba(22,163,74,0.96), rgba(5,150,105,0.92))"
+                        : "linear-gradient(135deg, rgba(250,204,21,0.96), rgba(234,88,12,0.92))",
+                    border: "1px solid rgba(255,255,255,0.2)",
+                  }}
+                >
+                  <ChefHat size={13} />
+                  <span>+{cookPoints}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleToggleSave}
+                  disabled={!id || saving}
+                  aria-label={saved ? "Batal simpan resep" : "Simpan resep"}
+                  className="flex h-7 w-7 items-center justify-center rounded-full text-white transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-60"
+                  style={{
+                    background: saved
+                      ? "rgba(250,204,21,0.24)"
+                      : "rgba(255,255,255,0.12)",
+                    border: saved
+                      ? "1px solid rgba(250,204,21,0.55)"
+                      : "1px solid rgba(255,255,255,0.2)",
+                    color: saved ? "#facc15" : "#ffffff",
+                  }}
+                >
+                  <Bookmark size={13} fill={saved ? "currentColor" : "none"} />
+                </button>
+              </div>
             </div>
 
-            <p
-              className="text-center text-xs leading-relaxed md:text-sm"
-              style={{ color: "rgba(245,225,200,0.88)", maxWidth: 260 }}
+            {/* Desktop full panel */}
+            <div className="hidden md:flex md:flex-col md:items-center md:gap-3 md:p-5 md:flex-1 md:min-h-0 w-full"
+              style={{
+                borderRight: "1px solid rgba(255,255,255,0.08)",
+              }}
             >
-              <span className="font-semibold" style={{ color: "#f5e6d5" }}>
-                {nama}
-              </span>
-              {" - "}
-              {deskripsi}
-            </p>
+              {saveError && (
+                <div className="w-full rounded-lg bg-red-500/90 px-3 py-2 text-xs font-semibold text-white shadow-lg">
+                  {saveError}
+                </div>
+              )}
 
-            {metaItems.length > 0 && (
-              <div className="grid w-full max-w-[270px] grid-cols-2 gap-1.5">
-                {metaItems.slice(0, 4).map(({ icon: Icon, label }) => (
+              <div
+                className="relative flex items-center justify-center"
+                style={{ width: "100%", maxWidth: 280 }}
+              >
+                <div
+                  className="absolute inset-0 rounded-full blur-2xl opacity-40"
+                  style={{ background: "radial-gradient(circle, #d4956a 0%, transparent 70%)" }}
+                />
+                <img
+                  src={croppedUrl}
+                  alt={nama}
+                  onLoad={() => setImgLoaded(true)}
+                  onError={() => setImgError(true)}
+                  className="relative z-10 w-full object-contain"
+                  style={{
+                    maxHeight: 250,
+                    filter: imgLoaded
+                      ? "drop-shadow(0 12px 32px rgba(0,0,0,0.55)) drop-shadow(0 0 8px rgba(220,160,100,0.35))"
+                      : "none",
+                    opacity: imgLoaded ? 1 : 0,
+                    transition: "opacity 0.5s ease",
+                  }}
+                />
+                {!imgLoaded && !imgError && (
                   <div
-                    key={label}
-                    className="flex min-h-8 items-center gap-1.5 rounded-lg px-2.5 text-[11px] font-extrabold md:min-h-9 md:text-xs"
-                    style={{
-                      background: "rgba(255,255,255,0.09)",
-                      border: "1px solid rgba(255,255,255,0.15)",
-                      color: "rgba(245,230,215,0.92)",
-                    }}
-                  >
-                    <Icon size={14} />
-                    <span className="truncate">{label}</span>
-                  </div>
-                ))}
+                    className="absolute inset-0 rounded-2xl animate-pulse"
+                    style={{ background: "rgba(255,255,255,0.08)" }}
+                  />
+                )}
               </div>
-            )}
 
-            <div className="mt-auto flex w-full max-w-[270px] items-center gap-2 pb-5">
-              <button
-                type="button"
-                onClick={() => setConfirmCookOpen(true)}
-                disabled={!id || loading || cooking}
-                className="relative flex h-11 min-w-0 flex-1 items-center justify-between gap-3 rounded-full px-4 text-sm font-extrabold text-white transition-all duration-300 hover:scale-[1.02] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-70"
-                style={{
-                  background:
-                    cookNotice?.type === "success"
-                      ? "linear-gradient(135deg, rgba(22,163,74,0.96), rgba(5,150,105,0.92))"
-                      : "linear-gradient(135deg, rgba(250,204,21,0.96), rgba(234,88,12,0.92))",
-                  border: "1px solid rgba(255,255,255,0.28)",
-                  boxShadow:
-                    "0 16px 42px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.28)",
-                }}
+              <p
+                className="text-center text-xs leading-relaxed md:text-sm"
+                style={{ color: "rgba(245,225,200,0.88)", maxWidth: 260 }}
               >
-                <span className="flex min-w-0 items-center gap-2">
-                  {cookNotice?.type === "success" ? (
-                    <CheckCircle2 size={19} />
-                  ) : (
-                    <ChefHat size={19} />
-                  )}
-                  <span className="truncate">
-                    {cooking
-                      ? "Mencatat..."
-                      : cookNotice?.type === "success"
-                        ? "Masakan tercatat"
-                        : "Masak sekarang"}
+                <span className="font-semibold" style={{ color: "#f5e6d5" }}>
+                  {nama}
+                </span>
+                {" - "}
+                {deskripsi}
+              </p>
+
+              {metaItems.length > 0 && (
+                <div className="grid w-full max-w-[270px] grid-cols-2 gap-1.5">
+                  {metaItems.slice(0, 4).map(({ icon: Icon, label }) => (
+                    <div
+                      key={label}
+                      className="flex min-h-8 items-center gap-1.5 rounded-lg px-2.5 text-[11px] font-extrabold md:min-h-9 md:text-xs"
+                      style={{
+                        background: "rgba(255,255,255,0.09)",
+                        border: "1px solid rgba(255,255,255,0.15)",
+                        color: "rgba(245,230,215,0.92)",
+                      }}
+                    >
+                      <Icon size={14} />
+                      <span className="truncate">{label}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="mt-auto flex w-full max-w-[270px] items-center gap-2 pb-5">
+                <button
+                  type="button"
+                  onClick={() => setConfirmCookOpen(true)}
+                  disabled={!id || loading || cooking}
+                  className="relative flex h-11 min-w-0 flex-1 items-center justify-between gap-3 rounded-full px-4 text-sm font-extrabold text-white transition-all duration-300 hover:scale-[1.02] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-70"
+                  style={{
+                    background:
+                      cookNotice?.type === "success"
+                        ? "linear-gradient(135deg, rgba(22,163,74,0.96), rgba(5,150,105,0.92))"
+                        : "linear-gradient(135deg, rgba(250,204,21,0.96), rgba(234,88,12,0.92))",
+                    border: "1px solid rgba(255,255,255,0.28)",
+                    boxShadow:
+                      "0 16px 42px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.28)",
+                  }}
+                >
+                  <span className="flex min-w-0 items-center gap-2">
+                    {cookNotice?.type === "success" ? (
+                      <CheckCircle2 size={19} />
+                    ) : (
+                      <ChefHat size={19} />
+                    )}
+                    <span className="truncate">
+                      {cooking
+                        ? "Mencatat..."
+                        : cookNotice?.type === "success"
+                          ? "Masakan tercatat"
+                          : "Masak sekarang"}
+                    </span>
                   </span>
-                </span>
 
-                <span className="shrink-0 rounded-full bg-black/20 px-2.5 py-1 text-xs">
-                  +{cookPoints}
-                </span>
-              </button>
+                  <span className="shrink-0 rounded-full bg-black/20 px-2.5 py-1 text-xs">
+                    +{cookPoints}
+                  </span>
+                </button>
 
-              <button
-                type="button"
-                onClick={handleToggleSave}
-                disabled={!id || saving}
-                aria-label={saved ? "Batal simpan resep" : "Simpan resep"}
-                title={saved ? "Batal simpan" : "Simpan"}
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
-                style={{
-                  background: saved
-                    ? "rgba(250,204,21,0.24)"
-                    : "rgba(255,255,255,0.12)",
-                  border: saved
-                    ? "1px solid rgba(250,204,21,0.55)"
-                    : "1px solid rgba(255,255,255,0.2)",
-                  color: saved ? "#facc15" : "#ffffff",
-                }}
-              >
-                <Bookmark size={19} fill={saved ? "currentColor" : "none"} />
-              </button>
+                <button
+                  type="button"
+                  onClick={handleToggleSave}
+                  disabled={!id || saving}
+                  aria-label={saved ? "Batal simpan resep" : "Simpan resep"}
+                  title={saved ? "Batal simpan" : "Simpan"}
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
+                  style={{
+                    background: saved
+                      ? "rgba(250,204,21,0.24)"
+                      : "rgba(255,255,255,0.12)",
+                    border: saved
+                      ? "1px solid rgba(250,204,21,0.55)"
+                      : "1px solid rgba(255,255,255,0.2)",
+                    color: saved ? "#facc15" : "#ffffff",
+                  }}
+                >
+                  <Bookmark size={19} fill={saved ? "currentColor" : "none"} />
+                </button>
+              </div>
             </div>
           </div>
 

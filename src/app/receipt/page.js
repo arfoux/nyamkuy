@@ -562,9 +562,8 @@ function ReceiptContent() {
               <div className="flex flex-col gap-5">
                 <div className="rounded-2xl p-4"
                   style={{
-                    background: "rgba(255,255,255,0.06)",
-                    border: "1px solid rgba(255,255,255,0.10)",
-                    backdropFilter: "blur(8px)",
+                    background: "rgba(30,15,8,0.55)",
+                    border: "1px solid rgba(255,255,255,0.08)",
                   }}
                 >
                   <SectionTitle>
@@ -583,9 +582,8 @@ function ReceiptContent() {
                 {(loading || sambal.length > 0) && (
                   <div className="rounded-2xl p-4"
                     style={{
-                      background: "rgba(255,255,255,0.06)",
-                      border: "1px solid rgba(255,255,255,0.10)",
-                      backdropFilter: "blur(8px)",
+                      background: "rgba(30,15,8,0.55)",
+                      border: "1px solid rgba(255,255,255,0.08)",
                     }}
                   >
                     <SectionTitle>
@@ -605,9 +603,8 @@ function ReceiptContent() {
                 {tips.length > 0 && (
                   <div className="rounded-2xl p-4"
                     style={{
-                      background: "rgba(255,255,255,0.06)",
-                      border: "1px solid rgba(255,255,255,0.10)",
-                      backdropFilter: "blur(8px)",
+                      background: "rgba(30,15,8,0.55)",
+                      border: "1px solid rgba(255,255,255,0.08)",
                     }}
                   >
                     <SectionTitle>
@@ -623,9 +620,8 @@ function ReceiptContent() {
 
               <div className="rounded-2xl p-4"
                 style={{
-                  background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(255,255,255,0.10)",
-                  backdropFilter: "blur(8px)",
+                  background: "rgba(30,15,8,0.55)",
+                  border: "1px solid rgba(255,255,255,0.08)",
                 }}
               >
                 <SectionTitle>

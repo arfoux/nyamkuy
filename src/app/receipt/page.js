@@ -411,7 +411,7 @@ function ReceiptContent() {
       </h1>
 
       <div
-  className="flex flex-1 min-h-0 w-full overflow-hidden rounded-3xl shadow-2xl md:flex-row"
+  className="flex flex-1 min-h-0 w-full overflow-hidden rounded-3xl shadow-2xl flex-col md:flex-row"
   style={{
     background: "rgba(255,255,255,0.07)",
     backdropFilter: "blur(28px) saturate(1.4)",
@@ -557,69 +557,119 @@ function ReceiptContent() {
           </div>
 
           {/* Panel Kanan (Menu resep dengan warna putih terang) */}
-          <div className="grid h-full min-h-0 w-full flex-1 overflow-y-auto grid-cols-1 gap-5 p-4 md:w-[70%] md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-7 md:p-6">
-            <div>
-              <SectionTitle>Bahan Utama</SectionTitle>
-              {loading ? (
-                <LoadingText />
-              ) : (
-                <IngredientList items={bahanUtama} emptyText="Bahan belum tersedia" />
-              )}
-
-              {(loading || sambal.length > 0) && (
-                <div className="mt-6">
-                  <SectionTitle>Sambal / Pelengkap</SectionTitle>
+          <div className="min-h-0 w-full flex-1 overflow-y-auto p-4 md:w-[70%] md:p-6">
+            <div className="flex flex-col gap-5 md:grid md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-7">
+              <div className="flex flex-col gap-5">
+                <div className="rounded-2xl p-4"
+                  style={{
+                    background: "rgba(255,255,255,0.06)",
+                    border: "1px solid rgba(255,255,255,0.10)",
+                    backdropFilter: "blur(8px)",
+                  }}
+                >
+                  <SectionTitle>
+                    <span className="flex items-center gap-2">
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: "#fbbf24" }}><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                      Bahan Utama
+                    </span>
+                  </SectionTitle>
                   {loading ? (
                     <LoadingText />
                   ) : (
-                    <IngredientList items={sambal} />
+                    <IngredientList items={bahanUtama} emptyText="Bahan belum tersedia" />
                   )}
                 </div>
-              )}
 
-              {tips.length > 0 && (
-                <div className="mt-6">
-                  <SectionTitle>Tips</SectionTitle>
-                  <IngredientList items={tips} />
-                </div>
-              )}
-            </div>
-
-            <div>
-              <SectionTitle>Cara Membuat</SectionTitle>
-              {loading ? (
-                <LoadingText />
-              ) : langkah.length > 0 ? (
-                <ol className="mt-1 space-y-4">
-                  {langkah.map((step, i) => (
-                    <li key={i} className="flex gap-3">
-                      <span
-                        className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mt-0.5"
-                        style={{
-                          background: "rgba(255,255,255,0.2)",
-                          border: "1px solid rgba(255,255,255,0.4)",
-                          color: "#ffffff",
-                        }}
-                      >
-                        {i + 1}
+                {(loading || sambal.length > 0) && (
+                  <div className="rounded-2xl p-4"
+                    style={{
+                      background: "rgba(255,255,255,0.06)",
+                      border: "1px solid rgba(255,255,255,0.10)",
+                      backdropFilter: "blur(8px)",
+                    }}
+                  >
+                    <SectionTitle>
+                      <span className="flex items-center gap-2">
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: "#fbbf24" }}><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6z"/></svg>
+                        Sambal / Pelengkap
                       </span>
-                      <p
-                        className="text-sm leading-relaxed"
-                        style={{ color: "#ffffff" }}
-                      >
-                        {step}
-                      </p>
-                    </li>
-                  ))}
-                </ol>
-              ) : (
-                <p
-                  className="text-sm leading-relaxed"
-                  style={{ color: "rgba(255,255,255,0.7)" }}
-                >
-                  Langkah membuat belum tersedia.
-                </p>
-              )}
+                    </SectionTitle>
+                    {loading ? (
+                      <LoadingText />
+                    ) : (
+                      <IngredientList items={sambal} />
+                    )}
+                  </div>
+                )}
+
+                {tips.length > 0 && (
+                  <div className="rounded-2xl p-4"
+                    style={{
+                      background: "rgba(255,255,255,0.06)",
+                      border: "1px solid rgba(255,255,255,0.10)",
+                      backdropFilter: "blur(8px)",
+                    }}
+                  >
+                    <SectionTitle>
+                      <span className="flex items-center gap-2">
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: "#fbbf24" }}><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                        Tips
+                      </span>
+                    </SectionTitle>
+                    <IngredientList items={tips} />
+                  </div>
+                )}
+              </div>
+
+              <div className="rounded-2xl p-4"
+                style={{
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.10)",
+                  backdropFilter: "blur(8px)",
+                }}
+              >
+                <SectionTitle>
+                  <span className="flex items-center gap-2">
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: "#fbbf24" }}><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>
+                    Cara Membuat
+                  </span>
+                </SectionTitle>
+                {loading ? (
+                  <LoadingText />
+                ) : langkah.length > 0 ? (
+                  <div className="relative mt-2">
+                    <div className="absolute left-[11px] top-2 bottom-2 w-0.5"
+                      style={{ background: "linear-gradient(to bottom, rgba(251,191,36,0.5), rgba(251,191,36,0.1))" }}
+                    />
+                    <ol className="space-y-5">
+                      {langkah.map((step, i) => (
+                        <li key={i} className="relative flex gap-4 pl-1">
+                          <span
+                            className="relative z-10 flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-black mt-0.5 shadow-lg"
+                            style={{
+                              background: "linear-gradient(135deg, rgba(251,191,36,0.9), rgba(234,88,12,0.85))",
+                              border: "1px solid rgba(255,255,255,0.3)",
+                              color: "#241306",
+                            }}
+                          >
+                            {i + 1}
+                          </span>
+                          <p
+                            className="text-sm leading-relaxed pt-[3px]"
+                            style={{ color: "rgba(255,255,255,0.92)" }}
+                          >
+                            {step}
+                          </p>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                ) : (
+                  <p className="text-sm leading-relaxed mt-2" style={{ color: "rgba(255,255,255,0.7)" }}>
+                    Langkah membuat belum tersedia.
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -630,8 +680,11 @@ function ReceiptContent() {
 function SectionTitle({ children }) {
   return (
     <h2
-      className="text-sm font-bold uppercase tracking-[0.2em] mb-3 pb-2"
-      style={{ color: "#ffffff", borderBottom: "1px solid rgba(255,255,255,0.3)" }}
+      className="text-xs font-black uppercase tracking-[0.22em] pb-2.5 mb-3"
+      style={{
+        color: "rgba(255,255,255,0.75)",
+        borderBottom: "1px solid rgba(255,255,255,0.10)",
+      }}
     >
       {children}
     </h2>
@@ -641,24 +694,27 @@ function SectionTitle({ children }) {
 function IngredientList({ items, emptyText = "Belum tersedia" }) {
   if (!items || items.length === 0) {
     return (
-      <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.7)" }}>
+      <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>
         {emptyText}
       </p>
     )
   }
   return (
-    <ul className="space-y-1.5">
+    <ul className="space-y-2">
       {items.map((item, i) => (
         <li
           key={i}
-          className="flex items-start gap-2 text-sm"
-          style={{ color: "#ffffff" }}
+          className="flex items-start gap-3 text-sm group"
+          style={{ color: "rgba(255,255,255,0.88)" }}
         >
           <span
-            className="mt-[6px] w-1.5 h-1.5 rounded-full flex-shrink-0"
-            style={{ background: "rgba(255,255,255,0.8)" }}
+            className="mt-[7px] w-[5px] h-[5px] rounded-full flex-shrink-0 transition-all duration-300 group-hover:scale-150"
+            style={{
+              background: "linear-gradient(135deg, rgba(251,191,36,0.8), rgba(234,88,12,0.7))",
+              boxShadow: "0 0 6px rgba(251,191,36,0.25)",
+            }}
           />
-          {item}
+          <span className="transition-all duration-200 group-hover:translate-x-0.5">{item}</span>
         </li>
       ))}
     </ul>
@@ -667,9 +723,11 @@ function IngredientList({ items, emptyText = "Belum tersedia" }) {
 
 function LoadingText() {
   return (
-    <p className="text-sm animate-pulse" style={{ color: "rgba(255,255,255,0.7)" }}>
-      Memuat...
-    </p>
+    <div className="space-y-2.5 animate-pulse">
+      <div className="h-3.5 rounded-lg" style={{ background: "rgba(255,255,255,0.08)", width: "85%" }} />
+      <div className="h-3.5 rounded-lg" style={{ background: "rgba(255,255,255,0.06)", width: "65%" }} />
+      <div className="h-3.5 rounded-lg" style={{ background: "rgba(255,255,255,0.05)", width: "75%" }} />
+    </div>
   )
 }
 

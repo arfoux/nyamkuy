@@ -224,61 +224,13 @@ function ReceiptContent() {
           }
         }
 
-        @keyframes cookButtonGlow {
-          0%,
-          100% {
-            box-shadow: 0 14px 34px rgba(22, 163, 74, 0.22);
-          }
-
-          50% {
-            box-shadow: 0 18px 44px rgba(22, 163, 74, 0.36);
-          }
+        @keyframes cookPulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.85; }
         }
 
         .cook-toast {
           animation: cookToastIn 0.42s ease both;
-        }
-
-        .cook-ready {
-          animation: cookButtonGlow 1.8s ease-in-out infinite;
-        }
-
-        .recipe-scroll {
-          scrollbar-width: thin;
-          scrollbar-color: rgba(255,255,255,0.32) rgba(255,255,255,0.08);
-        }
-
-        .recipe-scroll::-webkit-scrollbar {
-          width: 8px;
-        }
-
-        .recipe-scroll::-webkit-scrollbar-track {
-          background: rgba(255,255,255,0.08);
-          border-radius: 999px;
-        }
-
-        .recipe-scroll::-webkit-scrollbar-thumb {
-          background: rgba(255,255,255,0.28);
-          border-radius: 999px;
-        }
-
-        .recipe-card-scroll {
-          scrollbar-width: thin;
-          scrollbar-color: rgba(255,255,255,0.3) rgba(255,255,255,0.08);
-        }
-
-        .recipe-card-scroll::-webkit-scrollbar {
-          width: 8px;
-        }
-
-        .recipe-card-scroll::-webkit-scrollbar-track {
-          background: rgba(255,255,255,0.08);
-          border-radius: 999px;
-        }
-
-        .recipe-card-scroll::-webkit-scrollbar-thumb {
-          background: rgba(255,255,255,0.3);
-          border-radius: 999px;
         }
       `}</style>
 
@@ -286,7 +238,7 @@ function ReceiptContent() {
         className="absolute inset-0 z-0 bg-cover bg-center"
         style={{ backgroundImage: `url('${bgUrl}')` }}
       />
-      <div className="absolute inset-0 z-0 backdrop-blur-3xl bg-[#6b4a36]/50" />
+      <div className="absolute inset-0 z-0 bg-[#6b4a36]/50" />
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,rgba(220,185,155,0.25)_0%,rgba(30,15,8,0.72)_100%)]" />
 
       <div className="absolute left-5 top-5 z-30 flex items-center gap-2">
@@ -294,14 +246,14 @@ function ReceiptContent() {
           onClick={() => router.push("/")}
           aria-label="Beranda"
           title="Beranda"
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:bg-white/20 active:scale-95"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition-all duration-200 hover:scale-105 hover:bg-white/20 active:scale-95"
         >
           <Home size={16} />
         </button>
 
         <button
           onClick={() => router.back()}
-          className="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:bg-white/20 active:scale-95"
+          className="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:scale-105 hover:bg-white/20 active:scale-95"
         >
           <ArrowLeft size={15} />
           Kembali
@@ -414,8 +366,8 @@ function ReceiptContent() {
   className="flex flex-1 min-h-0 w-full overflow-hidden rounded-3xl shadow-2xl flex-col md:flex-row"
   style={{
     background: "rgba(255,255,255,0.07)",
-    backdropFilter: "blur(28px) saturate(1.4)",
-    WebkitBackdropFilter: "blur(28px) saturate(1.4)",
+    backdropFilter: "blur(12px) saturate(1.3)",
+    WebkitBackdropFilter: "blur(12px) saturate(1.3)",
     border: "1px solid rgba(255,255,255,0.18)",
     boxShadow:
       "0 24px 80px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
@@ -426,8 +378,7 @@ function ReceiptContent() {
           <div
             className="relative flex w-full shrink-0 flex-col items-center gap-3 p-5 md:w-[32%]"
             style={{
-              background: "rgba(40,20,10,0.45)",
-              backdropFilter: "blur(10px)",
+              background: "rgba(40,20,10,0.55)",
               borderRight: "1px solid rgba(255,255,255,0.08)",
             }}
           >
@@ -503,7 +454,7 @@ function ReceiptContent() {
                 type="button"
                 onClick={() => setConfirmCookOpen(true)}
                 disabled={!id || loading || cooking}
-                className="cook-ready relative flex h-11 min-w-0 flex-1 items-center justify-between gap-3 rounded-full px-4 text-sm font-extrabold text-white transition-all duration-300 hover:scale-[1.02] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-70"
+                className="relative flex h-11 min-w-0 flex-1 items-center justify-between gap-3 rounded-full px-4 text-sm font-extrabold text-white transition-all duration-300 hover:scale-[1.02] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-70"
                 style={{
                   background:
                     cookNotice?.type === "success"
@@ -540,7 +491,7 @@ function ReceiptContent() {
                 disabled={!id || saving}
                 aria-label={saved ? "Batal simpan resep" : "Simpan resep"}
                 title={saved ? "Batal simpan" : "Simpan"}
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
                 style={{
                   background: saved
                     ? "rgba(250,204,21,0.24)"

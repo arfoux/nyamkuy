@@ -253,10 +253,12 @@ function ReceiptContent() {
 
         <button
           onClick={() => router.back()}
-          className="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:scale-105 hover:bg-white/20 active:scale-95"
+          aria-label="Kembali"
+          title="Kembali"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition-all duration-200 hover:scale-105 hover:bg-white/20 active:scale-95 md:w-auto md:px-4 md:gap-2"
         >
-          <ArrowLeft size={15} />
-          Kembali
+          <ArrowLeft size={16} />
+          <span className="hidden md:inline text-sm font-medium">Kembali</span>
         </button>
       </div>
 
@@ -352,7 +354,7 @@ function ReceiptContent() {
       )}
 
       <h1
-        className="relative z-10 mt-12 mb-3 max-w-[calc(100vw-132px)] truncate text-center text-3xl font-black uppercase drop-shadow-lg md:mt-4 md:mb-4 md:max-w-5xl md:text-5xl lg:text-6xl"
+        className="relative z-10 mt-14 mb-3 max-w-[calc(100vw-96px)] truncate text-center text-2xl font-black uppercase drop-shadow-lg md:mt-4 md:mb-4 md:max-w-5xl md:text-5xl lg:text-6xl"
         style={{
           color: "#ffffff",
           textShadow: "0 4px 24px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.12)",
@@ -382,14 +384,14 @@ function ReceiptContent() {
             }}
           >
             {/* Mobile compact bar */}
-            <div className="flex md:hidden flex-row items-center gap-2 px-2 py-1.5 w-full"
+            <div className="flex md:hidden flex-row items-center gap-2.5 px-2.5 py-2 w-full"
               style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}
             >
               <img
                 src={croppedUrl}
                 alt={nama}
-                className="w-9 h-9 rounded-full object-cover shrink-0"
-                style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.4)" }}
+                className="w-10 h-10 rounded-full object-cover shrink-0"
+                style={{ boxShadow: "0 2px 10px rgba(0,0,0,0.45)" }}
                 onLoad={() => setImgLoaded(true)}
                 onError={() => setImgError(true)}
               />
@@ -416,12 +418,12 @@ function ReceiptContent() {
                 )}
               </div>
 
-              <div className="flex items-center gap-1 shrink-0">
+              <div className="flex items-center gap-1.5 shrink-0">
                 <button
                   type="button"
                   onClick={() => setConfirmCookOpen(true)}
                   disabled={!id || loading || cooking}
-                  className="flex h-7 items-center gap-1 rounded-full px-2 text-[11px] font-extrabold text-white transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-60"
+                  className="flex h-8 items-center gap-1.5 rounded-full px-2.5 text-xs font-extrabold text-white transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-60"
                   style={{
                     background:
                       cookNotice?.type === "success"
@@ -430,7 +432,7 @@ function ReceiptContent() {
                     border: "1px solid rgba(255,255,255,0.2)",
                   }}
                 >
-                  <ChefHat size={13} />
+                  <ChefHat size={14} />
                   <span>+{cookPoints}</span>
                 </button>
 
@@ -439,7 +441,7 @@ function ReceiptContent() {
                   onClick={handleToggleSave}
                   disabled={!id || saving}
                   aria-label={saved ? "Batal simpan resep" : "Simpan resep"}
-                  className="flex h-7 w-7 items-center justify-center rounded-full text-white transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-60"
+                  className="flex h-8 w-8 items-center justify-center rounded-full text-white transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-60"
                   style={{
                     background: saved
                       ? "rgba(250,204,21,0.24)"
@@ -450,7 +452,7 @@ function ReceiptContent() {
                     color: saved ? "#facc15" : "#ffffff",
                   }}
                 >
-                  <Bookmark size={13} fill={saved ? "currentColor" : "none"} />
+                  <Bookmark size={14} fill={saved ? "currentColor" : "none"} />
                 </button>
               </div>
             </div>

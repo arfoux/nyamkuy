@@ -172,7 +172,7 @@ function SuggestionRow({ item }) {
             <h3 className="truncate text-sm font-black text-black md:text-base">
               {item.nama}
             </h3>
-            <p className="mt-0.5 line-clamp-1 text-xs leading-relaxed text-black/55 break-words md:mt-1 md:line-clamp-2 md:text-sm">
+            <p className="mt-0.5 line-clamp-2 text-xs leading-relaxed text-black/55 break-words md:mt-1 md:line-clamp-3 md:text-sm">
               {item.deskripsi}
             </p>
           </div>

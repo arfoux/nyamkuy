@@ -365,7 +365,7 @@ function ReceiptContent() {
       </h1>
 
       <div
-  className="flex w-full flex-col rounded-3xl shadow-2xl overflow-hidden md:flex-row md:h-[85vh]"
+  className="flex w-full flex-col rounded-3xl shadow-2xl overflow-hidden md:flex-row"
   style={{
     background: "rgba(255,255,255,0.07)",
     backdropFilter: "blur(12px) saturate(1.3)",
@@ -378,7 +378,7 @@ function ReceiptContent() {
 
           {/* Panel Kiri (Keterangan dengan warna asli) */}
           <div
-            className="relative flex w-full shrink-0 flex-col md:w-[32%] md:overflow-hidden"
+            className="relative flex w-full shrink-0 flex-col md:w-[32%] "
             style={{
               background: "rgba(40,20,10,0.55)",
             }}
@@ -503,10 +503,7 @@ function ReceiptContent() {
               <div
                 className="flex flex-col w-full max-w-[270px] rounded-2xl p-4"
                 style={{
-                  background: "rgba(255,255,255,0.08)",
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  backdropFilter: "blur(10px)",
-                  height: "fit-content",
+                  maxWidth: "320px"
                 }}
               >
 

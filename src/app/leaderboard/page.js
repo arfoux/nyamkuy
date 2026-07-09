@@ -119,17 +119,17 @@ function Spotlight({ data, onOpen }) {
 
   return (
     <section className="grid gap-4 lg:grid-cols-3">
-      <div className="rounded-2xl bg-[#6b4e41] p-5 text-white shadow-sm">
+      <div className="rounded-2xl bg-gray-100 border border-gray-200 p-5 text-gray-900 shadow-sm">
         <div className="mb-6 flex items-center justify-between">
-          <div className="text-sm font-black uppercase tracking-wider text-white/60">
+          <div className="text-sm font-black uppercase tracking-wider text-gray-500">
             Top Koki
           </div>
-          <Medal size={22} />
+          <Medal size={22} className="text-gray-700" />
         </div>
-        <div className="text-3xl font-black leading-none">
+        <div className="text-3xl font-black leading-none text-black">
           {topUser?.display_name || "Belum ada"}
         </div>
-        <div className="mt-3 text-sm font-semibold text-white/65">
+        <div className="mt-3 text-sm font-semibold text-gray-600">
           {topUser ? `${topUser.total_points} poin` : "Mulai masak untuk masuk ranking."}
         </div>
       </div>
@@ -137,18 +137,18 @@ function Spotlight({ data, onOpen }) {
       <button
         type="button"
         onClick={() => topCooked && onOpen(topCooked)}
-        className="rounded-2xl bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+        className="rounded-2xl bg-white border border-gray-100 p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
       >
         <div className="mb-4 flex items-center justify-between">
-          <div className="text-sm font-black uppercase tracking-wider text-[#856b5c]">
+          <div className="text-sm font-black uppercase tracking-wider text-gray-500">
             Paling Dimasak
           </div>
-          <Flame size={22} />
+          <Flame size={22} className="text-gray-700" />
         </div>
-        <div className="text-2xl font-black text-[#6b4e41]">
+        <div className="text-2xl font-black text-black">
           {topCooked?.nama || "Belum ada"}
         </div>
-        <div className="mt-3 text-sm font-semibold text-[#856b5c]">
+        <div className="mt-3 text-sm font-semibold text-gray-600">
           {topCooked
             ? `${topCooked.cooked_count} kali dimasak`
             : "Data akan muncul setelah user mulai memasak."}
@@ -158,18 +158,18 @@ function Spotlight({ data, onOpen }) {
       <button
         type="button"
         onClick={() => topSaved && onOpen(topSaved)}
-        className="rounded-2xl bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+        className="rounded-2xl bg-white border border-gray-100 p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
       >
         <div className="mb-4 flex items-center justify-between">
-          <div className="text-sm font-black uppercase tracking-wider text-[#856b5c]">
+          <div className="text-sm font-black uppercase tracking-wider text-gray-500">
             Paling Disimpan
           </div>
-          <Bookmark size={22} />
+          <Bookmark size={22} className="text-gray-700" />
         </div>
-        <div className="text-2xl font-black text-[#6b4e41]">
+        <div className="text-2xl font-black text-black">
           {topSaved?.nama || "Belum ada"}
         </div>
-        <div className="mt-3 text-sm font-semibold text-[#856b5c]">
+        <div className="mt-3 text-sm font-semibold text-gray-600">
           {topSaved
             ? `${topSaved.saved_count} simpanan`
             : "Data akan muncul setelah user menyimpan resep."}
@@ -252,14 +252,14 @@ export default function LeaderboardPage() {
         </div>
 
         <section className="mb-10 flex flex-col items-center text-center">
-          <div className="mb-3 flex items-center justify-center gap-2 text-sm font-black uppercase tracking-[0.24em] text-[#856b5c]/70">
+          <div className="mb-3 flex items-center justify-center gap-2 text-sm font-black uppercase tracking-[0.24em] text-gray-500">
             <Trophy size={18} />
             Leaderboard Global
           </div>
-          <h1 className="max-w-3xl text-4xl font-black tracking-tight text-[#6b4e41] md:text-6xl">
+          <h1 className="max-w-3xl text-4xl font-black tracking-tight text-black md:text-6xl">
             Papan ranking dapur NyamKuy.
           </h1>
-          <p className="mt-4 max-w-2xl text-sm font-medium leading-relaxed text-[#856b5c]/80 md:text-base">
+          <p className="mt-4 max-w-2xl text-sm font-medium leading-relaxed text-gray-600 md:text-base">
             Lihat koki paling aktif, resep yang paling sering dimasak, dan
             resep yang paling banyak disimpan. Mode mingguan memberi ruang
             untuk user baru ikut naik.
@@ -278,8 +278,8 @@ export default function LeaderboardPage() {
                 onClick={() => setPeriod(key)}
                 className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-black transition md:flex-none ${
                   period === key
-                    ? "bg-[#6b4e41] text-white"
-                    : "text-[#856b5c]/70 hover:text-[#6b4e41]"
+                    ? "bg-black text-white"
+                    : "text-gray-500 hover:text-black"
                 }`}
               >
                 <Icon size={16} />

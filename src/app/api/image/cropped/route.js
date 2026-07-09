@@ -6,7 +6,7 @@ const EXTENSIONS = ["png", "jpg", "jpeg", "webp"]
 
 async function fetchFirstAvailable(slug, folder) {
   for (const ext of EXTENSIONS) {
-    const url = `https://raw.githubusercontent.com/arfoux/nyamkuy/main/public/images/${folder}/${slug}.${ext}`
+    const url = `https://cdn.jsdelivr.net/gh/arfoux/nyamkuy@main/public/images/${folder}/${slug}.${ext}`
 
     try {
       const res = await fetch(url)

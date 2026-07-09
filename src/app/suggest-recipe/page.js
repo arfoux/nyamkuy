@@ -162,17 +162,17 @@ function SuggestionRow({ item }) {
         <img
           src={item.image_url}
           alt={item.nama}
-          className="aspect-[16/6] w-full max-w-full object-cover md:aspect-[16/10]"
+          className="aspect-[4/1] w-full max-w-full object-cover md:aspect-[16/10]"
         />
       )}
 
       <div className="p-3 md:p-4">
         <div className="mb-2 flex flex-wrap items-start justify-between gap-1.5 md:mb-3 md:flex-nowrap md:gap-3">
-          <div className="min-w-0 flex-1">
-            <h3 className="break-words text-sm font-black text-black md:text-base">
+          <div className="min-w-0 md:flex-1">
+            <h3 className="truncate text-sm font-black text-black md:text-base">
               {item.nama}
             </h3>
-            <p className="mt-0.5 text-xs leading-relaxed text-black/55 break-words md:mt-1 md:text-sm">
+            <p className="mt-0.5 line-clamp-1 text-xs leading-relaxed text-black/55 md:mt-1 md:line-clamp-2 md:text-sm">
               {item.deskripsi}
             </p>
           </div>

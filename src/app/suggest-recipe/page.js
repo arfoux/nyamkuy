@@ -98,7 +98,7 @@ function StatusBadge({ status }) {
 function Field({ label, children, icon: Icon }) {
   return (
     <label className="block">
-      <span className="mb-2 flex items-center gap-2 text-xs font-black uppercase tracking-[0.16em] text-black/48">
+      <span className="mb-1.5 flex items-center gap-2 text-xs font-black uppercase tracking-[0.16em] text-black/48">
         {Icon && <Icon size={14} />}
         {label}
       </span>
@@ -111,7 +111,7 @@ function TextInput(props) {
   return (
     <input
       {...props}
-      className="h-11 w-full rounded-xl border border-black/10 bg-white px-3 text-sm font-semibold text-black outline-none ring-black/10 transition focus:ring-4"
+      className="h-10 w-full rounded-xl border border-black/10 bg-white px-3 text-sm font-semibold text-black outline-none ring-black/10 transition focus:ring-4 md:h-11"
     />
   )
 }
@@ -120,7 +120,7 @@ function TextArea(props) {
   return (
     <textarea
       {...props}
-      className="min-h-28 w-full resize-y rounded-xl border border-black/10 bg-white px-3 py-3 text-sm font-semibold leading-relaxed text-black outline-none ring-black/10 transition focus:ring-4"
+      className="min-h-20 w-full resize-y rounded-xl border border-black/10 bg-white px-3 py-2.5 text-sm font-semibold leading-relaxed text-black outline-none ring-black/10 transition focus:ring-4 md:min-h-28 md:py-3"
     />
   )
 }
@@ -404,15 +404,15 @@ export default function SuggestRecipePage() {
             )}
           </div>
 
-          <div className="flex flex-row items-center gap-4 rounded-2xl bg-black p-4 text-white shadow-sm md:flex-col md:p-5">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/12 md:h-11 md:w-11">
-              <CheckCircle2 size={20} />
+          <div className="flex flex-row items-center gap-3 rounded-2xl bg-black p-3 text-white shadow-sm md:flex-col md:gap-4 md:p-5">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/12 md:h-11 md:w-11">
+              <CheckCircle2 size={18} />
             </div>
             <div>
-              <div className="text-2xl font-black md:mt-5 md:text-2xl">
+              <div className="text-xl font-black md:mt-5 md:text-2xl">
                 {suggestions.filter((item) => item.status === "approved").length}
               </div>
-              <div className="text-sm font-semibold text-white/62 md:mt-1">
+              <div className="text-xs font-semibold text-white/62 md:mt-1 md:text-sm">
                 saran kamu sudah disetujui.
               </div>
             </div>
@@ -424,7 +424,7 @@ export default function SuggestRecipePage() {
             onSubmit={handleSubmit}
             className="rounded-2xl bg-white p-4 shadow-sm md:p-6"
           >
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-3 md:gap-4 md:grid-cols-2">
               <Field label="Judul resep" icon={ChefHat}>
                 <TextInput
                   value={form.nama}
@@ -462,7 +462,7 @@ export default function SuggestRecipePage() {
                   onChange={(event) =>
                     updateField("difficulty", event.target.value)
                   }
-                  className="h-11 w-full rounded-xl border border-black/10 bg-white px-3 text-sm font-semibold text-black outline-none ring-black/10 transition focus:ring-4"
+                  className="h-10 w-full rounded-xl border border-black/10 bg-white px-3 text-sm font-semibold text-black outline-none ring-black/10 transition focus:ring-4 md:h-11"
                 >
                   <option>Mudah</option>
                   <option>Sedang</option>
@@ -497,7 +497,7 @@ export default function SuggestRecipePage() {
               </Field>
             </div>
 
-            <div className="mt-4 grid gap-4 md:grid-cols-[1fr_160px]">
+            <div className="mt-3 grid gap-3 md:mt-4 md:gap-4 md:grid-cols-[1fr_160px]">
               <Field label="Deskripsi">
                 <TextArea
                   value={form.deskripsi}
@@ -522,7 +522,7 @@ export default function SuggestRecipePage() {
               </Field>
             </div>
 
-            <div className="mt-4 grid gap-4 md:grid-cols-2">
+            <div className="mt-3 grid gap-3 md:mt-4 md:gap-4 md:grid-cols-2">
               <Field label="Bahan utama">
                 <TextArea
                   value={form.bahan_text}
@@ -584,7 +584,7 @@ export default function SuggestRecipePage() {
               </Field>
             </div>
 
-            <div className="mt-4">
+            <div className="mt-3 md:mt-4">
               <Field label="Tips">
                 <TextArea
                   value={form.tips_text}
@@ -596,10 +596,10 @@ export default function SuggestRecipePage() {
               </Field>
             </div>
 
-            <div className="mt-5 flex flex-col gap-3 rounded-xl border border-dashed border-black/15 bg-[#f6f7fb] p-4 md:flex-row md:items-center md:justify-between">
+            <div className="mt-3 flex flex-col gap-3 rounded-xl border border-dashed border-black/15 bg-[#f6f7fb] p-3 md:mt-5 md:flex-row md:items-center md:justify-between md:p-4">
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white text-black shadow-sm">
-                  <ImagePlus size={22} />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-black shadow-sm md:h-12 md:w-12">
+                  <ImagePlus size={18} />
                 </div>
                 <div className="min-w-0">
                   <div className="truncate text-sm font-black text-black">
@@ -630,11 +630,11 @@ export default function SuggestRecipePage() {
               <img
                 src={preview}
                 alt="Preview gambar resep"
-                className="mt-4 aspect-[16/9] w-full rounded-xl object-cover"
+                className="mt-3 aspect-[16/9] w-full rounded-xl object-cover md:mt-4"
               />
             )}
 
-            <div className="mt-6 flex flex-col-reverse gap-3 md:flex-row md:items-center md:justify-between">
+            <div className="mt-4 flex flex-col-reverse gap-3 md:mt-6 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-2 text-sm font-semibold text-black/45">
                 {!canSubmit && <XCircle size={16} />}
                 {formStatusText}

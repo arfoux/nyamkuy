@@ -421,7 +421,7 @@ function ReceiptContent() {
 
           {/* Panel Kiri (Keterangan dengan warna asli) */}
           <div
-            className="relative flex w-full shrink-0 flex-col md:w-[32%] md:shrink md:overflow-y-auto"
+            className="relative flex w-full shrink-0 flex-col md:w-[32%] md:shrink"
             style={{
               background: "rgba(40,20,10,0.55)",
             }}
@@ -501,7 +501,7 @@ function ReceiptContent() {
             </div>
 
             {/* Desktop full panel */}
-            <div className="hidden md:flex md:h-full md:flex-col md:items-center md:gap-2 md:p-3 w-full"
+            <div className="hidden md:flex md:h-full md:flex-col md:gap-2 md:p-3 w-full"
               style={{
                 borderRight: "1px solid rgba(255,255,255,0.08)",
               }}
@@ -512,57 +512,54 @@ function ReceiptContent() {
                 </div>
               )}
 
-              <div
-                className="relative flex items-center justify-center"
-                style={{ width: "100%", maxWidth: 240 }}
-              >
+              <div className="flex flex-row items-start gap-3 w-full min-h-0">
                 <div
-                  className="absolute inset-0 rounded-full blur-2xl opacity-40"
-                  style={{ background: "radial-gradient(circle, #d4956a 0%, transparent 70%)" }}
-                />
-                <img
-                  src={trimmedSrc || croppedUrl}
-                  alt={nama}
-                  onLoad={() => setImgLoaded(true)}
-                  onError={() => setImgError(true)}
-                  className="relative z-10 w-full object-contain"
-                  style={{
-                    maxHeight: "none",
-                    filter: imgLoaded
-                      ? "drop-shadow(0 12px 32px rgba(0,0,0,0.55)) drop-shadow(0 0 8px rgba(220,160,100,0.35))"
-                      : "none",
-                    opacity: imgLoaded ? 1 : 0,
-                    transition: "opacity 0.5s ease",
-                  }}
-                />
-                {!imgLoaded && !imgError && (
+                  className="relative flex items-center justify-center shrink-0"
+                  style={{ width: "33%", maxWidth: 160 }}
+                >
                   <div
-                    className="absolute inset-0 rounded-2xl animate-pulse"
-                    style={{ background: "rgba(255,255,255,0.08)" }}
+                    className="absolute inset-0 rounded-full blur-2xl opacity-40"
+                    style={{ background: "radial-gradient(circle, #d4956a 0%, transparent 70%)" }}
                   />
-                )}
+                  <img
+                    src={trimmedSrc || croppedUrl}
+                    alt={nama}
+                    onLoad={() => setImgLoaded(true)}
+                    onError={() => setImgError(true)}
+                    className="relative z-10 w-full object-contain"
+                    style={{
+                      maxHeight: "none",
+                      filter: imgLoaded
+                        ? "drop-shadow(0 12px 32px rgba(0,0,0,0.55)) drop-shadow(0 0 8px rgba(220,160,100,0.35))"
+                        : "none",
+                      opacity: imgLoaded ? 1 : 0,
+                      transition: "opacity 0.5s ease",
+                    }}
+                  />
+                  {!imgLoaded && !imgError && (
+                    <div
+                      className="absolute inset-0 rounded-2xl animate-pulse"
+                      style={{ background: "rgba(255,255,255,0.08)" }}
+                    />
+                  )}
+                </div>
+
+                <div className="flex flex-col flex-1 min-w-0">
+                  <p
+                    className="text-xs leading-relaxed md:text-[13px]"
+                    style={{ color: "rgba(245,225,200,0.88)"}}
+                  >
+                    <span className="font-semibold" style={{ color: "#f5e6d5" }}>
+                      {nama}
+                    </span>
+                    {" - "}
+                    {deskripsi}
+                  </p>
+                </div>
               </div>
 
-              <div
-                className="flex flex-col w-full max-w-[270px] rounded-2xl p-3"
-                style={{
-                  maxWidth: "300px"
-                }}
-              >
-
-              <p
-                className="text-center text-xs leading-relaxed md:text-[13px]"
-                style={{ color: "rgba(245,225,200,0.88)",}}
-              >
-                <span className="font-semibold" style={{ color: "#f5e6d5" }}>
-                  {nama}
-                </span>
-                {" - "}
-                {deskripsi}
-              </p>
-
               {metaItems.length > 0 && (
-                <div className=" mt-3 grid w-full grid-cols-2 gap-1.5">
+                <div className="grid w-full grid-cols-2 gap-1.5">
                   {metaItems.slice(0, 4).map(({ icon: Icon, label }) => (
                     <div
                       key={label}

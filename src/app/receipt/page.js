@@ -79,6 +79,7 @@ function ReceiptContent() {
   const deskripsi = recipe?.deskripsi || deskripsiParam
   const bgUrl = `/api/image/base?nama=${encodeURIComponent(nama)}`
   const croppedUrl = `/api/image/cropped?nama=${encodeURIComponent(nama)}`
+  const [mobileDetailOpen, setMobileDetailOpen] = useState(false)
 
   useEffect(() => {
     if (!croppedUrl) return
@@ -337,6 +338,7 @@ function ReceiptContent() {
       )}
 
       {confirmCookOpen && (
+    
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 px-4 backdrop-blur-sm">
           <div
             className="w-full max-w-sm rounded-2xl p-4 text-white shadow-2xl"
@@ -397,6 +399,74 @@ function ReceiptContent() {
         </div>
       )}
 
+      {mobileDetailOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-5 backdrop-blur-sm">
+          <div
+            className="w-full max-w-sm rounded-3xl overflow-hidden"
+            style={{
+              background: "rgba(42,22,12,.97)",
+              border: "1px solid rgba(255,255,255,.15)"
+            }}
+          >
+            <button
+              onClick={() => setMobileDetailOpen(false)}
+              className="absolute right-5 top-5 w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white"
+            >
+              <X size={18}/>
+            </button>
+
+            <div className="p-6 text-center">
+
+              <img
+                src={trimmedSrc || croppedUrl}
+                className="w-44 h-44 object-contain mx-auto"
+              />
+
+              <h2 className="mt-4 text-2xl font-black text-white">
+                {nama}
+              </h2>
+
+              <p
+                className="mt-3 text-sm leading-7"
+                style={{
+                  color:"rgba(255,255,255,.75)"
+                }}
+              >
+                {deskripsi}
+              </p>
+
+              <div className="grid grid-cols-2 gap-2 mt-5">
+                {metaItems.map(({ icon: Icon, label }) => (
+                  <div
+                    key={label}
+                    className="rounded-xl p-2 flex items-center gap-2 text-xs"
+                    style={{
+                      background:"rgba(255,255,255,.08)",
+                      color:"#fff"
+                    }}
+                  >
+                    <Icon size={14}/>
+                    <span>{label}</span>
+                  </div>
+                ))}
+              </div>
+
+              <button
+                onClick={() => setMobileDetailOpen(false)}
+                className="mt-6 w-full h-11 rounded-full font-bold text-white"
+                style={{
+                  background:
+                    "linear-gradient(135deg,#facc15,#ea580c)"
+                }}
+              >
+                Tutup
+              </button>
+
+            </div>
+          </div>
+        </div>
+    )}
+
       <h1
         className="relative z-10 mt-14 mb-3 max-w-[calc(100vw-96px)] truncate text-center text-2xl font-black uppercase drop-shadow-lg md:mt-4 md:mb-4 md:max-w-5xl md:text-5xl lg:text-6xl"
         style={{
@@ -433,16 +503,18 @@ function ReceiptContent() {
             >
               <img
                 src={croppedUrl}
-                alt={nama}
-                className="w-10 h-10 rounded-full object-cover shrink-0"
+                onClick={() => setMobileDetailOpen(true)}
+                className="w-10 h-10 rounded-full object-cover shrink-0 cursor-pointer"
                 style={{ boxShadow: "0 2px 10px rgba(0,0,0,0.45)" }}
                 onLoad={() => setImgLoaded(true)}
                 onError={() => setImgError(true)}
               />
 
               <div className="flex-1 min-w-0">
-                <div className="text-sm font-bold truncate" style={{ color: "#f5e6d5" }}>
-                  {nama}
+                <div>
+                  onClick={() => setMobileDetailOpen(true)}
+                  className="text-sm font-bold truncate cursor-pointer"
+                  style={{ color: "#f5e6d5" }}
                 </div>
                 {metaItems.length > 0 && (
                   <div className="flex flex-wrap gap-1 mt-0.5">

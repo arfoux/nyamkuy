@@ -419,7 +419,7 @@ export default function SuggestRecipePage() {
           </div>
         </section>
 
-        <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
+        <section className="mb-6 grid gap-4 lg:grid-cols-[1fr_360px]">
           <form
             onSubmit={handleSubmit}
             className="rounded-2xl bg-white p-4 shadow-sm md:p-6"

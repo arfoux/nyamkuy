@@ -382,7 +382,7 @@ export default function SuggestRecipePage() {
                   Saran Resep
                 </div>
                 <h1 className="mt-3 text-2xl font-black tracking-tight md:text-4xl">
-                  Punya resep yang ingin kamu post?
+                  Tambah resep?
                 </h1>
                 <p className="mt-2 max-w-2xl text-sm font-semibold leading-relaxed text-black/55">
                   Kirim draft resep dan gambar. Admin bisa merapikan isinya

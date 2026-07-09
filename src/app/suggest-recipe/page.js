@@ -351,7 +351,7 @@ export default function SuggestRecipePage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f6f7fb] px-4 py-5 text-black md:px-8 md:py-8">
+    <main className="min-h-screen bg-[#f6f7fb] px-4 py-5 text-black md:px-8 md:py-8 overflow-x-hidden">
       <div className="mx-auto max-w-6xl">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <button
@@ -635,7 +635,7 @@ export default function SuggestRecipePage() {
             )}
 
             <div className="mt-4 flex flex-col-reverse gap-3 md:mt-6 md:flex-row md:items-center md:justify-between">
-              <div className="flex items-center gap-2 text-sm font-semibold text-black/45">
+              <div className="flex items-center gap-2 text-sm font-semibold text-black/45 min-w-0 break-words">
                 {!canSubmit && <XCircle size={16} />}
                 {formStatusText}
               </div>
@@ -663,7 +663,7 @@ export default function SuggestRecipePage() {
                   Memuat...
                 </div>
               ) : suggestions.length > 0 ? (
-                <div className="mt-4 max-h-[420px] space-y-3 overflow-y-auto pr-1 md:mt-5 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-black/10 [&::-webkit-scrollbar-thumb]:rounded-full">
+                <div className="mt-4 space-y-3 md:mt-5 md:max-h-[420px] md:overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-black/10 [&::-webkit-scrollbar-thumb]:rounded-full">
                   {suggestions.slice(0, 6).map((item) => (
                     <SuggestionRow key={item.id} item={item} />
                   ))}

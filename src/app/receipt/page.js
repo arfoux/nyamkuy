@@ -458,7 +458,7 @@ function ReceiptContent() {
             </div>
 
             {/* Desktop full panel */}
-            <div className="hidden md:flex md:flex-col md:items-center md:gap-3 md:p-5 w-full md:w-[32%]"
+            <div className="hidden md:flex md:flex-col md:items-center md:gap-3 md:p-5 w-full"
               style={{
                 borderRight: "1px solid rgba(255,255,255,0.08)",
               }}

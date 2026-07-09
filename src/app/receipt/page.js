@@ -205,7 +205,7 @@ function ReceiptContent() {
   ].filter(Boolean)
 
   return (
-    <div className="relative flex h-[100dvh] flex-col items-center justify-center overflow-hidden p-3 font-sans md:p-5">
+    <div className="relative flex min-h-[100dvh] flex-col items-center overflow-x-hidden p-3 font-sans md:p-5">
       <style>{`
         @keyframes cookToastIn {
           0% {
@@ -365,7 +365,7 @@ function ReceiptContent() {
       </h1>
 
       <div
-  className="flex flex-1 min-h-0 w-full overflow-hidden rounded-3xl shadow-2xl flex-col md:flex-row"
+  className="flex w-full rounded-3xl shadow-2xl flex-col md:flex-row"
   style={{
     background: "rgba(255,255,255,0.07)",
     backdropFilter: "blur(12px) saturate(1.3)",
@@ -458,7 +458,7 @@ function ReceiptContent() {
             </div>
 
             {/* Desktop full panel */}
-            <div className="hidden md:flex md:flex-col md:items-center md:gap-3 md:p-5 md:flex-1 md:min-h-0 w-full"
+            <div className="hidden md:flex md:flex-col md:items-center md:gap-3 md:p-5 w-full md:w-[32%]"
               style={{
                 borderRight: "1px solid rgba(255,255,255,0.08)",
               }}
@@ -500,6 +500,15 @@ function ReceiptContent() {
                 )}
               </div>
 
+              <div
+                className="w-full max-w-[270px] rounded-2xl p-4"
+                style={{
+                  background: "rgba(255,255,255,0.08)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  backdropFilter: "blur(10px)",
+                }}
+              >
+
               <p
                 className="text-center text-xs leading-relaxed md:text-sm"
                 style={{ color: "rgba(245,225,200,0.88)", maxWidth: 260 }}
@@ -530,7 +539,7 @@ function ReceiptContent() {
                 </div>
               )}
 
-              <div className="mt-auto flex w-full max-w-[270px] items-center gap-2 pb-5">
+              <div className="flex items-center gap-2 mt-5">
                 <button
                   type="button"
                   onClick={() => setConfirmCookOpen(true)}
@@ -588,9 +597,10 @@ function ReceiptContent() {
               </div>
             </div>
           </div>
+          </div>
 
           {/* Panel Kanan (Menu resep dengan warna putih terang) */}
-          <div className="min-h-0 w-full flex-1 overflow-y-auto p-4 md:w-[70%] md:p-6">
+          <div className="min-h-0 w-full flex-1 overflow-y-auto p-4 md:w-[68%] md:p-6">
             <div className="flex flex-col gap-5 md:grid md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-7">
               <div className="flex flex-col gap-5">
                 <div className="rounded-2xl p-4"

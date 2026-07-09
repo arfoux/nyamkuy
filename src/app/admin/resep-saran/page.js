@@ -102,7 +102,7 @@ function StatusBadge({ status }) {
 function Field({ label, children, icon: Icon }) {
   return (
     <label className="block">
-      <span className="mb-2 flex items-center gap-2 text-xs font-black uppercase tracking-[0.16em] text-black/48">
+      <span className="mb-1.5 flex items-center gap-2 text-xs font-black uppercase tracking-[0.16em] text-black/48">
         {Icon && <Icon size={14} />}
         {label}
       </span>
@@ -115,7 +115,7 @@ function TextInput(props) {
   return (
     <input
       {...props}
-      className="h-11 w-full rounded-xl border border-black/10 bg-white px-3 text-sm font-semibold text-black outline-none ring-black/10 transition focus:ring-4"
+                          className="h-10 w-full rounded-xl border border-black/10 bg-white px-3 text-sm font-semibold text-black outline-none ring-black/10 transition focus:ring-4 md:h-11"
     />
   )
 }
@@ -124,7 +124,7 @@ function TextArea(props) {
   return (
     <textarea
       {...props}
-      className="min-h-28 w-full resize-y rounded-xl border border-black/10 bg-white px-3 py-3 text-sm font-semibold leading-relaxed text-black outline-none ring-black/10 transition focus:ring-4"
+      className="min-h-20 w-full resize-y rounded-xl border border-black/10 bg-white px-3 py-2.5 text-sm font-semibold leading-relaxed text-black outline-none ring-black/10 transition focus:ring-4 md:min-h-28 md:py-3"
     />
   )
 }
@@ -144,7 +144,7 @@ function SuggestionButton({ item, selected, onClick }) {
         <img
           src={item.image_url || "/android-chrome-192x192.png"}
           alt={item.nama}
-          className="h-16 w-16 shrink-0 rounded-lg object-cover bg-black/5"
+          className="h-12 w-12 shrink-0 rounded-lg object-cover bg-black/5 md:h-16 md:w-16"
         />
         <div className="min-w-0 flex-1">
           <div className="truncate text-sm font-black">{item.nama}</div>
@@ -396,14 +396,14 @@ export default function AdminRecipeSuggestionPage() {
           </button>
         </div>
 
-        <section className="mb-6 rounded-2xl bg-white p-5 shadow-sm md:p-6">
+        <section className="mb-6 rounded-2xl bg-white p-4 shadow-sm md:p-6">
           <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div>
               <div className="flex items-center gap-2 text-sm font-black uppercase tracking-[0.18em] text-emerald-700">
                 <ShieldCheck size={17} />
                 Admin Review
               </div>
-              <h1 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
+              <h1 className="mt-3 text-2xl font-black tracking-tight md:text-4xl">
                 Kelola saran resep user
               </h1>
               <p className="mt-2 max-w-2xl text-sm font-semibold leading-relaxed text-black/55">
@@ -432,7 +432,7 @@ export default function AdminRecipeSuggestionPage() {
 
           {message && (
             <div
-              className={`mt-5 rounded-xl px-4 py-3 text-sm font-semibold ${
+              className={`mt-4 rounded-xl px-4 py-3 text-sm font-semibold md:mt-5 ${
                 message.type === "success"
                   ? "bg-emerald-50 text-emerald-700"
                   : "bg-red-50 text-red-700"
@@ -444,7 +444,7 @@ export default function AdminRecipeSuggestionPage() {
         </section>
 
         <section className="grid gap-6 lg:grid-cols-[360px_minmax(0,1fr)]">
-          <aside className="rounded-2xl bg-white p-4 shadow-sm">
+          <aside className="rounded-2xl bg-white p-3 shadow-sm md:p-4">
             <div className="mb-4 flex items-center justify-between">
               <div className="text-sm font-black uppercase tracking-[0.16em] text-black/50">
                 Antrean
@@ -476,7 +476,7 @@ export default function AdminRecipeSuggestionPage() {
             )}
           </aside>
 
-          <div className="rounded-2xl bg-white p-5 shadow-sm md:p-6">
+          <div className="rounded-2xl bg-white p-4 shadow-sm md:p-6">
             {!selected ? (
               <div className="flex min-h-[420px] flex-col items-center justify-center text-center">
                 <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-black text-white">
@@ -491,7 +491,7 @@ export default function AdminRecipeSuggestionPage() {
               </div>
             ) : (
               <>
-                <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+                <div className="mb-5 flex flex-col gap-3 md:flex-row md:flex-wrap md:items-center md:justify-between">
                   <div>
                     <div className="flex items-center gap-2">
                       <StatusBadge status={selected.status} />
@@ -504,12 +504,12 @@ export default function AdminRecipeSuggestionPage() {
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-col gap-2 md:flex-row md:flex-wrap">
                     <button
                       type="button"
                       onClick={() => saveDraft("pending")}
                       disabled={!canSave}
-                      className="flex h-10 items-center gap-2 rounded-full bg-black/5 px-4 text-sm font-extrabold text-black transition hover:bg-black/10 disabled:opacity-50"
+                      className="flex h-10 w-full items-center justify-center gap-2 rounded-full bg-black/5 px-4 text-sm font-extrabold text-black transition hover:bg-black/10 disabled:opacity-50 md:w-auto"
                     >
                       <Save size={16} />
                       Simpan
@@ -519,7 +519,7 @@ export default function AdminRecipeSuggestionPage() {
                       type="button"
                       onClick={() => saveDraft("rejected")}
                       disabled={!canSave}
-                      className="flex h-10 items-center gap-2 rounded-full bg-red-50 px-4 text-sm font-extrabold text-red-700 transition hover:bg-red-100 disabled:opacity-50"
+                      className="flex h-10 w-full items-center justify-center gap-2 rounded-full bg-red-50 px-4 text-sm font-extrabold text-red-700 transition hover:bg-red-100 disabled:opacity-50 md:w-auto"
                     >
                       <XCircle size={16} />
                       Tolak
@@ -529,7 +529,7 @@ export default function AdminRecipeSuggestionPage() {
                       type="button"
                       onClick={approveSelected}
                       disabled={!canSave || selected.status === "approved"}
-                      className="flex h-10 items-center gap-2 rounded-full bg-emerald-600 px-4 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:shadow-md disabled:opacity-50"
+                      className="flex h-10 w-full items-center justify-center gap-2 rounded-full bg-emerald-600 px-4 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:shadow-md disabled:opacity-50 md:w-auto"
                     >
                       <Send size={16} />
                       {approving ? "Approve..." : "Approve"}
@@ -553,7 +553,7 @@ export default function AdminRecipeSuggestionPage() {
                       )}
                     </div>
 
-                    <label className="mt-3 inline-flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-black px-4 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:shadow-md">
+                    <label className="mt-3 inline-flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-black px-4 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:shadow-md md:w-auto">
                       <ImagePlus size={16} />
                       Ganti gambar
                       <input
@@ -566,7 +566,7 @@ export default function AdminRecipeSuggestionPage() {
                       />
                     </label>
 
-                    <div className="mt-4 rounded-xl bg-[#f6f7fb] p-4">
+                    <div className="mt-3 rounded-xl bg-[#f6f7fb] p-3 md:mt-4 md:p-4">
                       <Field label="Catatan admin">
                         <TextArea
                           value={form.admin_note}
@@ -580,7 +580,7 @@ export default function AdminRecipeSuggestionPage() {
                   </div>
 
                   <div>
-                    <div className="grid gap-4 md:grid-cols-2">
+                    <div className="grid gap-3 md:gap-4 md:grid-cols-2">
                       <Field label="Judul resep" icon={ChefHat}>
                         <TextInput
                           value={form.nama}
@@ -617,7 +617,7 @@ export default function AdminRecipeSuggestionPage() {
                           onChange={(event) =>
                             updateField("difficulty", event.target.value)
                           }
-                          className="h-11 w-full rounded-xl border border-black/10 bg-white px-3 text-sm font-semibold text-black outline-none ring-black/10 transition focus:ring-4"
+      className="h-10 w-full rounded-xl border border-black/10 bg-white px-3 text-sm font-semibold text-black outline-none ring-black/10 transition focus:ring-4 md:h-11"
                         >
                           <option>Mudah</option>
                           <option>Sedang</option>
@@ -650,7 +650,7 @@ export default function AdminRecipeSuggestionPage() {
                       </Field>
                     </div>
 
-                    <div className="mt-4 grid gap-4 md:grid-cols-[1fr_160px]">
+                    <div className="mt-3 grid gap-3 md:mt-4 md:gap-4 md:grid-cols-[1fr_160px]">
                       <Field label="Deskripsi">
                         <TextArea
                           value={form.deskripsi}
@@ -674,7 +674,7 @@ export default function AdminRecipeSuggestionPage() {
                       </Field>
                     </div>
 
-                    <div className="mt-4 grid gap-4 md:grid-cols-2">
+                    <div className="mt-3 grid gap-3 md:mt-4 md:gap-4 md:grid-cols-2">
                       <Field label="Bahan utama">
                         <TextArea
                           value={form.bahan_text}
@@ -730,7 +730,7 @@ export default function AdminRecipeSuggestionPage() {
                       </Field>
                     </div>
 
-                    <div className="mt-4">
+                    <div className="mt-3 md:mt-4">
                       <Field label="Tips">
                         <TextArea
                           value={form.tips_text}
@@ -741,7 +741,7 @@ export default function AdminRecipeSuggestionPage() {
                       </Field>
                     </div>
 
-                    <div className="mt-5 flex items-center justify-end gap-2 text-sm font-semibold text-black/45">
+                    <div className="mt-4 flex items-center justify-end gap-2 text-sm font-semibold text-black/45 md:mt-5">
                       {saving && "Menyimpan draft..."}
                       {approving && "Memproses approve..."}
                       {!saving && !approving && (

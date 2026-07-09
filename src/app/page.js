@@ -706,28 +706,14 @@ export default function Page() {
             role="button"
             tabIndex={0}
             onClick={() => searchInputRef.current?.focus()}
-            className="flex cursor-text items-center gap-2 rounded-full bg-white/85 px-3 py-2 shadow-lg backdrop-blur transition hover:bg-white"
+            className="flex cursor-text items-center gap-2 rounded-full bg-transparent px-3 py-2 shadow-none transition"
           >
             <div className="flex h-9 w-9 items-center justify-center rounded-full">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="black"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle
-                  cx="11"
-                  cy="11"
-                  r="8"
-                />
-
-                <path d="m21 21-4.3-4.3" />
-              </svg>
+              <img
+                src="/android-chrome-512x512.png"
+                alt="Search Icon"
+                className="h-6 w-6 object-contain drop-shadow-sm"
+              />
             </div>
 
             <input

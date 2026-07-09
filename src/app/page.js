@@ -322,14 +322,15 @@ export default function Page() {
                 items-center
                 justify-center
                 rounded-full
-                bg-white/85
+                bg-transparent
+                border border-white/50
                 shadow-lg
                 backdrop-blur
                 transition
                 hover:scale-105
               "
             >
-              <User className="h-6 w-6 text-black" />
+              <User className="h-6 w-6 text-white" />
             </button>
 
             {/* dropdown */}
@@ -508,7 +509,7 @@ export default function Page() {
           <Button
             asChild
             variant="secondary"
-            className="bg-white/80 text-black hover:bg-white"
+            className="bg-transparent border border-white/50 text-white hover:bg-white/10"
           >
             <a href="/auth">
               Log In /
@@ -529,7 +530,7 @@ export default function Page() {
                 : "/suggest-recipe"
             )
           }
-          className="
+            className="
             absolute
             bottom-5
             left-5
@@ -540,11 +541,12 @@ export default function Page() {
             items-center
             gap-2
             rounded-full
-            bg-white/85
+            bg-transparent
+            border border-white/50
             px-4
             text-sm
             font-extrabold
-            text-black
+            text-white
             shadow-lg
             backdrop-blur
             transition
@@ -580,11 +582,12 @@ export default function Page() {
           items-center
           gap-2
           rounded-full
-          bg-white/85
+          bg-transparent
+          border border-white/50
           px-4
           text-sm
           font-extrabold
-          text-black
+          text-white
           shadow-lg
           backdrop-blur
           transition

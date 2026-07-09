@@ -400,13 +400,17 @@ function ReceiptContent() {
       )}
 
       {mobileDetailOpen && (
-      <div className="fixed inset-0 z-50 md:hidden bg-black/60 flex items-center justify-center p-5 backdrop-blur-sm">
+      <div
+        className="fixed inset-0 z-50 md:hidden bg-black/60 flex items-center justify-center p-5 backdrop-blur-sm"
+        onClick={() => setMobileDetailOpen(false)}
+      >
           <div
-            className="w-full max-w-sm rounded-3xl overflow-hidden"
+            className="w-full max-w-sm rounded-3xl overflow-hidden relative"
+            onClick={(e) => e.stopPropagation()}
             style={{
               background: "rgba(42,22,12,.97)",
               border: "1px solid rgba(255,255,255,.15)"
-            }}
+          }}
           >
             <button
               onClick={() => setMobileDetailOpen(false)}
@@ -450,17 +454,6 @@ function ReceiptContent() {
                   </div>
                 ))}
               </div>
-
-              <button
-                onClick={() => setMobileDetailOpen(false)}
-                className="mt-6 w-full h-11 rounded-full font-bold text-white"
-                style={{
-                  background:
-                    "linear-gradient(135deg,#facc15,#ea580c)"
-                }}
-              >
-                Tutup
-              </button>
 
             </div>
           </div>

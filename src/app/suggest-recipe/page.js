@@ -185,7 +185,7 @@ function SuggestionRow({ item }) {
             .map((label) => (
               <span
                 key={label}
-                className="rounded-full bg-black/6 px-2 py-0.5 text-[10px] font-bold text-black/55 md:px-2 md:py-1 md:text-[11px]"
+                className="max-w-full rounded-full bg-black/6 px-2 py-0.5 text-[10px] font-bold text-black/55 break-words md:px-2 md:py-1 md:text-[11px]"
               >
                 {label}
               </span>
@@ -419,7 +419,7 @@ export default function SuggestRecipePage() {
           </div>
         </section>
 
-        <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
+        <section className="mb-6 grid gap-4 lg:grid-cols-[1fr_360px]">
           <form
             onSubmit={handleSubmit}
             className="rounded-2xl bg-white p-4 shadow-sm md:p-6"

@@ -419,10 +419,10 @@ export default function SuggestRecipePage() {
           </div>
         </section>
 
-        <section className="mb-6 grid gap-4 lg:grid-cols-[1fr_360px]">
+        <section className="mb-6 flex flex-col gap-4 md:flex-row md:flex-wrap">
           <form
             onSubmit={handleSubmit}
-            className="rounded-2xl bg-white p-4 shadow-sm md:p-6"
+            className="rounded-2xl bg-white p-4 shadow-sm md:p-6 md:flex-1 md:min-w-[300px]"
           >
             <div className="grid gap-3 md:gap-4 md:grid-cols-2">
               <Field label="Judul resep" icon={ChefHat}>
@@ -652,7 +652,7 @@ export default function SuggestRecipePage() {
             </div>
           </form>
 
-          <aside className="space-y-4">
+          <aside className="space-y-4 md:w-[360px] md:shrink-0">
             <div className="rounded-2xl bg-white p-4 shadow-sm md:p-5">
               <div className="text-sm font-black uppercase tracking-[0.16em] text-black/50">
                 Status saran

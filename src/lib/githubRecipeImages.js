@@ -50,7 +50,7 @@ function githubApiUrl(config, path) {
 }
 
 function rawGithubUrl(config, path) {
-  return `https://raw.githubusercontent.com/${config.owner}/${config.repo}/${config.branch}/${path}`
+  return `https://cdn.jsdelivr.net/gh/arfoux/nyamkuy@main/${path}`
 }
 
 function arrayBufferToBase64(buffer) {

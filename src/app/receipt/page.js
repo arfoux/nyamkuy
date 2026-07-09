@@ -458,7 +458,7 @@ function ReceiptContent() {
             </div>
 
             {/* Desktop full panel */}
-            <div className="hidden md:flex md:flex-col md:items-center md:gap-3 md:p-5 w-full"
+            <div className="hidden md:flex md:h-full md:flex-col md:items-center md:gap-3 md:p-5 w-full"
               style={{
                 borderRight: "1px solid rgba(255,255,255,0.08)",
               }}
@@ -501,7 +501,7 @@ function ReceiptContent() {
               </div>
 
               <div
-                className="w-full max-w-[270px] rounded-2xl p-4"
+                className="flex flex-col w-full max-w-[270px] rounded-2xl p-4 overflow-hidden"
                 style={{
                   background: "rgba(255,255,255,0.08)",
                   border: "1px solid rgba(255,255,255,0.12)",
@@ -511,7 +511,7 @@ function ReceiptContent() {
 
               <p
                 className="text-center text-xs leading-relaxed md:text-sm"
-                style={{ color: "rgba(245,225,200,0.88)", maxWidth: 260 }}
+                style={{ color: "rgba(245,225,200,0.88)", maxWidth: 260, maxHeight: 100,}}
               >
                 <span className="font-semibold" style={{ color: "#f5e6d5" }}>
                   {nama}

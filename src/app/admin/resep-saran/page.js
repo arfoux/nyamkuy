@@ -445,7 +445,7 @@ export default function AdminRecipeSuggestionPage() {
 
         <section className="grid gap-6 lg:grid-cols-[360px_minmax(0,1fr)]">
           <aside className="rounded-2xl bg-white p-3 shadow-sm md:p-4">
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-3 flex items-center justify-between md:mb-4">
               <div className="text-sm font-black uppercase tracking-[0.16em] text-black/50">
                 Antrean
               </div>
@@ -459,7 +459,7 @@ export default function AdminRecipeSuggestionPage() {
                 Memuat...
               </div>
             ) : items.length > 0 ? (
-              <div className="space-y-3">
+              <div className="max-h-[calc(100vh-260px)] space-y-2 overflow-y-auto pr-1 md:space-y-3 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-black/10 [&::-webkit-scrollbar-thumb]:rounded-full">
                 {items.map((item) => (
                   <SuggestionButton
                     key={item.id}

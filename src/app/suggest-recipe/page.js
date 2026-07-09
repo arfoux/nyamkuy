@@ -653,23 +653,23 @@ export default function SuggestRecipePage() {
           </form>
 
           <aside className="space-y-4">
-            <div className="rounded-2xl bg-white p-5 shadow-sm">
+            <div className="rounded-2xl bg-white p-4 shadow-sm md:p-5">
               <div className="text-sm font-black uppercase tracking-[0.16em] text-black/50">
                 Status saran
               </div>
 
               {loading ? (
-                <div className="mt-5 text-sm font-semibold text-black/50">
+                <div className="mt-4 text-sm font-semibold text-black/50 md:mt-5">
                   Memuat...
                 </div>
               ) : suggestions.length > 0 ? (
-                <div className="mt-5 space-y-3">
+                <div className="mt-4 max-h-[420px] space-y-3 overflow-y-auto pr-1 md:mt-5 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-black/10 [&::-webkit-scrollbar-thumb]:rounded-full">
                   {suggestions.slice(0, 6).map((item) => (
                     <SuggestionRow key={item.id} item={item} />
                   ))}
                 </div>
               ) : (
-                <div className="mt-5 rounded-xl bg-[#f6f7fb] p-4 text-sm font-semibold leading-relaxed text-black/55">
+                <div className="mt-4 rounded-xl bg-[#f6f7fb] p-4 text-sm font-semibold leading-relaxed text-black/55 md:mt-5">
                   Belum ada saran resep dari akun ini.
                 </div>
               )}

@@ -365,7 +365,7 @@ function ReceiptContent() {
       </h1>
 
       <div
-  className="flex w-full rounded-3xl shadow-2xl flex-col md:flex-row"
+  className="flex w-full flex-col rounded-3xl shadow-2xl overflow-hidden md:flex-row md:h-[85vh]"
   style={{
     background: "rgba(255,255,255,0.07)",
     backdropFilter: "blur(12px) saturate(1.3)",
@@ -378,7 +378,7 @@ function ReceiptContent() {
 
           {/* Panel Kiri (Keterangan dengan warna asli) */}
           <div
-            className="relative flex w-full shrink-0 flex-col md:w-[32%]"
+            className="relative flex w-full shrink-0 flex-col md:w-[32%] md:overflow-hidden"
             style={{
               background: "rgba(40,20,10,0.55)",
             }}
@@ -600,7 +600,7 @@ function ReceiptContent() {
           </div>
 
           {/* Panel Kanan (Menu resep dengan warna putih terang) */}
-          <div className="min-h-0 w-full flex-1 overflow-y-auto p-4 md:w-[68%] md:p-6">
+          <div className="w-full flex-1 min-h-0 p-4 md:w-[68%] md:p-6 md:overflow-y-auto">
             <div className="flex flex-col gap-5 md:grid md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-7">
               <div className="flex flex-col gap-5">
                 <div className="rounded-2xl p-4"

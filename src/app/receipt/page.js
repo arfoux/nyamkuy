@@ -501,17 +501,18 @@ function ReceiptContent() {
               </div>
 
               <div
-                className="flex flex-col w-full max-w-[270px] rounded-2xl p-4 overflow-hidden"
+                className="flex flex-col w-full max-w-[270px] rounded-2xl p-4"
                 style={{
                   background: "rgba(255,255,255,0.08)",
                   border: "1px solid rgba(255,255,255,0.12)",
                   backdropFilter: "blur(10px)",
+                  height: "fit-content",
                 }}
               >
 
               <p
                 className="text-center text-xs leading-relaxed md:text-sm"
-                style={{ color: "rgba(245,225,200,0.88)", maxWidth: 260, maxHeight: 100,}}
+                style={{ color: "rgba(245,225,200,0.88)",}}
               >
                 <span className="font-semibold" style={{ color: "#f5e6d5" }}>
                   {nama}
@@ -521,7 +522,7 @@ function ReceiptContent() {
               </p>
 
               {metaItems.length > 0 && (
-                <div className="grid w-full max-w-[270px] grid-cols-2 gap-1.5">
+                <div className=" mt-4 grid w-full grid-cols-2 gap-2">
                   {metaItems.slice(0, 4).map(({ icon: Icon, label }) => (
                     <div
                       key={label}
@@ -539,7 +540,7 @@ function ReceiptContent() {
                 </div>
               )}
 
-              <div className="flex items-center gap-2 mt-5">
+              <div className=" mt-4 flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setConfirmCookOpen(true)}

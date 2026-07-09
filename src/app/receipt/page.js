@@ -205,7 +205,7 @@ function ReceiptContent() {
   ].filter(Boolean)
 
   return (
-    <div className="relative flex min-h-[100dvh] flex-col items-center overflow-x-hidden p-3 font-sans md:p-5">
+    <div className="relative flex min-h-[100dvh] flex-col items-center overflow-x-hidden p-3 font-sans md:h-[100dvh] md:overflow-hidden md:p-5">
       <style>{`
         @keyframes cookToastIn {
           0% {
@@ -365,7 +365,7 @@ function ReceiptContent() {
       </h1>
 
       <div
-  className="flex w-full flex-col rounded-3xl shadow-2xl overflow-hidden md:flex-row"
+  className="flex w-full flex-col rounded-3xl shadow-2xl overflow-hidden md:flex-row md:flex-1 md:min-h-0"
   style={{
     background: "rgba(255,255,255,0.07)",
     backdropFilter: "blur(12px) saturate(1.3)",
@@ -378,7 +378,7 @@ function ReceiptContent() {
 
           {/* Panel Kiri (Keterangan dengan warna asli) */}
           <div
-            className="relative flex w-full shrink-0 flex-col md:w-[32%] "
+            className="relative flex w-full shrink-0 flex-col md:w-[32%] md:shrink md:overflow-y-auto"
             style={{
               background: "rgba(40,20,10,0.55)",
             }}
@@ -458,7 +458,7 @@ function ReceiptContent() {
             </div>
 
             {/* Desktop full panel */}
-            <div className="hidden md:flex md:h-full md:flex-col md:items-center md:gap-3 md:p-5 w-full"
+            <div className="hidden md:flex md:h-full md:flex-col md:items-center md:gap-2 md:p-3 w-full"
               style={{
                 borderRight: "1px solid rgba(255,255,255,0.08)",
               }}
@@ -471,7 +471,7 @@ function ReceiptContent() {
 
               <div
                 className="relative flex items-center justify-center"
-                style={{ width: "100%", maxWidth: 280 }}
+                style={{ width: "100%", maxWidth: 240 }}
               >
                 <div
                   className="absolute inset-0 rounded-full blur-2xl opacity-40"
@@ -484,7 +484,7 @@ function ReceiptContent() {
                   onError={() => setImgError(true)}
                   className="relative z-10 w-full object-contain"
                   style={{
-                    maxHeight: 250,
+                    maxHeight: 200,
                     filter: imgLoaded
                       ? "drop-shadow(0 12px 32px rgba(0,0,0,0.55)) drop-shadow(0 0 8px rgba(220,160,100,0.35))"
                       : "none",
@@ -501,14 +501,14 @@ function ReceiptContent() {
               </div>
 
               <div
-                className="flex flex-col w-full max-w-[270px] rounded-2xl p-4"
+                className="flex flex-col w-full max-w-[270px] rounded-2xl p-3"
                 style={{
-                  maxWidth: "320px"
+                  maxWidth: "300px"
                 }}
               >
 
               <p
-                className="text-center text-xs leading-relaxed md:text-sm"
+                className="text-center text-xs leading-relaxed md:text-[13px]"
                 style={{ color: "rgba(245,225,200,0.88)",}}
               >
                 <span className="font-semibold" style={{ color: "#f5e6d5" }}>
@@ -519,30 +519,30 @@ function ReceiptContent() {
               </p>
 
               {metaItems.length > 0 && (
-                <div className=" mt-4 grid w-full grid-cols-2 gap-2">
+                <div className=" mt-3 grid w-full grid-cols-2 gap-1.5">
                   {metaItems.slice(0, 4).map(({ icon: Icon, label }) => (
                     <div
                       key={label}
-                      className="flex min-h-8 items-center gap-1.5 rounded-lg px-2.5 text-[11px] font-extrabold md:min-h-9 md:text-xs"
+                      className="flex min-h-7 items-center gap-1 rounded-lg px-2 text-[11px] font-extrabold md:min-h-8 md:text-[11px]"
                       style={{
                         background: "rgba(255,255,255,0.09)",
                         border: "1px solid rgba(255,255,255,0.15)",
                         color: "rgba(245,230,215,0.92)",
                       }}
                     >
-                      <Icon size={14} />
+                      <Icon size={12} />
                       <span className="truncate">{label}</span>
                     </div>
                   ))}
                 </div>
               )}
 
-              <div className=" mt-4 flex items-center gap-2">
+              <div className=" mt-3 flex items-center gap-1.5">
                 <button
                   type="button"
                   onClick={() => setConfirmCookOpen(true)}
                   disabled={!id || loading || cooking}
-                  className="relative flex h-11 min-w-0 flex-1 items-center justify-between gap-3 rounded-full px-4 text-sm font-extrabold text-white transition-all duration-300 hover:scale-[1.02] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-70"
+                  className="relative flex h-10 min-w-0 flex-1 items-center justify-between gap-2 rounded-full px-3 text-xs font-extrabold text-white transition-all duration-300 hover:scale-[1.02] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-70"
                   style={{
                     background:
                       cookNotice?.type === "success"
@@ -555,9 +555,9 @@ function ReceiptContent() {
                 >
                   <span className="flex min-w-0 items-center gap-2">
                     {cookNotice?.type === "success" ? (
-                      <CheckCircle2 size={19} />
+                      <CheckCircle2 size={16} />
                     ) : (
-                      <ChefHat size={19} />
+                      <ChefHat size={16} />
                     )}
                     <span className="truncate">
                       {cooking
@@ -568,7 +568,7 @@ function ReceiptContent() {
                     </span>
                   </span>
 
-                  <span className="shrink-0 rounded-full bg-black/20 px-2.5 py-1 text-xs">
+                  <span className="shrink-0 rounded-full bg-black/20 px-2 py-0.5 text-[11px]">
                     +{cookPoints}
                   </span>
                 </button>
@@ -579,7 +579,7 @@ function ReceiptContent() {
                   disabled={!id || saving}
                   aria-label={saved ? "Batal simpan resep" : "Simpan resep"}
                   title={saved ? "Batal simpan" : "Simpan"}
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
                   style={{
                     background: saved
                       ? "rgba(250,204,21,0.24)"
@@ -590,7 +590,7 @@ function ReceiptContent() {
                     color: saved ? "#facc15" : "#ffffff",
                   }}
                 >
-                  <Bookmark size={19} fill={saved ? "currentColor" : "none"} />
+                  <Bookmark size={16} fill={saved ? "currentColor" : "none"} />
                 </button>
               </div>
             </div>
@@ -598,7 +598,7 @@ function ReceiptContent() {
           </div>
 
           {/* Panel Kanan (Menu resep dengan warna putih terang) */}
-          <div className="w-full flex-1 min-h-0 p-4 md:w-[68%] md:p-6 md:overflow-y-auto">
+          <div className="w-full flex-1 min-h-0 p-4 md:w-[68%] md:p-5 md:overflow-y-auto">
             <div className="flex flex-col gap-5 md:grid md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-7">
               <div className="flex flex-col gap-5">
                 <div className="rounded-2xl p-4"

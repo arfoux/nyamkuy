@@ -52,7 +52,7 @@ function UserRow({ item, index }) {
         {index + 1}
       </div>
 
-      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#6b4e41] text-lg font-black text-white">
+      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-black text-lg font-black text-white">
         {initial}
       </div>
 
@@ -244,7 +244,7 @@ export default function LeaderboardPage() {
           <button
             type="button"
             onClick={loadLeaderboard}
-            className="flex h-10 items-center gap-2 rounded-full bg-[#6b4e41] px-4 text-sm font-black text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            className="flex h-10 items-center gap-2 rounded-full bg-black px-4 text-sm font-black text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
           >
             <RefreshCcw size={15} />
             Refresh
@@ -307,8 +307,8 @@ export default function LeaderboardPage() {
                   onClick={() => setActiveTab(key)}
                   className={`flex shrink-0 items-center gap-2 rounded-lg px-4 py-2 text-sm font-extrabold transition ${
                     activeTab === key
-                      ? "bg-[#6b4e41] text-white"
-                      : "text-[#856b5c]/70 hover:text-[#6b4e41]"
+                      ? "bg-black text-white"
+                      : "text-gray-500 hover:text-black"
                   }`}
                 >
                   <Icon size={15} />

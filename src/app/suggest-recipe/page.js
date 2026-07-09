@@ -162,42 +162,42 @@ function SuggestionRow({ item }) {
         <img
           src={item.image_url}
           alt={item.nama}
-          className="aspect-[16/10] w-full object-cover"
+          className="aspect-[16/6] w-full object-cover md:aspect-[16/10]"
         />
       )}
 
-      <div className="p-4">
-        <div className="mb-3 flex items-start justify-between gap-3">
+      <div className="p-3 md:p-4">
+        <div className="mb-2 flex items-start justify-between gap-3 md:mb-3">
           <div className="min-w-0">
-            <h3 className="truncate text-base font-black text-black">
+            <h3 className="truncate text-sm font-black text-black md:text-base">
               {item.nama}
             </h3>
-            <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-black/55">
+            <p className="mt-0.5 line-clamp-1 text-xs leading-relaxed text-black/55 md:mt-1 md:line-clamp-2 md:text-sm">
               {item.deskripsi}
             </p>
           </div>
           <StatusBadge status={item.status} />
         </div>
 
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-1">
           {[item.category, item.region, item.difficulty]
             .filter(Boolean)
             .map((label) => (
               <span
                 key={label}
-                className="rounded-full bg-black/6 px-2 py-1 text-[11px] font-bold text-black/55"
+                className="rounded-full bg-black/6 px-2 py-0.5 text-[10px] font-bold text-black/55 md:px-2 md:py-1 md:text-[11px]"
               >
                 {label}
               </span>
             ))}
         </div>
 
-        <div className="mt-4 text-xs font-semibold text-black/42">
+        <div className="mt-2 text-[11px] font-semibold text-black/42 md:mt-4 md:text-xs">
           {formatDate(item.created_at)}
         </div>
 
         {item.admin_note && (
-          <div className="mt-3 rounded-lg bg-black/5 px-3 py-2 text-xs font-semibold leading-relaxed text-black/60">
+          <div className="mt-2 rounded-lg bg-black/5 px-2.5 py-1.5 text-[11px] font-semibold leading-relaxed text-black/60 md:mt-3 md:px-3 md:py-2 md:text-xs">
             {item.admin_note}
           </div>
         )}
@@ -381,7 +381,7 @@ export default function SuggestRecipePage() {
                   <ChefHat size={17} />
                   Saran Resep
                 </div>
-                <h1 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
+                <h1 className="mt-3 text-2xl font-black tracking-tight md:text-4xl">
                   Punya resep yang ingin kamu post?
                 </h1>
                 <p className="mt-2 max-w-2xl text-sm font-semibold leading-relaxed text-black/55">
@@ -404,15 +404,17 @@ export default function SuggestRecipePage() {
             )}
           </div>
 
-          <div className="rounded-2xl bg-black p-5 text-white shadow-sm">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/12">
+          <div className="flex flex-row items-center gap-4 rounded-2xl bg-black p-4 text-white shadow-sm md:flex-col md:p-5">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/12 md:h-11 md:w-11">
               <CheckCircle2 size={20} />
             </div>
-            <div className="mt-5 text-2xl font-black">
-              {suggestions.filter((item) => item.status === "approved").length}
-            </div>
-            <div className="mt-1 text-sm font-semibold text-white/62">
-              saran kamu sudah disetujui.
+            <div>
+              <div className="text-2xl font-black md:mt-5 md:text-2xl">
+                {suggestions.filter((item) => item.status === "approved").length}
+              </div>
+              <div className="text-sm font-semibold text-white/62 md:mt-1">
+                saran kamu sudah disetujui.
+              </div>
             </div>
           </div>
         </section>
@@ -420,7 +422,7 @@ export default function SuggestRecipePage() {
         <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
           <form
             onSubmit={handleSubmit}
-            className="rounded-2xl bg-white p-5 shadow-sm md:p-6"
+            className="rounded-2xl bg-white p-4 shadow-sm md:p-6"
           >
             <div className="grid gap-4 md:grid-cols-2">
               <Field label="Judul resep" icon={ChefHat}>
@@ -596,14 +598,14 @@ export default function SuggestRecipePage() {
 
             <div className="mt-5 flex flex-col gap-3 rounded-xl border border-dashed border-black/15 bg-[#f6f7fb] p-4 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white text-black shadow-sm">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white text-black shadow-sm">
                   <ImagePlus size={22} />
                 </div>
-                <div>
-                  <div className="text-sm font-black text-black">
+                <div className="min-w-0">
+                  <div className="truncate text-sm font-black text-black">
                     Gambar resep
                   </div>
-                  <div className="text-xs font-semibold text-black/50">
+                  <div className="truncate text-xs font-semibold text-black/50">
                     {image ? image.name : "JPG, PNG, atau WebP maksimal 4 MB."}
                   </div>
                 </div>
@@ -611,7 +613,7 @@ export default function SuggestRecipePage() {
 
               <label
                 htmlFor={IMAGE_INPUT_ID}
-                className="inline-flex h-10 cursor-pointer items-center justify-center rounded-full bg-black px-4 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:shadow-md"
+                className="inline-flex h-10 w-full cursor-pointer items-center justify-center rounded-full bg-black px-4 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:shadow-md md:w-auto"
               >
                 {image ? "Ganti gambar" : "Pilih gambar"}
                 <input
@@ -632,7 +634,7 @@ export default function SuggestRecipePage() {
               />
             )}
 
-            <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+            <div className="mt-6 flex flex-col-reverse gap-3 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-2 text-sm font-semibold text-black/45">
                 {!canSubmit && <XCircle size={16} />}
                 {formStatusText}
@@ -642,7 +644,7 @@ export default function SuggestRecipePage() {
                 type="submit"
                 aria-disabled={!canSubmit}
                 disabled={submitting}
-                className="flex h-11 items-center gap-2 rounded-full bg-black px-5 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-11 w-full items-center justify-center gap-2 rounded-full bg-black px-5 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50 md:w-auto"
               >
                 <Send size={16} />
                 {submitting ? "Mengirim..." : "Kirim saran"}

@@ -706,7 +706,7 @@ export default function Page() {
             role="button"
             tabIndex={0}
             onClick={() => searchInputRef.current?.focus()}
-            className="flex cursor-text items-center gap-2 rounded-full bg-transparent px-3 py-2 shadow-none transition"
+            className="flex w-full cursor-text items-center gap-2 rounded-full border border-gray-300 bg-transparent px-4 py-2.5 transition hover:border-gray-400"
           >
             <div className="flex h-9 w-9 items-center justify-center rounded-full">
               <img
@@ -726,7 +726,7 @@ export default function Page() {
                   e.target.value
                 )
               }
-              className="w-full bg-transparent outline-none text-black placeholder:text-black/50"
+              className="w-full bg-transparent outline-none text-white placeholder:text-white/70"
             />
           </div>
 

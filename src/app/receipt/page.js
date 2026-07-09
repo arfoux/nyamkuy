@@ -634,11 +634,10 @@ function ReceiptContent() {
                 </button>
               </div>
             </div>
-          </div>
-          </div>
+            </div>
 
           {/* Panel Kanan (Menu resep dengan warna putih terang) */}
-          <div className="w-full flex-1 min-h-0 p-4 md:w-[68%] md:p-5 md:overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-amber-600/40 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-amber-500/60 [&::-webkit-scrollbar-thumb]:transition-colors">
+          <div className="w-full flex-1 min-h-0 p-4 md:w-[68%] md:p-5 md:overflow-y-auto">
             <div className="flex flex-col gap-5 md:grid md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-7">
               <div className="flex flex-col gap-5">
                 <div className="rounded-2xl p-4"

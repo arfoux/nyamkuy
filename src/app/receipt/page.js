@@ -400,7 +400,7 @@ function ReceiptContent() {
       )}
 
       {mobileDetailOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-5 backdrop-blur-sm">
+      <div className="fixed inset-0 z-50 md:hidden bg-black/60 flex items-center justify-center p-5 backdrop-blur-sm">
           <div
             className="w-full max-w-sm rounded-3xl overflow-hidden"
             style={{
@@ -511,10 +511,12 @@ function ReceiptContent() {
               />
 
               <div className="flex-1 min-w-0">
-                <div>
+                <div
                   onClick={() => setMobileDetailOpen(true)}
                   className="text-sm font-bold truncate cursor-pointer"
                   style={{ color: "#f5e6d5" }}
+                >
+                  {nama}
                 </div>
                 {metaItems.length > 0 && (
                   <div className="flex flex-wrap gap-1 mt-0.5">

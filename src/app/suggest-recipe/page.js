@@ -172,7 +172,7 @@ function SuggestionRow({ item }) {
             <h3 className="truncate text-sm font-black text-black md:text-base">
               {item.nama}
             </h3>
-            <p className="mt-0.5 line-clamp-1 text-xs leading-relaxed text-black/55 md:mt-1 md:line-clamp-2 md:text-sm">
+            <p className="mt-0.5 line-clamp-1 text-xs leading-relaxed text-black/55 break-words md:mt-1 md:line-clamp-2 md:text-sm">
               {item.deskripsi}
             </p>
           </div>
@@ -197,9 +197,9 @@ function SuggestionRow({ item }) {
         </div>
 
         {item.admin_note && (
-          <div className="mt-2 rounded-lg bg-black/5 px-2.5 py-1.5 text-[11px] font-semibold leading-relaxed text-black/60 md:mt-3 md:px-3 md:py-2 md:text-xs">
-            {item.admin_note}
-          </div>
+            <div className="mt-2 rounded-lg bg-black/5 px-2.5 py-1.5 text-[11px] font-semibold leading-relaxed text-black/60 break-words md:mt-3 md:px-3 md:py-2 md:text-xs">
+              {item.admin_note}
+            </div>
         )}
       </div>
     </article>

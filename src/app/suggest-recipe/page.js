@@ -88,7 +88,7 @@ function StatusBadge({ status }) {
 
   return (
     <span
-      className={`inline-flex h-7 items-center rounded-full border px-3 text-xs font-black ${item.className}`}
+      className={`inline-flex shrink-0 items-center rounded-full border px-2.5 py-1 text-xs font-black whitespace-nowrap ${item.className}`}
     >
       {item.label}
     </span>
@@ -167,7 +167,7 @@ function SuggestionRow({ item }) {
       )}
 
       <div className="p-3 md:p-4">
-        <div className="mb-2 flex items-start justify-between gap-3 md:mb-3">
+        <div className="mb-2 flex items-start justify-between gap-2 overflow-hidden md:mb-3 md:gap-3">
           <div className="min-w-0">
             <h3 className="truncate text-sm font-black text-black md:text-base">
               {item.nama}

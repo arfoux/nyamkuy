@@ -76,16 +76,6 @@ function ReceiptContent() {
   const [confirmCookOpen, setConfirmCookOpen] = useState(false)
 
   useEffect(() => {
-    if (!croppedUrl) return
-    setTrimmedSrc(null)
-    const img = new Image()
-    img.crossOrigin = "anonymous"
-    img.onload = () => setTrimmedSrc(trimTransparent(img))
-    img.onerror = () => setTrimmedSrc(croppedUrl)
-    img.src = croppedUrl
-  }, [croppedUrl])
-
-  useEffect(() => {
     async function loadRecipe() {
       setSaveError("")
       setCookNotice(null)
@@ -211,6 +201,16 @@ function ReceiptContent() {
 
   const bgUrl = `/api/image/base?nama=${encodeURIComponent(nama)}`
   const croppedUrl = `/api/image/cropped?nama=${encodeURIComponent(nama)}`
+
+  useEffect(() => {
+    if (!croppedUrl) return
+    setTrimmedSrc(null)
+    const img = new Image()
+    img.crossOrigin = "anonymous"
+    img.onload = () => setTrimmedSrc(trimTransparent(img))
+    img.onerror = () => setTrimmedSrc(croppedUrl)
+    img.src = croppedUrl
+  }, [croppedUrl])
 
   const bahanUtama = useMemo(() => {
     const bahan = recipe?.bahan || []

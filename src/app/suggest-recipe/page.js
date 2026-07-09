@@ -167,8 +167,8 @@ function SuggestionRow({ item }) {
       )}
 
       <div className="p-3 md:p-4">
-        <div className="mb-2 flex items-start justify-between gap-2 overflow-hidden md:mb-3 md:gap-3">
-          <div className="min-w-0">
+        <div className="mb-2 flex flex-wrap items-start justify-between gap-1.5 md:mb-3 md:flex-nowrap md:gap-3">
+          <div className="min-w-0 flex-1">
             <h3 className="truncate text-sm font-black text-black md:text-base">
               {item.nama}
             </h3>

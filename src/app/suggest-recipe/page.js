@@ -169,10 +169,10 @@ function SuggestionRow({ item }) {
       <div className="p-3 md:p-4">
         <div className="mb-2 flex flex-wrap items-start justify-between gap-1.5 md:mb-3 md:flex-nowrap md:gap-3">
           <div className="min-w-0 flex-1">
-            <h3 className="truncate text-sm font-black text-black md:text-base">
+            <h3 className="break-words text-sm font-black text-black md:text-base">
               {item.nama}
             </h3>
-            <p className="mt-0.5 line-clamp-2 text-xs leading-relaxed text-black/55 break-words md:mt-1 md:line-clamp-3 md:text-sm">
+            <p className="mt-0.5 text-xs leading-relaxed text-black/55 break-words md:mt-1 md:text-sm">
               {item.deskripsi}
             </p>
           </div>

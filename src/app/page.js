@@ -564,7 +564,7 @@ export default function Page() {
             {currentUser?.role ===
             "admin"
               ? "Review saran resep"
-              : "Punya resep yang ingin kamu post?"}
+              : "Tambah resep?"}
           </span>
         </button>
       )}

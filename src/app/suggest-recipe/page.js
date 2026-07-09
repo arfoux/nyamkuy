@@ -185,7 +185,7 @@ function SuggestionRow({ item }) {
             .map((label) => (
               <span
                 key={label}
-                className="rounded-full bg-black/6 px-2 py-0.5 text-[10px] font-bold text-black/55 md:px-2 md:py-1 md:text-[11px]"
+                className="max-w-full rounded-full bg-black/6 px-2 py-0.5 text-[10px] font-bold text-black/55 break-words md:px-2 md:py-1 md:text-[11px]"
               >
                 {label}
               </span>

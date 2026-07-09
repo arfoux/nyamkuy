@@ -17,6 +17,38 @@ import {
   X,
 } from "lucide-react"
 
+function trimTransparent(img) {
+  const c = document.createElement("canvas")
+  const ctx = c.getContext("2d")
+  c.width = img.naturalWidth
+  c.height = img.naturalHeight
+  ctx.drawImage(img, 0, 0)
+
+  const d = ctx.getImageData(0, 0, c.width, c.height)
+  const p = d.data
+  let t = null, b = null, l = null, r = null
+
+  for (let y = 0; y < c.height; y++) {
+    for (let x = 0; x < c.width; x++) {
+      if (p[(y * c.width + x) * 4 + 3] > 0) {
+        if (t === null) t = y
+        b = y
+        if (l === null || x < l) l = x
+        if (r === null || x > r) r = x
+      }
+    }
+  }
+
+  if (t === null) return img.src
+
+  const tw = r - l + 1, th = b - t + 1
+  const trimmed = ctx.getImageData(l, t, tw, th)
+  c.width = tw
+  c.height = th
+  ctx.putImageData(trimmed, 0, 0)
+  return c.toDataURL("image/png")
+}
+
 const FALLBACK = {
   nama: "Nasi Pecel",
   deskripsi:
@@ -39,8 +71,19 @@ function ReceiptContent() {
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState("")
   const [cooking, setCooking] = useState(false)
+  const [trimmedSrc, setTrimmedSrc] = useState(null)
   const [cookNotice, setCookNotice] = useState(null)
   const [confirmCookOpen, setConfirmCookOpen] = useState(false)
+
+  useEffect(() => {
+    if (!croppedUrl) return
+    setTrimmedSrc(null)
+    const img = new Image()
+    img.crossOrigin = "anonymous"
+    img.onload = () => setTrimmedSrc(trimTransparent(img))
+    img.onerror = () => setTrimmedSrc(croppedUrl)
+    img.src = croppedUrl
+  }, [croppedUrl])
 
   useEffect(() => {
     async function loadRecipe() {
@@ -478,7 +521,7 @@ function ReceiptContent() {
                   style={{ background: "radial-gradient(circle, #d4956a 0%, transparent 70%)" }}
                 />
                 <img
-                  src={croppedUrl}
+                  src={trimmedSrc || croppedUrl}
                   alt={nama}
                   onLoad={() => setImgLoaded(true)}
                   onError={() => setImgError(true)}

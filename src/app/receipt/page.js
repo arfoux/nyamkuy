@@ -482,9 +482,9 @@ function ReceiptContent() {
                   alt={nama}
                   onLoad={() => setImgLoaded(true)}
                   onError={() => setImgError(true)}
-                  className="relative z-10 w-full object-cover"
+                  className="relative z-10 w-full object-contain"
                   style={{
-                    maxHeight: 200,
+                    maxHeight: "none",
                     filter: imgLoaded
                       ? "drop-shadow(0 12px 32px rgba(0,0,0,0.55)) drop-shadow(0 0 8px rgba(220,160,100,0.35))"
                       : "none",

@@ -90,7 +90,7 @@ function toForm(item) {
 function StatusBadge({ status }) {
   return (
     <span
-      className={`inline-flex h-7 items-center rounded-full border px-3 text-xs font-black capitalize ${
+      className={`inline-flex shrink-0 items-center rounded-full border px-2.5 py-1 text-xs font-black capitalize whitespace-nowrap ${
         STATUS_STYLE[status] || STATUS_STYLE.pending
       }`}
     >
@@ -493,9 +493,9 @@ export default function AdminRecipeSuggestionPage() {
               <>
                 <div className="mb-5 flex flex-col gap-3 md:flex-row md:flex-wrap md:items-center md:justify-between">
                   <div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <StatusBadge status={selected.status} />
-                      <span className="text-xs font-bold text-black/40">
+                      <span className="truncate text-xs font-bold text-black/40">
                         {selected.user_email || selected.user_id}
                       </span>
                     </div>

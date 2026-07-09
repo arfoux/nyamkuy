@@ -157,12 +157,12 @@ function getFormIssues(form, image) {
 
 function SuggestionRow({ item }) {
   return (
-    <article className="overflow-hidden rounded-xl border border-black/10 bg-white shadow-sm">
+    <article className="w-full overflow-hidden rounded-xl border border-black/10 bg-white shadow-sm">
       {item.image_url && (
         <img
           src={item.image_url}
           alt={item.nama}
-          className="aspect-[16/6] w-full object-cover md:aspect-[16/10]"
+          className="aspect-[16/6] w-full max-w-full object-cover md:aspect-[16/10]"
         />
       )}
 

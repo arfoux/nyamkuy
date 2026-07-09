@@ -75,6 +75,11 @@ function ReceiptContent() {
   const [cookNotice, setCookNotice] = useState(null)
   const [confirmCookOpen, setConfirmCookOpen] = useState(false)
 
+  const nama = recipe?.nama || namaParam
+  const deskripsi = recipe?.deskripsi || deskripsiParam
+  const bgUrl = `/api/image/base?nama=${encodeURIComponent(nama)}`
+  const croppedUrl = `/api/image/cropped?nama=${encodeURIComponent(nama)}`
+
   useEffect(() => {
     if (!croppedUrl) return
     setTrimmedSrc(null)
@@ -206,11 +211,7 @@ function ReceiptContent() {
     return () => clearTimeout(timer)
   }, [cookNotice])
 
-  const nama = recipe?.nama || namaParam
-  const deskripsi = recipe?.deskripsi || deskripsiParam
 
-  const bgUrl = `/api/image/base?nama=${encodeURIComponent(nama)}`
-  const croppedUrl = `/api/image/cropped?nama=${encodeURIComponent(nama)}`
 
   const bahanUtama = useMemo(() => {
     const bahan = recipe?.bahan || []

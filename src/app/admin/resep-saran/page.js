@@ -147,9 +147,9 @@ function SuggestionButton({ item, selected, onClick }) {
           className="h-12 w-12 shrink-0 rounded-lg object-cover bg-black/5 md:h-16 md:w-16"
         />
         <div className="min-w-0 flex-1">
-          <div className="truncate text-sm font-black">{item.nama}</div>
+          <div className="break-words text-sm font-black">{item.nama}</div>
           <div
-            className={`mt-1 line-clamp-2 text-xs font-semibold leading-relaxed ${
+            className={`mt-1 text-xs font-semibold leading-relaxed break-words ${
               selected ? "text-white/60" : "text-black/52"
             }`}
           >
@@ -374,7 +374,7 @@ export default function AdminRecipeSuggestionPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f6f7fb] px-4 py-5 text-black md:px-8 md:py-8">
+    <main className="min-h-screen bg-[#f6f7fb] px-4 py-5 text-black md:px-8 md:py-8 overflow-x-hidden">
       <div className="mx-auto max-w-7xl">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <button
@@ -443,8 +443,8 @@ export default function AdminRecipeSuggestionPage() {
           )}
         </section>
 
-        <section className="grid gap-6 lg:grid-cols-[360px_minmax(0,1fr)]">
-          <aside className="rounded-2xl bg-white p-3 shadow-sm md:p-4">
+        <section className="flex flex-col gap-6 lg:flex-row lg:flex-wrap">
+          <aside className="rounded-2xl bg-white p-3 shadow-sm md:p-4 lg:w-[360px] lg:shrink-0">
             <div className="mb-3 flex items-center justify-between md:mb-4">
               <div className="text-sm font-black uppercase tracking-[0.16em] text-black/50">
                 Antrean
@@ -476,7 +476,7 @@ export default function AdminRecipeSuggestionPage() {
             )}
           </aside>
 
-          <div className="rounded-2xl bg-white p-4 shadow-sm md:p-6">
+          <div className="rounded-2xl bg-white p-4 shadow-sm md:p-6 lg:flex-1 lg:min-w-[300px]">
             {!selected ? (
               <div className="flex min-h-[420px] flex-col items-center justify-center text-center">
                 <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-black text-white">
@@ -537,8 +537,8 @@ export default function AdminRecipeSuggestionPage() {
                   </div>
                 </div>
 
-                <div className="grid gap-5 xl:grid-cols-[320px_minmax(0,1fr)]">
-                  <div>
+                <div className="flex flex-col gap-5 xl:flex-row xl:flex-wrap">
+                  <div className="xl:w-[320px] xl:shrink-0">
                     <div className="overflow-hidden rounded-xl border border-black/10 bg-[#f6f7fb]">
                       {imagePreview ? (
                         <img
@@ -579,7 +579,7 @@ export default function AdminRecipeSuggestionPage() {
                     </div>
                   </div>
 
-                  <div>
+                  <div className="xl:flex-1 xl:min-w-[300px]">
                     <div className="grid gap-3 md:gap-4 md:grid-cols-2">
                       <Field label="Judul resep" icon={ChefHat}>
                         <TextInput

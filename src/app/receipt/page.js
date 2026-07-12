@@ -472,7 +472,7 @@ function ReceiptContent() {
       </h1>
 
       <div
-  className="flex w-full flex-col rounded-3xl shadow-2xl overflow-hidden md:flex-row md:flex-1 md:min-h-0"
+  className="mx-auto flex w-full max-w-6xl flex-col rounded-3xl shadow-2xl overflow-hidden md:flex-row md:flex-1 md:min-h-0"
   style={{
     background: "rgba(255,255,255,0.07)",
     backdropFilter: "blur(12px) saturate(1.3)",
